@@ -1,0 +1,804 @@
+============================================================
+TITLE: Project Management System
+DESCRIPTION:
+A project manager uses the project management system to manage a project. The project manager leads a team to execute the project within the project's start and end dates. Once a project is created in the project management system, a manager may initiate and later terminate the project due to its completion or for some other reason. As input, a project uses requirements. As output, a project produces a system (or part of a system). The requirements and system are work products: things that are created, used, updated, and elaborated on throughout a project. Every work product has a description, is of some percent complete throughout the effort, and may be validated. However, validation is dependent on the type of work product. For example, the requirements are validated with users in workshops, and the system is validated by being tested against the requirements. Furthermore, requirements may be published using various types of media, including on an intranet or in paper form; and systems may be deployed onto specific platforms.
+
+PLANTUML CODE:
+@startuml
+class Project {
+    - name: String
+    - startDate: Date
+    - endDate: Date
+    - initiate(): void
+    - terminate(): void
+}
+
+class ProjectManager {
+    - employeeID: String
+    - manageProject(project: Project): void
+}
+
+class Team {
+    - name: String
+    - executeProject(project: Project): void
+}
+
+abstract class WorkProduct {
+    - description: String
+    - percentComplete: Double
+    - validate(): Boolean
+}
+
+class Requirement extends WorkProduct {
+    - mediaType: String
+    - validate(): Boolean
+    - publish(mediaType: String): void
+}
+
+class System extends WorkProduct {
+    - deploymentPlatform: String
+    - validate(): Boolean
+    - deploy(platform: String): void
+}
+
+ProjectManager "1" -- "1..*" Project : manages
+Project "1" o-- "1" Team : team
+Project "1" -- "1..*" Requirement : uses
+Project "1" -- "1..*" System : produces
+
+@enduml
+
+============================================================
+TITLE: Hollywood Approach
+DESCRIPTION:
+We are interested in building a software application to manage filmed scenes for realizing a movie, by following the so-called “Hollywood Approach”. Every scene is identified by a code (a string) and it is described by a text in natural language. Every scene is filmed from different positions (at least one), each of this is called a setup. Every setup is characterized by a code (a string) and a text in natural language where the photographic parameters are noted (e.g., aperture, exposure, focal length, filters, etc.). Note that a setup is related to a single scene. For every setup, several takes may be filmed (at least one). Every take is characterized by a (positive) natural number, a real number representing the number of meters of film that have been used for shooting the take, and the code (a string) of the reel where the film is stored. Note that a take is associated to a single setup. Scenes are divided into internals that are filmed in a theater, and externals that are filmed in a location and can either be “day scene” or “night scene”. Locations are characterized by a code (a string) and the address of the location, and a text describing them in natural language.
+
+PLANTUML CODE:
+@startuml
+class Scene {
+  - sceneCode: String
+  - description: String
+  + Scene(sceneCode: String, description: String)
+}
+
+class Setup {
+  - setupCode: String
+  - photographicParams: String
+  + Setup(setupCode: String, photographicParams: String)
+}
+
+class Take {
+  - takeNumber: Integer
+  - filmLength: Real
+  - reelCode: String
+  + Take(takeNumber: Integer, filmLength: Real, reelCode: String)
+}
+
+class InternalScene extends Scene {
+  // No specific attributes or methods beyond Scene.
+}
+
+class ExternalScene extends Scene {
+  - timeOfDay: enum {DAY, NIGHT}
+  + ExternalScene(sceneCode: String, description: String, timeOfDay: enum)
+}
+
+enum timeOfDay {
+  DAY
+  NIGHT
+}
+
+class Location {
+  - locationCode: String
+  - address: String
+  - description: String
+  + Location(locationCode: String, address: String, description: String)
+}
+
+Scene "1" -- "*" Setup : filmed in
+Setup "1" -- "*" Take : comprises
+ExternalScene "1" -- "1" Location : filmed at
+
+@enduml
+
+============================================================
+TITLE: Word Processor
+DESCRIPTION:
+A user can open a new or existing document. Text is entered through a keyboard. A document is made up of several pages and each page is made up of a header, body and footer. Date, time and page number may be added to header or footer. Document body is made up of sentences, which are themselves made up of words and punctuation characters. Words are made up of letters, digits and/or special characters. Pictures and tables may be inserted into the document body. Tables are made up of rows and columns and every cell in a table can contain both text and pictures. Users can save or print documents.
+
+PLANTUML CODE:
+@startuml
+class User {
+  openDocument(document: Document): void
+  saveDocument(document: Document): void
+  printDocument(document: Document): void
+  newDocument(): Document
+}
+
+class Keyboard {
+  enterText(text: String): void
+}
+
+class Document {
+  title: String
+}
+
+class Page {
+  pageNumber: Integer
+}
+
+class Header {
+  addDate(date: Date): void
+  addTime(time: Time): void
+  addPageNumber(pageNumber: Integer): void
+}
+
+class Body {
+}
+
+class Footer {
+  addDate(date: Date): void
+  addTime(time: Time): void
+  addPageNumber(pageNumber: Integer): void
+}
+
+class Sentence {
+}
+
+class Word {
+  text: String
+}
+
+class Punctuation {
+  character: Char
+}
+
+class Picture {
+  data: Byte[]
+}
+
+class Table {
+  numberOfRows: Integer
+  numberOfColumns: Integer
+}
+
+class Row {
+}
+
+class Column {
+}
+
+class Cell {
+}
+
+abstract class Character {
+  character: Char
+}
+
+class Letter extends Character {
+}
+
+class Digit extends Character {
+}
+
+class Special extends Character {
+}
+
+User -- "1..1" Document : Opens >
+User -- "1..1" Keyboard : Uses >
+Document --* "1..*" Page : Contains
+Page -- "1..1" Header : Has >
+Page -- "1..1" Body : Has >
+Page -- "1..1" Footer : Has >
+Body --* "0..*" Sentence : Contains
+Body --* "0..*" Picture : Contains
+Body --* "0..*" Table : Contains
+Sentence --* "0..*" Word : Contains
+Sentence --* "0..*" Punctuation : Contains
+Word --* "1..*" Character : ComposedOf >
+Table --* "1..*" Row : Contains
+Table --* "1..*" Column : Contains
+Row --* "1..*" Cell : Contains
+Column --* "1..*" Cell : Contains
+Cell --* "0..1" String : ContainsText
+Cell --* "0..1" Picture : ContainsPicture
+Word --* "0..*" Letter : Contains
+Word --* "0..*" Digit : Contains
+Word --* "0..*" Special : Contains
+@enduml
+
+============================================================
+TITLE: Patient Record and Scheduling System
+DESCRIPTION:
+A patient record and scheduling system in a doctor’s office is used by the receptionists, nurses, and doctors. The receptionists use the system to enter new patient information when first-time patients visit the doctor. They also schedule all appointments. The nurses use the system to keep track of the results of each visit including diagnosis and medications. For each visit, free form text fields are used captures information on diagnosis and treatment. Multiple medications may be prescribed during each visit. The nurses can also access the information to print out a history of patient visits. The doctors primarily use the system to view patient history. The doctors may enter some patient treatment information and prescriptions occasionally, but most frequently they let the nurses enter this information. -- Each patient is assigned to a family. The head of family is responsible for the person with the primary medical coverage. Information about doctors is maintained since a family has a primary care physician, but different doctors may be the ones seeing the patient during the visit.
+
+PLANTUML CODE:
+@startuml
+class Patient {
+    patientID: Integer
+    firstName: String
+    lastName: String
+    dateOfBirth: Date
+    gender: String
+    address: String
+    phoneNumber: String
+    email: String
+    insuranceProvider: String
+    insurancePolicyNumber: String
+    getPatientHistory(): List<Visit>
+}
+
+class Family {
+    familyID: Integer
+    familyName: String
+    address: String
+    phoneNumber: String
+}
+
+class Visit {
+    visitID: Integer
+    visitDateTime: DateTime
+    chiefComplaint: String
+    getDiagnosis(): String
+    getTreatment(): String
+}
+
+class Medication {
+    medicationID: Integer
+    name: String
+    dosage: String
+    route: String
+    frequency: String
+}
+
+class Doctor {
+    doctorID: Integer
+    firstName: String
+    lastName: String
+    specialty: String
+    phoneNumber: String
+    email: String
+    viewPatientHistory(patient: Patient): List<Visit>
+}
+
+abstract class User {
+    userID: Integer
+    username: String
+    password: String
+    firstName: String
+    lastName: String
+    login(username: String, password: String): Boolean
+    logout(): void
+}
+
+class Receptionist extends User {
+    createPatientRecord(patientData: Map): Patient
+    scheduleAppointment(patient: Patient, doctor: Doctor, dateTime: DateTime): Appointment
+}
+
+class Nurse extends User {
+    recordVisitDetails(visit: Visit, diagnosis: String, treatment: String, medications: List<Medication>): void
+    printPatientHistory(patient: Patient): void
+}
+
+class Appointment {
+    appointmentID: Integer
+    dateTime: DateTime
+    reason: String
+    status: String
+}
+
+Patient "1" -- "*" Visit
+Family "1" -- "*" Patient
+Family "1" -- "1" Patient : HeadOfFamily
+Visit "1" -- "*" Medication
+Appointment "1" -- "1" Patient
+Appointment "1" -- "1" Doctor
+Patient "1" -- "1" Doctor : PrimaryCarePhysician
+Receptionist "1" -- "*" Appointment
+Nurse "1" -- "*" Visit
+Doctor "1" -- "*" Visit
+
+@enduml
+
+============================================================
+TITLE: Movie-Shop
+DESCRIPTION:
+♣ Design a system for a movie-shop, in order to handle ordering of movies and browsing of the catalogue of the store, and user subscriptions with rechargeable cards. ♣ Only subscribers are allowed hiring movies with their own card. ♣ Credit is updated on the card during rent operations. ♣ Both users and subscribers can buy a movie and their data are saved in the related order. ♣ When a movie is not available it is ordered .
+
+PLANTUML CODE:
+@startuml
+class User {
+    - userID: int
+    - name: string
+    - address: string
+    - email: string
+    + register(): void
+    + browseCatalog(catalog: Catalog): void
+    + searchMovie(title: string, catalog: Catalog): Movie
+    + buyMovie(movie: Movie): Order
+}
+
+class Subscriber {
+    - subscriptionID: int
+    - membershipStartDate: Date
+    - membershipExpiryDate: Date
+    + subscribe(): void
+    + renewSubscription(): void
+    + rentMovie(movie: Movie, card: RechargeableCard): Rental
+    + buyMovie(movie: Movie): Order
+}
+
+class RechargeableCard {
+    - cardNumber: string
+    - credit: double
+    - expiryDate: Date
+    + recharge(amount: double): void
+    + deductCredit(amount: double): boolean
+    + getCredit(): double
+}
+
+class Movie {
+    - movieID: int
+    - title: string
+    - genre: string
+    - director: string
+    - releaseDate: Date
+    - price: double
+    - availableCopies: int
+    + getDetails(): string
+    + isAvailable(): boolean
+    + orderMovie(): OrderRequest
+}
+
+class Order {
+    - orderID: int
+    - orderDate: Date
+    - totalPrice: double
+    - status: enum {PLACED, SHIPPED, DELIVERED, CANCELLED}
+    + calculateTotal(): double
+    + confirmOrder(): void
+    + cancelOrder(): void
+}
+
+class Rental {
+    - rentalID: int
+    - rentalDate: Date
+    - dueDate: Date
+    - returnDate: Date
+    - rentalFee: double
+    + calculateRentalFee(): double
+    + returnMovie(): void
+}
+
+class Catalog {
+    - catalogID: int
+    + addMovie(movie: Movie): void
+    + removeMovie(movie: Movie): void
+    + getMovie(movieID: int): Movie
+    + listMovies(): List<Movie>
+}
+
+class OrderRequest {
+    - requestID: int
+    - requestDate: Date
+    - quantity: int
+    - status: enum {PENDING, PROCESSING, COMPLETED, CANCELLED}
+    + fulfillRequest(): void
+}
+
+User "1" *-- "*" Order : places
+Subscriber "1" *-- "1" RechargeableCard : uses
+Subscriber "1" *-- "*" Rental : rents
+Subscriber --|> User
+Movie "1" -- "*" Rental : is rented in
+Movie "1" -- "*" Order : is part of
+Catalog "1" -- "*" Movie : contains
+Movie "1" -- "1" OrderRequest : can be requested through
+Order "1" -- "*" Movie : includes
+User "1" -- "1" Catalog
+
+@enduml
+
+============================================================
+TITLE: Flights
+DESCRIPTION:
+We want to model a system for management of flights and pilots. An airline operates flights. Each airline has an ID. Each flight has an ID a departure airport and an arrival airport: an airport as a unique identifier. Each flight has a pilot and a co-pilot, and it uses an aircraft of a certain type; a flight has also a departure time and an arrival time. An airline owns a set of aircrafts of different types. An aircraft can be in a working state or it can be under repair. In a particular moment an aircraft can be landed or airborne. A company has a set of pilots: each pilot has an experience level: 1 is minimum, 3 is maximum. A type of aeroplane may need a particular number of pilots, with a different role (e.g.: captain, co-pilot, navigator): there must be at least one captain and one co-pilot, and a captain must have a level 3.
+
+PLANTUML CODE:
+@startuml
+class Airline {
+    airlineID: String
+}
+
+class Flight {
+    flightID: String
+    departureTime: DateTime
+    arrivalTime: DateTime
+}
+
+class Airport {
+    airportID: String
+}
+
+class Pilot {
+    pilotID: String
+    experienceLevel: Integer {Range: 1..3}
+}
+
+class Aircraft {
+    aircraftID: String
+    state: enum {Working, UnderRepair}
+    status: enum {Landed, Airborne}
+}
+
+enum state {
+    Working
+    UnderRepair
+}
+
+enum status {
+    Landed
+    Airborne
+}
+
+class AircraftType {
+    typeName: String
+    requiredPilots: Integer
+}
+
+Airline "1" -- "1..*" Flight : operates
+Airline "1" *-- "1..*" Aircraft : owns
+Flight "1" -- "1" Airport : has Departure >
+Flight "1" -- "1" Airport : has Arrival >
+Flight "1" -- "1" Pilot : has Captain >
+Flight "1" -- "1" Pilot : has Copilot >
+Flight "1" -- "1" Aircraft : uses
+Airline "1" -- "1..*" Pilot : employs
+Aircraft "1" -- "1" AircraftType : is of
+
+AircraftType "1" -- "1" Pilot : has Captain >
+AircraftType "1" -- "1" Pilot : has Copilot >
+@enduml
+
+============================================================
+TITLE: Bank System
+DESCRIPTION:
+A bank system contains data on customers (identified by name and address) and their accounts. Each account has a balance and there are 2 type of accounts: one for savings which offers an interest rate, the other for investments, used to buy stocks. Stocks are bought at a certain quantity for a certain price (ticker) and the bank applies commission on stock orders.
+
+PLANTUML CODE:
+@startuml
+class Customer {
+    name: String
+    address: String
+    <<constructor>> Customer(name: String, address: String)
+    getName(): String
+    getAddress(): String
+    updateAddress(newAddress: String): void
+}
+
+abstract class Account {
+    accountNumber: String
+    balance: double
+    <<constructor>> Account(accountNumber: String, initialBalance: double)
+    getAccountNumber(): String
+    getBalance(): double
+    deposit(amount: double): void
+    abstract withdraw(amount: double): void
+}
+
+class SavingsAccount extends Account {
+    interestRate: double
+    <<constructor>> SavingsAccount(accountNumber: String, initialBalance: double, interestRate: double)
+    getInterestRate(): double
+    applyInterest(): void
+    withdraw(amount: double): void
+}
+
+class InvestmentAccount extends Account {
+    <<constructor>> InvestmentAccount(accountNumber: String, initialBalance: double)
+    buyStock(stock: Stock, quantity: int): void
+    sellStock(stock: Stock, quantity: int): void
+    withdraw(amount: double): void
+}
+
+class Stock {
+    ticker: String
+    currentPrice: double
+    <<constructor>> Stock(ticker: String, initialPrice: double)
+    getTicker(): String
+    getCurrentPrice(): double
+    updatePrice(newPrice: double): void
+}
+
+class StockOrder {
+    quantity: int
+    pricePerShare: double
+    orderDate: Date/Timestamp
+    commission: double
+    <<constructor>> StockOrder(stock: Stock, quantity: int)
+    calculateCommission(commissionRate: double): double
+    getTotalCost(): double
+}
+
+Customer "1" -- "1..*" Account : owns
+Account "1" -- "1" Customer
+InvestmentAccount "1" -- "*" StockOrder
+StockOrder "1" -- "1" Stock
+InvestmentAccount "1" -- "*" Stock
+
+@enduml
+
+============================================================
+TITLE: Movie-Shop
+DESCRIPTION:
+♣ Design a system for a movie-shop, in order to handle ordering of movies and browsing of the catalogue of the store, and user subscriptions with rechargeable cards. ♣ Only subscribers are allowed hiring movies with their own card. ♣ Credit is updated on the card during rent operations. ♣ Both users and subscribers can buy a movie and their data are saved in the related order. ♣ When a movie is not available it is ordered .
+
+PLANTUML CODE:
+@startuml
+class User {
+  - userId: int
+  - name: string
+  - address: string
+  - email: string
+  + register(): void
+  + browseCatalogue(): void
+  + buyMovie(movie: Movie): Order
+}
+
+class Subscriber {
+  - subscriptionId: int
+  - creditCard: CreditCard
+  + subscribe(): void
+  + unsubscribe(): void
+  + rentMovie(movie: Movie): boolean
+}
+
+class CreditCard {
+  - cardNumber: string
+  - expiryDate: Date
+  - balance: double
+  + recharge(amount: double): void
+  + debit(amount: double): boolean
+  + getBalance(): double
+}
+
+class Movie {
+  - movieId: int
+  - title: string
+  - genre: string
+  - director: string
+  - releaseDate: Date
+  - price: double
+  - availableCopies: int
+  + isAvailable(): boolean
+  + orderMovie(): void
+  + decreaseAvailableCopies(): void
+}
+
+class Order {
+  - orderId: int
+  - orderDate: Date
+  - totalPrice: double
+  - userId: int
+  - movieId: int
+  + calculateTotal(): double
+  + processPayment(): boolean
+}
+
+class MovieShopCatalogue {
+  + addMovie(movie: Movie): void
+  + removeMovie(movie: Movie): void
+  + searchMovie(title: string): List<Movie>
+  + displayAllMovies(): List<Movie>
+}
+
+User "1" -- "0..*" Order : places
+Subscriber --|> User : inherits
+Subscriber "1" -- "1" CreditCard : owns
+Subscriber "1" -- "0..*" Movie : rents
+Movie "1" -- "0..*" Order : is ordered in
+MovieShopCatalogue "1" -- "*" Movie : contains
+@enduml
+
+============================================================
+TITLE: Flights
+DESCRIPTION:
+We want to model a system for management of flights and pilots. An airline operates flights. Each airline has an ID. Each flight has an ID a departure airport and an arrival airport: an airport as a unique identifier. Each flight has a pilot and a co-pilot, and it uses an aircraft of a certain type; a flight has also a departure time and an arrival time. An airline owns a set of aircrafts of different types. An aircraft can be in a working state or it can be under repair. In a particular moment an aircraft can be landed or airborne. A company has a set of pilots: each pilot has an experience level: 1 is minimum, 3 is maximum. A type of aeroplane may need a particular number of pilots, with a different role (e.g.: captain, co-pilot, navigator): there must be at least one captain and one co-pilot, and a captain must have a level 3.
+
+PLANTUML CODE:
+@startuml
+class Airline {
+    airlineID: String
+    getFlights(): List<Flight>
+    addAircraft(aircraft: Aircraft): void
+    removeAircraft(aircraft: Aircraft): void
+}
+
+class Flight {
+    flightID: String
+    departureTime: DateTime
+    arrivalTime: DateTime
+    getFlightDuration(): Duration
+}
+
+class Airport {
+    airportID: String
+    name: String
+    location: String
+}
+
+class Aircraft {
+    aircraftID: String
+    status: AircraftStatus
+    state: AircraftState
+    performMaintenance(): void
+}
+
+enum AircraftStatus {
+    WORKING
+    REPAIR
+}
+
+enum AircraftState {
+    LANDED
+    AIRBORNE
+}
+
+class AircraftType {
+    typeName: String
+    requiredPilotNumber: Integer
+    addRequiredRole(pilotRole: PilotRole): void
+}
+
+class Pilot {
+    pilotID: String
+    experienceLevel: PilotExperienceLevel
+    fly(flight: Flight): void
+}
+
+enum PilotExperienceLevel {
+    LEVEL_1
+    LEVEL_2
+    LEVEL_3
+}
+
+class Company {
+    companyID: String
+    name: String
+    addPilot(pilot: Pilot): void
+    removePilot(pilot: Pilot): void
+}
+
+class PilotRole {
+    roleName: String
+    requiredExperience: PilotExperienceLevel
+}
+
+Airline "1" -- "1..*" Aircraft : owns
+Flight "1" -- "1" Aircraft : uses
+Flight "1" -- "1" Pilot : pilot [pilot]
+Flight "1" -- "1" Pilot : pilot [copilot]
+Flight "1" -- "1" Airport : departs from [departureAirport]
+Flight "1" -- "1" Airport : arrives at [arrivalAirport]
+Flight "1" -- "1" Airline : operated by
+Aircraft "1" -- "1" AircraftType : is of type
+Pilot "*" -- "*" Flight : flies
+Pilot "1" -- "1" Company : works for
+Company "1" -- "1..*" Pilot : employs
+AircraftType "1" -- "1..*" Aircraft : has
+Airport "*" -- "*" Flight : flights depart from
+Airport "*" -- "*" Flight : flights arrive at
+
+AircraftType "1" -- "1..*" PilotRole : part of
+@enduml
+
+============================================================
+TITLE: Bank System
+DESCRIPTION:
+A bank system contains data on customers (identified by name and address) and their accounts. Each account has a balance and there are 2 type of accounts: one for savings which offers an interest rate, the other for investments, used to buy stocks. Stocks are bought at a certain quantity for a certain price (ticker) and the bank applies commission on stock orders.
+
+PLANTUML CODE:
+@startuml
+class Customer {
+  - name: String
+  - address: String
+  + Customer(name: String, address: String)
+  + getName(): String
+  + getAddress(): String
+}
+
+abstract class Account {
+  - balance: double
+  + Account(balance: double)
+  + getBalance(): double
+  + deposit(amount: double): void
+  + withdraw(amount: double): void
+}
+
+class SavingsAccount extends Account {
+  - interestRate: double
+  + SavingsAccount(balance: double, interestRate: double)
+  + getInterestRate(): double
+  + applyInterest(): void
+}
+
+class InvestmentAccount extends Account {
+  + InvestmentAccount(balance: double)
+  + buyStock(stock: Stock, quantity: int): void
+}
+
+class Stock {
+  - ticker: String
+  + Stock(ticker: String)
+  + getTicker(): String
+}
+
+class StockOrder {
+ - quantity: int
+ - price: double
+ + StockOrder(quantity: int, price: double)
+ + getQuantity(): int
+ + getPrice(): double
+}
+
+class Bank {
+  + applyCommission(stockOrder: StockOrder): double
+}
+
+Customer "1" -- "1..*" Account : owns
+InvestmentAccount "1" -- "*" StockOrder : creates
+StockOrder "1" -- "1" Stock : contains
+Bank "1" -- "*" StockOrder : processes
+
+@enduml
+
+============================================================
+TITLE: Veterinary Clinic
+DESCRIPTION:
+The owner of a veterinary clinic wants to create a database to store information about all veterinary services performed. After some research he came up with the following requirements: ● For each admitted animal, its name, breed (if any) and owner must be stored. Each animal should be given an unique numeric identifier. ● For each owner, its name, address and phone number should be stored. An unique numeric identifier should also be generated for each one of them. ● An animal might be owner-less. This happens frequently as the clinic often rescues abandoned dogs from the streets in order to treat them and get them new owners. ● It should be possible to store information about a specific breed even if no animals of that breed have been treated at the clinic. ● Each appointement always has a responsible physician. All appointements start at a certain date and time; and are attended by an animal (and of course its owner). ● For each physician, his name, address and phone number should be stored. An unique numeric identifier should also be generated for each one of them. ● In an appointement, several medical conditions might be detected. Each condition has a common name and a scientific name. No two conditions have the same scientific name. ● It should be possible to store information about the most common conditions for each different breed in the database.
+
+PLANTUML CODE:
+@startuml
+class Animal {
+    animalId: int
+    name: String
+    breed: String
+}
+
+class Owner {
+    ownerId: int
+    name: String
+    address: String
+    phoneNumber: String
+}
+
+class Breed {
+    breedName: String
+}
+
+class Appointment {
+    appointmentId: int
+    dateTime: DateTime
+}
+
+class Physician {
+    physicianId: int
+    name: String
+    address: String
+    phoneNumber: String
+}
+
+class MedicalCondition {
+    commonName: String
+    scientificName: String
+}
+
+Animal "*" -- "1" Owner : owns
+Animal "1" -- "1" Breed : isA
+Appointment "1" -- "1" Animal : concerns
+Appointment "1" -- "1" Physician : handledBy
+Appointment "1" -- "*" MedicalCondition : detects
+Breed "1" -- "*" MedicalCondition : hasCommonCondition
+@enduml
+
