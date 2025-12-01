@@ -712,3 +712,390 @@ Subscriber "1" -- "*" Order : places
 Order "1" -- "*" Movie : contains
 @enduml
 
+============================================================
+TITLE: Movie-Shop
+PLANTUML CODE:
+@startuml
+@enduml
+
+============================================================
+TITLE: Movie-Shop
+PLANTUML CODE:
+@startuml
+class Movie {
+  - movieId: int
+  - title: String
+  - genre: String
+  - isAvailable: Boolean
+  - price: double
+  + getTitle(): String
+  + getGenre(): String
+  + isAvailable(): Boolean
+  + setAvailable(available: Boolean): void
+  + getMovieId(): int
+  + getPrice(): double
+  + orderMovie(): void
+}
+
+class Card {
+  - cardNumber: String
+  - creditBalance: double
+  - ownerId: int
+  + getCardNumber(): String
+  + getCreditBalance(): double
+  + setCreditBalance(creditBalance: double): void
+  + getOwnerId(): int
+  + recharge(amount: double): void
+}
+
+class Order {
+  - orderId: int
+  - orderDate: Date
+  - userId: int
+  - totalAmount: double
+  - items: List<Movie>
+  - rentalDuration: int
+  - orderType: String
+  + getOrderId(): int
+  + getOrderDate(): Date
+  + getUserId(): int
+  + getTotalAmount(): double
+  + getItems(): List<Movie>
+  + calculateTotalAmount(): double
+  + addItem(movie: Movie): void
+  + removeItem(movie: Movie): void
+  + calculateRentalFee(): double
+}
+
+class User {
+  - userId: int
+  - name: String
+  - address: String
+  + getUserId(): int
+  + getName(): String
+  + getAddress(): String
+  + setName(name: String): void
+  + setAddress(address: String): void
+}
+
+class Subscriber {
+  - subscriberId: int
+  + getSubscriberId(): int
+}
+
+class Catalogue {
+  - catalogueId: int
+  - movies: List<Movie>
+  + addMovie(movie: Movie): void
+  + removeMovie(movie: Movie): void
+  + searchMovieByTitle(title: String): List<Movie>
+  + searchMovieByGenre(genre: String): List<Movie>
+  + getAllMovies(): List<Movie>
+}
+
+Catalogue "1" o-- "*" Movie
+Order "1" *-- "*" Movie
+User "1" -- "1" Order
+Subscriber <|-- User
+Subscriber "1" -- "1" Card
+@enduml
+
+============================================================
+TITLE: Movie-Shop
+PLANTUML CODE:
+@startuml
+class Movie {
+  - movieId: String
+  - title: String
+  - genre: String
+  - isAvailable: Boolean
+  - price: Double
+  + getMovieId(): String
+  + getTitle(): String
+  + getGenre(): String
+  + isAvailable(): Boolean
+  + getPrice(): Double
+  + setAvailability(available: Boolean): void
+}
+
+class User {
+  - userId: String
+  - name: String
+  - address: String
+  - email: String
+  + getUserId(): String
+  + getName(): String
+  + getAddress(): String
+  + getEmail(): String
+  + placeOrder(order: Order): void
+}
+
+class Subscriber {
+  - card: Card
+  - subscriptionStartDate: Date
+  - subscriptionEndDate: Date
+  + getCard(): Card
+  + getSubscriptionStartDate(): Date
+  + getSubscriptionEndDate(): Date
+  + rentMovie(movie: Movie): boolean
+}
+
+class Card {
+  - cardId: String
+  - credit: Double
+  + getCardId(): String
+  + getCredit(): String
+  + recharge(amount: Double): void
+  + deductCredit(amount: Double): boolean
+}
+
+class Order {
+  - orderId: String
+  - user: User
+  - orderDate: Date
+  - totalAmount: Double
+  - status: String
+  - movies: List<Movie>
+  - orderType: String
+  + getOrderId(): String
+  + getUser(): User
+  + getOrderDate(): Date
+  + getTotalAmount(): Double
+  + getStatus(): String
+  + getMovies(): List<Movie>
+  + calculateTotalAmount(): Double
+  + updateStatus(newStatus: String): void
+}
+
+class Catalogue {
+  - movies: List<Movie>
+  + addMovie(movie: Movie): void
+  + removeMovie(movie: Movie): void
+  + searchMovies(query: String): List<Movie>
+  + displayCatalogue(): void
+}
+
+class RentalService {
+  + rentMovie(subscriber: Subscriber, movie: Movie): boolean
+}
+
+class RestockManager {
+  + checkForRestock(movie: Movie): void
+}
+
+Movie "0..*" -- "1" Order
+Movie "*" o-- "1" Catalogue
+
+User "1" -- "*" Order
+User "1" <|-- "1" Subscriber
+
+Subscriber "1" -- "1" Card
+
+Order "1" -- "1" User
+Order "1" -- "*" Movie
+
+Catalogue "1" o-- "*" Movie
+
+RentalService "1" -- "1" Subscriber
+
+RestockManager "1" -- "1" Movie
+RestockManager "1" -- "*" Order : creates
+@enduml
+
+============================================================
+TITLE: Movie-Shop
+PLANTUML CODE:
+@startuml
+@enduml
+
+============================================================
+TITLE: Movie-Shop
+PLANTUML CODE:
+@startuml
+class Movie {
+  - title: String
+  - movieId: int
+  - genre: String
+  - releaseDate: Date
+  - director: String
+  - cast: String
+  - availableQuantity: int
+  + getTitle(): String
+  + getMovieId(): int
+  + getGenre(): String
+  + getReleaseDate(): Date
+  + getDirector(): String
+  + getCast(): String
+  + getAvailableQuantity(): int
+  + setAvailableQuantity(quantity: int): void
+}
+
+class User {
+  - userId: int
+  - name: String
+  - address: String
+  - email: String
+  + getUserId(): int
+  + getName(): String
+  + getAddress(): String
+  + getEmail(): String
+}
+
+class Subscriber {
+  - userId: int
+  - name: String
+  - address: String
+  - email: String
+  - subscriptionStartDate: Date
+  - subscriptionEndDate: Date
+  - rechargeableCard: RechargeableCard
+  + getUserId(): int
+  + getName(): String
+  + getAddress(): String
+  + getEmail(): String
+  + getSubscriptionStartDate(): Date
+  + getSubscriptionEndDate(): Date
+  + getRechargeableCard(): RechargeableCard
+  + rentMovie(movie: Movie): void
+  + renewSubscription(): void
+}
+
+class RechargeableCard {
+  - cardId: int
+  - credit: double
+  + getCardId(): int
+  + getCredit(): double
+  + addCredit(amount: double): void
+  + deductCredit(amount: double): void
+}
+
+class Order {
+  - orderId: int
+  - user: User
+  - movie: Movie
+  - orderDate: Date
+  - totalAmount: double
+  + getOrderId(): int
+  + getUser(): User
+  + getMovie(): Movie
+  + getOrderDate(): Date
+  + getTotalAmount(): double
+  + calculateTotal(): double
+}
+
+class MovieShop {
+  - movies: List<Movie>
+  - users: List<User>
+  + addMovie(movie: Movie): void
+  + removeMovie(movie: Movie): void
+  + addUser(user: User): void
+  + removeUser(user: User): void
+  + createOrder(user: User, movie: Movie): void
+}
+
+MovieShop "1" o-- "*" Movie : manages
+MovieShop "1" o-- "*" User : manages
+User "1" -- "*" Order : places
+Order "1" o-- "1" Movie : contains
+Subscriber <|-- User
+Subscriber "1" *-- "1" RechargeableCard
+Subscriber "1" -- "*" Movie : rents
+@enduml
+
+============================================================
+TITLE: Movie-Shop
+PLANTUML CODE:
+@startuml
+class Movie {
+  - title: String
+  - movieId: int
+  - genre: String
+  - releaseDate: Date
+  - director: String
+  - cast: String
+  - availableQuantity: int
+  + getTitle(): String
+  + getMovieId(): int
+  + getGenre(): String
+  + getReleaseDate(): Date
+  + getDirector(): String
+  + getCast(): String
+  + getAvailableQuantity(): int
+  + setAvailableQuantity(quantity: int): void
+}
+
+class User {
+  - userId: int
+  - name: String
+  - address: String
+  - email: String
+  + getUserId(): int
+  + getName(): String
+  + getAddress(): String
+  + getEmail(): String
+}
+
+class Subscriber {
+  - userId: int
+  - name: String
+  - address: String
+  - email: String
+  - subscriptionStartDate: Date
+  - subscriptionEndDate: Date
+  - rechargeableCard: RechargeableCard
+  + getUserId(): int
+  + getName(): String
+  + getAddress(): String
+  + getEmail(): String
+  + getSubscriptionStartDate(): Date
+  + getSubscriptionEndDate(): Date
+  + getRechargeableCard(): RechargeableCard
+  + rentMovie(movie: Movie): void
+  + renewSubscription(): void
+}
+
+class RechargeableCard {
+  - cardId: int
+  - credit: double
+  + getCardId(): int
+  + getCredit(): double
+  + addCredit(amount: double): void
+  + deductCredit(amount: double): void
+}
+
+class Order {
+  - orderId: int
+  - user: User
+  - movie: Movie
+  - orderDate: Date
+  - totalAmount: double
+  + getOrderId(): int
+  + getUser(): User
+  + getMovie(): Movie
+  + getOrderDate(): Date
+  + getTotalAmount(): double
+  + calculateTotal(): double
+}
+
+class MovieShop {
+  - movies: List<Movie>
+  - users: List<User>
+  + addMovie(movie: Movie): void
+  + removeMovie(movie: Movie): void
+  + addUser(user: User): void
+  + removeUser(user: User): void
+  + createOrder(user: User, movie: Movie): void
+}
+
+MovieShop "1" o-- "*" Movie : manages
+MovieShop "1" o-- "*" User : manages
+Catalogue "1" o-- "*" Movie
+Order "1" -- "1" Movie
+User "1" -- "*" Order
+Subscriber <|-- User
+Subscriber "1" *-- "1" RechargeableCard
+Subscriber "*" -- "1" Movie : rents
+Order "1" -- "1" User: places
+
+@enduml
+
