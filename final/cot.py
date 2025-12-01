@@ -96,7 +96,6 @@ all_descriptions = [
 # --------------------------------------------------------------------
 
 # Get key from env var (recommended)
-OPENAI_API_KEY = "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"
 OPENAI_API_URL = "https://api.openai.com/v1/chat/completions"
 PLANTUML_SERVER_URL = "http://www.plantuml.com/plantuml/png/"
 
