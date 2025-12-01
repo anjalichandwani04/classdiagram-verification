@@ -1,0 +1,42 @@
+@startuml
+class Customer {
+    +customerId: String
+    +name: String
+    +address: String
+    +openAccount(accountType: String): Account
+    +closeAccount(accountId: String): void
+    +getAccountDetails(accountId: String): Account
+}
+
+abstract class Account {
+    +accountId: String
+    +balance: decimal
+    +deposit(amount: decimal): void
+    +withdraw(amount: decimal): void
+    +getBalance(): decimal
+}
+
+class SavingsAccount {
+    +interestRate: decimal
+    +applyInterest(): void
+}
+
+class InvestmentAccount {
+    +commissionRate: decimal
+    +buyStock(ticker: String, quantity: int, price: decimal): StockTransaction
+}
+
+class StockTransaction {
+    +transactionId: String
+    +ticker: String
+    +quantity: int
+    +price: decimal
+    +totalCost: decimal
+    +calculateTotalCost(): decimal
+}
+
+Customer "1" -- "0..*" Account : has >
+Account <|-- SavingsAccount
+Account <|-- InvestmentAccount
+InvestmentAccount "1" -- "0..*" StockTransaction : initiates >
+@enduml

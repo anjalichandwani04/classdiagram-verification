@@ -1,0 +1,380 @@
+PROJECT: Movie-Shop
+REQ: ♣ Design a system for a movie-shop, in order to handle ordering of movies and browsing of the catalogue of the store, and user subscriptions with rechargeable cards. ♣ Only subscribers are allowed hiring movies with their own card. ♣ Credit is updated on the card during rent operations. ♣ Both users and subscribers can buy a movie and their data are saved in the related order. ♣ When a movie is not available it is ordered.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with brief justifications for each:
+
+1. **Movie**
+   - Represents the films available in the shop. It is a central entity as users browse and order movies.
+
+2. **User**
+   - Represents individuals who can browse the catalogue and make purchases. This class encompasses both subscribers and non-subscribers.
+
+3. **Subscriber**
+   - A specialized type of User who has a subscription and can rent movies using a rechargeable card. This class is crucial for managing subscription-specific functionalities.
+
+4. **Order**
+   - Represents the transaction details when a user or subscriber buys or rents a movie. It captures the relationship between users and the movies they interact with.
+
+5. **Card**
+   - Represents the rechargeable card used by subscribers to rent movies. It tracks the credit balance and is essential for managing rental operations.
+
+6. **Catalogue**
+   - Represents the collection of movies available for browsing. It serves as an interface for users to explore the available titles.
+
+7. **Rental**
+   - Represents the action of renting a movie, including the details of the transaction, such as the movie rented, the subscriber involved, and the duration of the rental.
+
+8. **Availability**
+   - Represents the status of a movie in terms of its availability for rent. This class helps manage the inventory and the process of ordering movies that are currently unavailable.
+
+Each of these classes plays a significant role in the overall functionality of the movie-shop system, ensuring that the processes of browsing, ordering, and renting movies are effectively managed.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes for the movie-shop system, here are the attributes and methods for each class:
+
+### 1. **Movie**
+- **Attributes:**
+  - `title: String`
+  - `genre: String`
+  - `releaseYear: int`
+  - `duration: int` (in minutes)
+  - `price: double`
+  - `availabilityStatus: Availability` (an instance of the Availability class)
+  
+- **Methods:**
+  - `getDetails(): String` (returns a string with movie details)
+  - `isAvailable(): boolean` (checks if the movie is available for rent)
+  - `updateAvailability(status: Availability): void` (updates the availability status of the movie)
+
+### 2. **User**
+- **Attributes:**
+  - `userId: String`
+  - `name: String`
+  - `email: String`
+  - `isSubscriber: boolean`
+  
+- **Methods:**
+  - `browseCatalogue(catalogue: Catalogue): List<Movie>` (returns a list of movies from the catalogue)
+  - `purchaseMovie(movie: Movie): Order` (creates an order for purchasing a movie)
+  - `getUserInfo(): String` (returns user information)
+
+### 3. **Subscriber** (inherits from User)
+- **Attributes:**
+  - `subscriptionType: String`
+  - `card: Card` (an instance of the Card class)
+  
+- **Methods:**
+  - `rentMovie(movie: Movie, duration: int): Rental` (rents a movie for a specified duration)
+  - `rechargeCard(amount: double): void` (recharges the subscriber's card)
+  - `getSubscriptionDetails(): String` (returns subscription details)
+
+### 4. **Order**
+- **Attributes:**
+  - `orderId: String`
+  - `user: User` (the user who made the order)
+  - `movie: Movie` (the movie being ordered)
+  - `orderDate: Date`
+  - `orderType: String` (e.g., "purchase" or "rental")
+  
+- **Methods:**
+  - `getOrderDetails(): String` (returns details of the order)
+  - `updateOrderStatus(status: String): void` (updates the status of the order)
+
+### 5. **Card**
+- **Attributes:**
+  - `cardId: String`
+  - `balance: double`
+  
+- **Methods:**
+  - `deductAmount(amount: double): boolean` (deducts an amount from the balance, returns true if successful)
+  - `addFunds(amount: double): void` (adds funds to the card)
+  - `getBalance(): double` (returns the current balance)
+
+### 6. **Catalogue**
+- **Attributes:**
+  - `movies: List<Movie>` (a list of movies available in the catalogue)
+  
+- **Methods:**
+  - `addMovie(movie: Movie): void` (adds a movie to the catalogue)
+  - `removeMovie(movie: Movie): void` (removes a movie from the catalogue)
+  - `searchMovie(title: String): Movie` (searches for a movie by title)
+
+### 7. **Rental**
+- **Attributes:**
+  - `rentalId: String`
+  - `subscriber: Subscriber` (the subscriber who rented the movie)
+  - `movie: Movie` (the movie being rented)
+  - `rentalDate: Date`
+  - `duration: int` (rental duration in days)
+  
+- **Methods:**
+  - `getRentalDetails(): String` (returns details of the rental)
+  - `calculateDueDate(): Date` (calculates the due date for returning the movie)
+
+### 8. **Availability**
+- **Attributes:**
+  - `status: String` (e.g., "available", "unavailable", "ordered")
+  
+- **Methods:**
+  - `isAvailable(): boolean` (checks if the movie is available)
+  - `setStatus(status: String): void` (sets the availability status)
+
+This structure provides a comprehensive overview of the classes, their attributes, and methods, facilitating the design and implementation of the movie-shop system.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided classes and their descriptions, here are the identified relationships, their types, and cardinalities:
+
+1. **Movie** -- **Availability**: 
+   - **Relationship Type**: Association
+   - **Cardinality**: 1 (A Movie has exactly one Availability status)
+
+2. **User** -- **Order**: 
+   - **Relationship Type**: Association
+   - **Cardinality**: 1..* (A User can have zero or more Orders)
+
+3. **Subscriber** -- **User**: 
+   - **Relationship Type**: Inheritance
+   - **Cardinality**: 1 (A Subscriber is a specialized type of User)
+
+4. **Subscriber** -- **Card**: 
+   - **Relationship Type**: Composition
+   - **Cardinality**: 1 (A Subscriber must have exactly one Card)
+
+5. **Order** -- **Movie**: 
+   - **Relationship Type**: Association
+   - **Cardinality**: 1 (An Order is for exactly one Movie)
+
+6. **Order** -- **User**: 
+   - **Relationship Type**: Association
+   - **Cardinality**: 1 (An Order is placed by exactly one User)
+
+7. **Rental** -- **Subscriber**: 
+   - **Relationship Type**: Association
+   - **Cardinality**: 1 (A Rental is associated with exactly one Subscriber)
+
+8. **Rental** -- **Movie**: 
+   - **Relationship Type**: Association
+   - **Cardinality**: 1 (A Rental is for exactly one Movie)
+
+9. **Catalogue** -- **Movie**: 
+   - **Relationship Type**: Aggregation
+   - **Cardinality**: 0..* (A Catalogue can contain zero or more Movies)
+
+10. **Rental** -- **Order**: 
+    - **Relationship Type**: Association
+    - **Cardinality**: 0..1 (A Rental may or may not be associated with an Order)
+
+This structure captures the relationships and cardinalities among the classes in the movie-shop system, providing a clear understanding of how they interact with each other.
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Movie
+Description: Represents the films available in the shop. It is a central entity as users browse and order movies.
+ATTRIBUTES:
+- title: String
+- genre: String
+- releaseYear: int
+- duration: int
+- price: double
+- availabilityStatus: Availability
+METHODS:
+- getDetails(): String
+- isAvailable(): boolean
+- updateAvailability(status: Availability): void
+
+RELATIONSHIPS:
+- Movie association Availability 1
+
+CLASS: User
+Description: Represents individuals who can browse the catalogue and make purchases. This class encompasses both subscribers and non-subscribers.
+ATTRIBUTES:
+- userId: String
+- name: String
+- email: String
+- isSubscriber: boolean
+METHODS:
+- browseCatalogue(catalogue: Catalogue): List<Movie>
+- purchaseMovie(movie: Movie): Order
+- getUserInfo(): String
+
+RELATIONSHIPS:
+- User association Order 1..*
+
+CLASS: Subscriber
+Description: A specialized type of User who has a subscription and can rent movies using a rechargeable card. This class is crucial for managing subscription-specific functionalities.
+ATTRIBUTES:
+- subscriptionType: String
+- card: Card
+METHODS:
+- rentMovie(movie: Movie, duration: int): Rental
+- rechargeCard(amount: double): void
+- getSubscriptionDetails(): String
+
+RELATIONSHIPS:
+- Subscriber inherits User 1
+- Subscriber composition Card 1
+
+CLASS: Order
+Description: Represents the transaction details when a user or subscriber buys or rents a movie. It captures the relationship between users and the movies they interact with.
+ATTRIBUTES:
+- orderId: String
+- user: User
+- movie: Movie
+- orderDate: Date
+- orderType: String
+METHODS:
+- getOrderDetails(): String
+- updateOrderStatus(status: String): void
+
+RELATIONSHIPS:
+- Order association Movie 1
+- Order association User 1
+
+CLASS: Card
+Description: Represents the rechargeable card used by subscribers to rent movies. It tracks the credit balance and is essential for managing rental operations.
+ATTRIBUTES:
+- cardId: String
+- balance: double
+METHODS:
+- deductAmount(amount: double): boolean
+- addFunds(amount: double): void
+- getBalance(): double
+
+RELATIONSHIPS:
+- Card composition Subscriber 1
+
+CLASS: Catalogue
+Description: Represents the collection of movies available for browsing. It serves as an interface for users to explore the available titles.
+ATTRIBUTES:
+- movies: List<Movie>
+METHODS:
+- addMovie(movie: Movie): void
+- removeMovie(movie: Movie): void
+- searchMovie(title: String): Movie
+
+RELATIONSHIPS:
+- Catalogue aggregation Movie 0..*
+
+CLASS: Rental
+Description: Represents the action of renting a movie, including the details of the transaction, such as the movie rented, the subscriber involved, and the duration of the rental.
+ATTRIBUTES:
+- rentalId: String
+- subscriber: Subscriber
+- movie: Movie
+- rentalDate: Date
+- duration: int
+METHODS:
+- getRentalDetails(): String
+- calculateDueDate(): Date
+
+RELATIONSHIPS:
+- Rental association Subscriber 1
+- Rental association Movie 1
+- Rental association Order 0..1
+
+CLASS: Availability
+Description: Represents the status of a movie in terms of its availability for rent. This class helps manage the inventory and the process of ordering movies that are currently unavailable.
+ATTRIBUTES:
+- status: String
+METHODS:
+- isAvailable(): boolean
+- setStatus(status: String): void
+
+RELATIONSHIPS:
+- Availability association Movie 1
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Movie {
+    - title: String
+    - genre: String
+    - releaseYear: int
+    - duration: int
+    - price: double
+    - availabilityStatus: Availability
+    + getDetails(): String
+    + isAvailable(): boolean
+    + updateAvailability(status: Availability): void
+}
+
+class User {
+    - userId: String
+    - name: String
+    - email: String
+    - isSubscriber: boolean
+    + browseCatalogue(catalogue: Catalogue): List<Movie>
+    + purchaseMovie(movie: Movie): Order
+    + getUserInfo(): String
+}
+
+class Subscriber {
+    - subscriptionType: String
+    - card: Card
+    + rentMovie(movie: Movie, duration: int): Rental
+    + rechargeCard(amount: double): void
+    + getSubscriptionDetails(): String
+}
+
+class Order {
+    - orderId: String
+    - user: User
+    - movie: Movie
+    - orderDate: Date
+    - orderType: String
+    + getOrderDetails(): String
+    + updateOrderStatus(status: String): void
+}
+
+class Card {
+    - cardId: String
+    - balance: double
+    + deductAmount(amount: double): boolean
+    + addFunds(amount: double): void
+    + getBalance(): double
+}
+
+class Catalogue {
+    - movies: List<Movie>
+    + addMovie(movie: Movie): void
+    + removeMovie(movie: Movie): void
+    + searchMovie(title: String): Movie
+}
+
+class Rental {
+    - rentalId: String
+    - subscriber: Subscriber
+    - movie: Movie
+    - rentalDate: Date
+    - duration: int
+    + getRentalDetails(): String
+    + calculateDueDate(): Date
+}
+
+class Availability {
+    - status: String
+    + isAvailable(): boolean
+    + setStatus(status: String): void
+}
+
+Movie o-- Availability : association
+User o-- Order : association
+Subscriber <|-- User : inherits
+Subscriber *-- Card : composition
+Order o-- Movie : association
+Order o-- User : association
+Catalogue *-- Movie : aggregation
+Rental o-- Subscriber : association
+Rental o-- Movie : association
+Rental o-- Order : association
+Card *-- Subscriber : composition
+
+@enduml
+

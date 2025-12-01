@@ -1,0 +1,41 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] Add unique identifiers for each entity in the database.
+[OK] A factory has several machines.
+[OK] Each machine is operated by several workers.
+[OK] A worker might work on more than one machine.
+[OK] Several products of different types are produced in the factory.
+[OK] The same machine can produce more than one type of product.
+[OK] Products of the same type are produced from the same single material.
+[OK] Clients can issue purchase orders.
+[OK] Each purchase order has a list of desired products.
+[OK] Each purchase order includes the quantity of each desired product.
+[OK] For each worker, store the following data: name (first and last).
+[OK] For each worker, store the birth date.
+[OK] For each worker, store the address.
+[OK] For each worker, store a list of skills.
+[OK] For each machine, store the serial number.
+[OK] For each machine, store the make.
+[OK] For each machine, store the model.
+[OK] For each machine, store the purchase date.
+[OK] For each client, store the name.
+[OK] For each client, store the address.
+[OK] For each client, store the phone number.
+[OK] For each client, store the name of the contact person (if any).
+[OK] For each purchase order, store the order number.
+[OK] For each purchase order, store the date it has been made.
+[OK] For each purchase order, store the expected delivery date.
+[OK] For each purchase order, store the actual delivery date.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] Create a database for a factory.
+[MISSING] Each different type of product is produced in a single machine.
+[MISSING] Products of the same type have the same weight.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The relationship between Product and Machine is incorrectly defined as '1 -- *'. According to the requirements, a machine can produce multiple types of products, but each product type is produced by a single machine.
+[ISSUE] Holistic Issue: The design does not specify that a worker can work on multiple machines, which is a requirement.
+[ISSUE] Holistic Issue: The design does not include a method for creating or managing purchase orders in the Client class, which is necessary for handling client interactions.
+[ISSUE] Holistic Issue: The design does not include the concept of 'weight' for products, which is required according to the requirements.
+[ISSUE] Holistic Issue: The design does not include the concept of 'material' for products in a way that indicates that products of the same type are produced from the same single material.

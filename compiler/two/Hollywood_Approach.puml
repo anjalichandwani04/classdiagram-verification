@@ -1,0 +1,32 @@
+@startuml
+class Scene {
+    String sceneCode
+    String description
+    String sceneType
+}
+
+class Setup {
+    String setupCode
+    String description
+    String aperture
+    String exposure
+    String focalLength
+    String filters
+}
+
+class Take {
+    Integer takeNumber
+    Float filmLength
+    String reelCode
+}
+
+class Location {
+    String locationCode
+    String address
+    String description
+}
+
+Scene "1" -- "1..*" Setup : has >
+Setup "1" -- "1..*" Take : has >
+Scene "1" -- "0..*" Location : filmed at >
+@enduml

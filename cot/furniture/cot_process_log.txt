@@ -1,0 +1,278 @@
+PROJECT: Furniture
+REQ:
+The known furniture factory Hi-Key-Ah, intends to implement an information system to store all data on the different types of furniture and components it produces: ● The factory produces several lines of furniture, each with a different name and consisting of several pieces of furniture of different types (beds, tables, chairs, …). ● All furniture pieces have a type, a single reference (eg CC6578) and a selling price. ● The major competitive advantage of this innovative plant is the fact that each component produced can be used in more than one piece of furniture. ● Each piece of furniture is thus composed of several components. The same component can be used more than once in the same piece. ● Every type of component produced is assigned a unique numerical code, a manufacturing price and a type (screw, hinge, shelf …). ● The furniture is then sold in various stores throughout the world. Each store has a different address and a fax number. ● To make the manufacturing process more efficient, stores have to place orders everytime they need to replenish their stock. These orders must also be stored in the database. ● Each order has a order number, a date, the store that placed the order as well as a list of all the ordered furniture and their quantities.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with justifications for each:
+
+1. **FurnitureLine**
+   - Justification: Represents the different lines of furniture produced by the factory, each with a unique name and consisting of various pieces of furniture.
+
+2. **FurniturePiece**
+   - Justification: Represents individual pieces of furniture (e.g., beds, tables, chairs) that belong to a furniture line. Each piece has a type, reference, and selling price.
+
+3. **Component**
+   - Justification: Represents the individual components (e.g., screws, hinges, shelves) used to assemble furniture pieces. Each component has a unique numerical code, manufacturing price, and type.
+
+4. **Store**
+   - Justification: Represents the various stores that sell the furniture. Each store has a unique address and fax number.
+
+5. **Order**
+   - Justification: Represents the orders placed by stores to replenish their stock. Each order has an order number, date, associated store, and a list of ordered furniture pieces with their quantities.
+
+6. **OrderItem**
+   - Justification: Represents the individual items within an order, detailing the specific furniture pieces ordered and their quantities. This class helps manage the relationship between orders and the furniture pieces.
+
+These classes encapsulate the key entities and relationships described in the furniture factory's information system, focusing on the real-world aspects without delving into implementation specifics.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and the provided description, here are the attributes and methods for each class:
+
+### 1. **FurnitureLine**
+- **Attributes:**
+  - `name: String` - The unique name of the furniture line.
+  - `furniturePieces: List<FurniturePiece>` - A list of furniture pieces that belong to this line.
+
+- **Methods:**
+  - `addFurniturePiece(piece: FurniturePiece): void` - Adds a furniture piece to the furniture line.
+  - `removeFurniturePiece(piece: FurniturePiece): void` - Removes a furniture piece from the furniture line.
+  - `getFurniturePieces(): List<FurniturePiece>` - Returns the list of furniture pieces in the line.
+
+### 2. **FurniturePiece**
+- **Attributes:**
+  - `type: String` - The type of furniture (e.g., bed, table, chair).
+  - `reference: String` - A unique reference identifier for the furniture piece (e.g., CC6578).
+  - `sellingPrice: double` - The selling price of the furniture piece.
+  - `components: List<Component>` - A list of components that make up the furniture piece.
+
+- **Methods:**
+  - `addComponent(component: Component): void` - Adds a component to the furniture piece.
+  - `removeComponent(component: Component): void` - Removes a component from the furniture piece.
+  - `getComponents(): List<Component>` - Returns the list of components used in the furniture piece.
+
+### 3. **Component**
+- **Attributes:**
+  - `code: int` - A unique numerical code assigned to the component.
+  - `manufacturingPrice: double` - The manufacturing price of the component.
+  - `type: String` - The type of component (e.g., screw, hinge, shelf).
+
+- **Methods:**
+  - `getCode(): int` - Returns the unique code of the component.
+  - `getManufacturingPrice(): double` - Returns the manufacturing price of the component.
+  - `getType(): String` - Returns the type of the component.
+
+### 4. **Store**
+- **Attributes:**
+  - `address: String` - The unique address of the store.
+  - `faxNumber: String` - The fax number of the store.
+
+- **Methods:**
+  - `getAddress(): String` - Returns the address of the store.
+  - `getFaxNumber(): String` - Returns the fax number of the store.
+  - `updateAddress(newAddress: String): void` - Updates the address of the store.
+
+### 5. **Order**
+- **Attributes:**
+  - `orderNumber: String` - A unique identifier for the order.
+  - `date: Date` - The date when the order was placed.
+  - `store: Store` - The store that placed the order.
+  - `orderItems: List<OrderItem>` - A list of items in the order.
+
+- **Methods:**
+  - `addOrderItem(item: OrderItem): void` - Adds an order item to the order.
+  - `removeOrderItem(item: OrderItem): void` - Removes an order item from the order.
+  - `getOrderItems(): List<OrderItem>` - Returns the list of order items.
+
+### 6. **OrderItem**
+- **Attributes:**
+  - `furniturePiece: FurniturePiece` - The specific furniture piece ordered.
+  - `quantity: int` - The quantity of the furniture piece ordered.
+
+- **Methods:**
+  - `getFurniturePiece(): FurniturePiece` - Returns the furniture piece associated with the order item.
+  - `getQuantity(): int` - Returns the quantity of the furniture piece ordered.
+  - `setQuantity(newQuantity: int): void` - Updates the quantity of the furniture piece ordered.
+
+These attributes and methods provide a structured way to represent the entities and their behaviors in the furniture factory's information system.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided classes and their descriptions, here are the identified relationships, their types, and cardinalities:
+
+1. **FurnitureLine** -- **Aggregation** -- **FurniturePiece** : **1..***
+   - A FurnitureLine can contain multiple FurniturePieces, but a FurniturePiece belongs to exactly one FurnitureLine.
+
+2. **FurniturePiece** -- **Composition** -- **Component** : **0..*** 
+   - A FurniturePiece is composed of multiple Components, and a Component can be used in multiple FurniturePieces. However, a FurniturePiece can exist without Components (e.g., if it is not yet assembled).
+
+3. **Store** -- **Association** -- **Order** : **1..***
+   - A Store can place multiple Orders, but each Order is associated with exactly one Store.
+
+4. **Order** -- **Aggregation** -- **OrderItem** : **1..***
+   - An Order consists of multiple OrderItems, and each OrderItem is associated with exactly one Order.
+
+5. **OrderItem** -- **Association** -- **FurniturePiece** : **1**
+   - Each OrderItem corresponds to exactly one FurniturePiece, but a FurniturePiece can appear in multiple OrderItems across different Orders.
+
+In summary, the relationships can be listed as follows:
+
+1. **FurnitureLine** -- **Aggregation** -- **FurniturePiece** : **1..***
+2. **FurniturePiece** -- **Composition** -- **Component** : **0..***
+3. **Store** -- **Association** -- **Order** : **1..***
+4. **Order** -- **Aggregation** -- **OrderItem** : **1..***
+5. **OrderItem** -- **Association** -- **FurniturePiece** : **1**
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: FurnitureLine
+Description: Represents the different lines of furniture produced by the factory, each with a unique name and consisting of various pieces of furniture.
+ATTRIBUTES:
+- name: String
+- furniturePieces: List<FurniturePiece>
+METHODS:
+- addFurniturePiece(piece: FurniturePiece): void
+- removeFurniturePiece(piece: FurniturePiece): void
+- getFurniturePieces(): List<FurniturePiece>
+
+RELATIONSHIPS:
+- FurnitureLine Aggregation FurniturePiece 1..*
+
+CLASS: FurniturePiece
+Description: Represents individual pieces of furniture (e.g., beds, tables, chairs) that belong to a furniture line. Each piece has a type, reference, and selling price.
+ATTRIBUTES:
+- type: String
+- reference: String
+- sellingPrice: double
+- components: List<Component>
+METHODS:
+- addComponent(component: Component): void
+- removeComponent(component: Component): void
+- getComponents(): List<Component>
+
+RELATIONSHIPS:
+- FurniturePiece Composition Component 0..*
+
+CLASS: Component
+Description: Represents the individual components (e.g., screws, hinges, shelves) used to assemble furniture pieces. Each component has a unique numerical code, manufacturing price, and type.
+ATTRIBUTES:
+- code: int
+- manufacturingPrice: double
+- type: String
+METHODS:
+- getCode(): int
+- getManufacturingPrice(): double
+- getType(): String
+
+RELATIONSHIPS:
+(No relationships defined)
+
+CLASS: Store
+Description: Represents the various stores that sell the furniture. Each store has a unique address and fax number.
+ATTRIBUTES:
+- address: String
+- faxNumber: String
+METHODS:
+- getAddress(): String
+- getFaxNumber(): String
+- updateAddress(newAddress: String): void
+
+RELATIONSHIPS:
+- Store Association Order 1..*
+
+CLASS: Order
+Description: Represents the orders placed by stores to replenish their stock. Each order has an order number, date, associated store, and a list of ordered furniture pieces with their quantities.
+ATTRIBUTES:
+- orderNumber: String
+- date: Date
+- store: Store
+- orderItems: List<OrderItem>
+METHODS:
+- addOrderItem(item: OrderItem): void
+- removeOrderItem(item: OrderItem): void
+- getOrderItems(): List<OrderItem>
+
+RELATIONSHIPS:
+- Order Aggregation OrderItem 1..*
+
+CLASS: OrderItem
+Description: Represents the individual items within an order, detailing the specific furniture pieces ordered and their quantities. This class helps manage the relationship between orders and the furniture pieces.
+ATTRIBUTES:
+- furniturePiece: FurniturePiece
+- quantity: int
+METHODS:
+- getFurniturePiece(): FurniturePiece
+- getQuantity(): int
+- setQuantity(newQuantity: int): void
+
+RELATIONSHIPS:
+- OrderItem Association FurniturePiece 1
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class FurnitureLine {
+    - name: String
+    - furniturePieces: List<FurniturePiece>
+    + addFurniturePiece(piece: FurniturePiece): void
+    + removeFurniturePiece(piece: FurniturePiece): void
+    + getFurniturePieces(): List<FurniturePiece>
+}
+
+class FurniturePiece {
+    - type: String
+    - reference: String
+    - sellingPrice: double
+    - components: List<Component>
+    + addComponent(component: Component): void
+    + removeComponent(component: Component): void
+    + getComponents(): List<Component>
+}
+
+class Component {
+    - code: int
+    - manufacturingPrice: double
+    - type: String
+    + getCode(): int
+    + getManufacturingPrice(): double
+    + getType(): String
+}
+
+class Store {
+    - address: String
+    - faxNumber: String
+    + getAddress(): String
+    + getFaxNumber(): String
+    + updateAddress(newAddress: String): void
+}
+
+class Order {
+    - orderNumber: String
+    - date: Date
+    - store: Store
+    - orderItems: List<OrderItem>
+    + addOrderItem(item: OrderItem): void
+    + removeOrderItem(item: OrderItem): void
+    + getOrderItems(): List<OrderItem>
+}
+
+class OrderItem {
+    - furniturePiece: FurniturePiece
+    - quantity: int
+    + getFurniturePiece(): FurniturePiece
+    + getQuantity(): int
+    + setQuantity(newQuantity: int): void
+}
+
+FurnitureLine *-- "1..*" FurniturePiece
+FurniturePiece o-- "0..*" Component
+Store --> "1..*" Order
+Order *-- "1..*" OrderItem
+OrderItem --> "1" FurniturePiece
+
+@enduml
+

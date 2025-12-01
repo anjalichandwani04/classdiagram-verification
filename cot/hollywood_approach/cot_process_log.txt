@@ -1,0 +1,347 @@
+PROJECT: Hollywood Approach
+REQ:
+We are interested in building a software application to manage filmed scenes for realizing a movie, by following the so-called “Hollywood Approach”. Every scene is identified by a code (a string) and it is described by a text in natural language. Every scene is filmed from different positions (at least one), each of this is called a setup. Every setup is characterized by a code (a string) and a text in natural language where the photographic parameters are noted (e.g., aperture, exposure, focal length, filters, etc.). Note that a setup is related to a single scene. For every setup, several takes may be filmed (at least one). Every take is characterized by a (positive) natural number, a real number representing the number of meters of film that have been used for shooting the take, and the code (a string) of the reel where the film is stored. Note that a take is associated to a single setup. Scenes are divided into internals that are filmed in a theater, and externals that are filmed in a location and can either be “day scene” or “night scene”. Locations are characterized by a code (a string) and the address of the location, and a text describing them in natural language.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with justifications for each:
+
+1. **Scene**
+   - Justification: Represents a filmed scene in the movie, identified by a unique code and described in natural language.
+
+2. **Setup**
+   - Justification: Represents the different filming positions for a scene, characterized by a unique code and photographic parameters.
+
+3. **Take**
+   - Justification: Represents individual recordings made during a setup, characterized by a number, film length, and reel code.
+
+4. **Location**
+   - Justification: Represents the physical place where externals are filmed, characterized by a unique code, address, and description.
+
+5. **Internal**
+   - Justification: Represents a specific type of scene filmed in a theater, distinguishing it from externals.
+
+6. **External**
+   - Justification: Represents a specific type of scene filmed in a location, which can be further classified into "day scene" or "night scene".
+
+7. **Day Scene**
+   - Justification: A specific subtype of external scenes that are filmed during the day.
+
+8. **Night Scene**
+   - Justification: A specific subtype of external scenes that are filmed at night.
+
+These classes encapsulate the key entities and concepts described in the scenario, focusing on their roles in managing filmed scenes for a movie.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and the provided description, here are the attributes and methods for each class:
+
+### 1. Scene
+- **Attributes:**
+  - `code: String`
+  - `description: String`
+  - `setupList: List<Setup>` (to hold associated setups)
+  
+- **Methods:**
+  - `addSetup(setup: Setup): void`
+  - `removeSetup(setup: Setup): void`
+  - `getSetups(): List<Setup>`
+  - `getDescription(): String`
+  - `getCode(): String`
+
+### 2. Setup
+- **Attributes:**
+  - `code: String`
+  - `photographicParameters: String`
+  - `scene: Scene` (reference to the associated scene)
+  - `takeList: List<Take>` (to hold associated takes)
+
+- **Methods:**
+  - `addTake(take: Take): void`
+  - `removeTake(take: Take): void`
+  - `getTakes(): List<Take>`
+  - `getPhotographicParameters(): String`
+  - `getCode(): String`
+
+### 3. Take
+- **Attributes:**
+  - `number: int` (positive natural number)
+  - `filmLength: double` (in meters)
+  - `reelCode: String`
+  - `setup: Setup` (reference to the associated setup)
+
+- **Methods:**
+  - `getFilmLength(): double`
+  - `getReelCode(): String`
+  - `getNumber(): int`
+
+### 4. Location
+- **Attributes:**
+  - `code: String`
+  - `address: String`
+  - `description: String`
+  
+- **Methods:**
+  - `getAddress(): String`
+  - `getDescription(): String`
+  - `getCode(): String`
+
+### 5. Internal
+- **Attributes:**
+  - `scene: Scene` (reference to the associated scene)
+  
+- **Methods:**
+  - `getScene(): Scene`
+
+### 6. External
+- **Attributes:**
+  - `scene: Scene` (reference to the associated scene)
+  - `location: Location` (reference to the filming location)
+  
+- **Methods:**
+  - `getScene(): Scene`
+  - `getLocation(): Location`
+
+### 7. Day Scene
+- **Attributes:**
+  - `external: External` (reference to the associated external scene)
+  
+- **Methods:**
+  - `getExternal(): External`
+
+### 8. Night Scene
+- **Attributes:**
+  - `external: External` (reference to the associated external scene)
+  
+- **Methods:**
+  - `getExternal(): External`
+
+### Summary
+This structure allows for a clear representation of the relationships between scenes, setups, takes, and locations, while also distinguishing between internal and external scenes, as well as day and night scenes. Each class encapsulates its own data and behaviors, promoting modularity and ease of maintenance in the software application.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided description and the identified classes, here are the relationships along with their types and cardinalities:
+
+1. **Scene -- Aggregation -- Setup : 1..***
+   - A Scene can have one or more Setups, but each Setup is associated with exactly one Scene.
+
+2. **Setup -- Aggregation -- Take : 1..***
+   - A Setup can have one or more Takes, but each Take is associated with exactly one Setup.
+
+3. **Scene -- Inheritance -- Internal : 0..1**
+   - An Internal is a specific type of Scene. A Scene can be an Internal or not (0 or 1).
+
+4. **Scene -- Inheritance -- External : 0..1**
+   - An External is another specific type of Scene. A Scene can be an External or not (0 or 1).
+
+5. **External -- Association -- Location : 1**
+   - An External scene is associated with exactly one Location where it is filmed.
+
+6. **External -- Inheritance -- Day Scene : 0..1**
+   - A Day Scene is a specific type of External. An External can be a Day Scene or not (0 or 1).
+
+7. **External -- Inheritance -- Night Scene : 0..1**
+   - A Night Scene is another specific type of External. An External can be a Night Scene or not (0 or 1).
+
+### Summary of Relationships:
+- Scene -- Aggregation -- Setup : 1..*
+- Setup -- Aggregation -- Take : 1..*
+- Scene -- Inheritance -- Internal : 0..1
+- Scene -- Inheritance -- External : 0..1
+- External -- Association -- Location : 1
+- External -- Inheritance -- Day Scene : 0..1
+- External -- Inheritance -- Night Scene : 0..1
+
+This structure captures the relationships and cardinalities between the classes in the context of managing filmed scenes for a movie.
+
+
+==================== Step 4: Textual UML ====================
+```
+CLASS: Scene
+Description: Represents a filmed scene in the movie, identified by a unique code and described in natural language.
+ATTRIBUTES:
+- code: String
+- description: String
+- setupList: List<Setup>
+METHODS:
+- addSetup(setup: Setup): void
+- removeSetup(setup: Setup): void
+- getSetups(): List<Setup>
+- getDescription(): String
+- getCode(): String
+
+RELATIONSHIPS:
+- Scene Aggregation Setup 1..*
+- Scene Inheritance Internal 0..1
+- Scene Inheritance External 0..1
+
+CLASS: Setup
+Description: Represents the different filming positions for a scene, characterized by a unique code and photographic parameters.
+ATTRIBUTES:
+- code: String
+- photographicParameters: String
+- scene: Scene
+- takeList: List<Take>
+METHODS:
+- addTake(take: Take): void
+- removeTake(take: Take): void
+- getTakes(): List<Take>
+- getPhotographicParameters(): String
+- getCode(): String
+
+RELATIONSHIPS:
+- Setup Aggregation Take 1..*
+
+CLASS: Take
+Description: Represents individual recordings made during a setup, characterized by a number, film length, and reel code.
+ATTRIBUTES:
+- number: int
+- filmLength: double
+- reelCode: String
+- setup: Setup
+METHODS:
+- getFilmLength(): double
+- getReelCode(): String
+- getNumber(): int
+
+RELATIONSHIPS:
+- None
+
+CLASS: Location
+Description: Represents the physical place where externals are filmed, characterized by a unique code, address, and description.
+ATTRIBUTES:
+- code: String
+- address: String
+- description: String
+METHODS:
+- getAddress(): String
+- getDescription(): String
+- getCode(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Internal
+Description: Represents a specific type of scene filmed in a theater, distinguishing it from externals.
+ATTRIBUTES:
+- scene: Scene
+METHODS:
+- getScene(): Scene
+
+RELATIONSHIPS:
+- None
+
+CLASS: External
+Description: Represents a specific type of scene filmed in a location, which can be further classified into "day scene" or "night scene".
+ATTRIBUTES:
+- scene: Scene
+- location: Location
+METHODS:
+- getScene(): Scene
+- getLocation(): Location
+
+RELATIONSHIPS:
+- External Association Location 1
+- External Inheritance Day Scene 0..1
+- External Inheritance Night Scene 0..1
+
+CLASS: Day Scene
+Description: A specific subtype of external scenes that are filmed during the day.
+ATTRIBUTES:
+- external: External
+METHODS:
+- getExternal(): External
+
+RELATIONSHIPS:
+- None
+
+CLASS: Night Scene
+Description: A specific subtype of external scenes that are filmed at night.
+ATTRIBUTES:
+- external: External
+METHODS:
+- getExternal(): External
+
+RELATIONSHIPS:
+- None
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Scene {
+    - code: String
+    - description: String
+    - setupList: List<Setup>
+    + addSetup(setup: Setup): void
+    + removeSetup(setup: Setup): void
+    + getSetups(): List<Setup>
+    + getDescription(): String
+    + getCode(): String
+}
+
+class Setup {
+    - code: String
+    - photographicParameters: String
+    - scene: Scene
+    - takeList: List<Take>
+    + addTake(take: Take): void
+    + removeTake(take: Take): void
+    + getTakes(): List<Take>
+    + getPhotographicParameters(): String
+    + getCode(): String
+}
+
+class Take {
+    - number: int
+    - filmLength: double
+    - reelCode: String
+    - setup: Setup
+    + getFilmLength(): double
+    + getReelCode(): String
+    + getNumber(): int
+}
+
+class Location {
+    - code: String
+    - address: String
+    - description: String
+    + getAddress(): String
+    + getDescription(): String
+    + getCode(): String
+}
+
+class Internal {
+    - scene: Scene
+    + getScene(): Scene
+}
+
+class External {
+    - scene: Scene
+    - location: Location
+    + getScene(): Scene
+    + getLocation(): Location
+}
+
+class DayScene {
+    - external: External
+    + getExternal(): External
+}
+
+class NightScene {
+    - external: External
+    + getExternal(): External
+}
+
+Scene *-- "1..*" Setup
+Scene <|-- Internal
+Scene <|-- External
+Setup *-- "1..*" Take
+External --> "1" Location
+External <|-- DayScene
+External <|-- NightScene
+
+@enduml
+

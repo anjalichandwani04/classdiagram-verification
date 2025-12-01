@@ -1,0 +1,41 @@
+```plantuml
+@startuml
+class Customer {
+    - name: String
+    - address: String
+    + getName(): String
+    + getAddress(): String
+}
+
+abstract class Account {
+    - balance: Double
+    + getBalance(): Double
+    + deposit(amount: Double): void
+    + withdraw(amount: Double): void
+}
+
+class SavingsAccount {
+    - interestRate: Double
+    + calculateInterest(): Double
+}
+
+class InvestmentAccount {
+    + buyStock(ticker: String, quantity: Integer, price: Double): void
+    + applyCommission(amount: Double): Double
+}
+
+class Stock {
+    - ticker: String
+    - quantity: Integer
+    - price: Double
+    + getTicker(): String
+    + getQuantity(): Integer
+    + getPrice(): Double
+}
+
+Customer "1..*" --> "0..*" Account
+Account <|-- SavingsAccount
+Account <|-- InvestmentAccount
+InvestmentAccount "0..*" --> "0..*" Stock
+@enduml
+```

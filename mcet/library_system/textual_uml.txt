@@ -1,0 +1,87 @@
+CLASS: User
+Description: This class represents the general concept of a user in the library system, encompassing both under-aged and adult users with shared attributes.
+ATTRIBUTES:
+- fullName: String
+- email: String
+- phoneNumber: String
+METHODS:
+- getFullName(): String
+- getEmail(): String
+- getPhoneNumber(): String
+- setFullName(name: String): void
+- setEmail(email: String): void
+- setPhoneNumber(phone: String): void
+
+CLASS: UnderAgedUser
+Description: This class represents users who are under-aged, extending the User class and including specific attributes like student card.
+ATTRIBUTES:
+- studentCard: String
+- borrowedBooks: List<Book>
+METHODS:
+- getStudentCard(): String
+- setStudentCard(card: String): void
+- borrowBook(book: Book): boolean
+- returnBook(book: Book): boolean
+- getBorrowedBooks(): List<Book>
+
+CLASS: AdultUser
+Description: This class represents adult users, extending the User class and including attributes specific to adult users such as ID card.
+ATTRIBUTES:
+- idCard: String
+- borrowedBooks: List<Book>
+METHODS:
+- getIdCard(): String
+- setIdCard(card: String): void
+- borrowBook(book: Book): boolean
+- returnBook(book: Book): boolean
+- getBorrowedBooks(): List<Book>
+
+CLASS: Book
+Description: This class represents the books available in the library, containing basic information about each book.
+ATTRIBUTES:
+- title: String
+- author: String
+- isbn: String
+- availableCopies: int
+METHODS:
+- getTitle(): String
+- getAuthor(): String
+- getIsbn(): String
+- getAvailableCopies(): int
+- setAvailableCopies(copies: int): void
+- isAvailable(): boolean
+
+CLASS: Borrowing
+Description: This class represents the act of borrowing books, including attributes for the user, book, and borrowing dates.
+ATTRIBUTES:
+- user: User
+- book: Book
+- borrowingDate: Date
+- returnDate: Date
+METHODS:
+- getUser(): User
+- getBook(): Book
+- getBorrowingDate(): Date
+- getReturnDate(): Date
+- setReturnDate(date: Date): void
+
+CLASS: BorrowingHistory
+Description: This class represents the history of previously borrowed books for each user, tracking past transactions.
+ATTRIBUTES:
+- user: User
+- borrowings: List<Borrowing>
+METHODS:
+- getUser(): User
+- getBorrowings(): List<Borrowing>
+- addBorrowing(borrowing: Borrowing): void
+- getBorrowingHistory(): List<Borrowing>
+
+RELATIONSHIPS:
+- User Inheritance UnderAgedUser 1
+- User Inheritance AdultUser 1
+- User Aggregation BorrowingHistory 1
+- User Association Borrowing 0..*
+- Book Association Borrowing 0..*
+- Borrowing Composition User 1
+- Borrowing Composition Book 1
+- BorrowingHistory Aggregation Borrowing 0..*

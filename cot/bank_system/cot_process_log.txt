@@ -1,0 +1,257 @@
+PROJECT: Bank System
+REQ:
+A bank system contains data on customers (identified by name and address) and their accounts. Each account has a balance and there are 2 type of accounts: one for savings which offers an interest rate, the other for investments, used to buy stocks. Stocks are bought at a certain quantity for a certain price (ticker) and the bank applies commission on stock orders.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with justifications for each:
+
+1. **Customer**
+   - Justification: Represents individuals who hold accounts in the bank. Identified by attributes such as name and address.
+
+2. **Account**
+   - Justification: A general representation of a financial account held by a customer. It has attributes like balance and can be specialized into different types of accounts.
+
+3. **SavingsAccount**
+   - Justification: A specific type of account that offers an interest rate. It is a subclass of Account, distinguishing it from other account types.
+
+4. **InvestmentAccount**
+   - Justification: Another specific type of account used for buying stocks. It is also a subclass of Account, highlighting its unique purpose.
+
+5. **Stock**
+   - Justification: Represents the financial instruments that can be bought and sold within the investment accounts. It includes attributes like quantity and price (ticker).
+
+6. **Commission**
+   - Justification: Represents the fee applied by the bank on stock orders. It is an important entity that affects the transactions made in the investment accounts.
+
+These classes encapsulate the key entities and concepts within the bank system as described, focusing on the real-world entities involved in banking operations.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and their descriptions, here are the attributes and methods for each class:
+
+### 1. **Customer**
+- **Attributes:**
+  - `name: String`
+  - `address: String`
+  - `customerID: String` (unique identifier for the customer)
+  
+- **Methods:**
+  - `getName(): String`
+  - `getAddress(): String`
+  - `updateAddress(newAddress: String): void`
+  - `getCustomerID(): String`
+
+### 2. **Account**
+- **Attributes:**
+  - `balance: Double`
+  - `accountNumber: String` (unique identifier for the account)
+  - `accountType: String` (e.g., "Savings", "Investment")
+  
+- **Methods:**
+  - `getBalance(): Double`
+  - `deposit(amount: Double): void`
+  - `withdraw(amount: Double): void`
+  - `getAccountNumber(): String`
+  - `getAccountType(): String`
+
+### 3. **SavingsAccount** (inherits from Account)
+- **Attributes:**
+  - `interestRate: Double`
+  
+- **Methods:**
+  - `calculateInterest(): Double` (calculates interest based on the balance)
+  - `applyInterest(): void` (applies interest to the balance)
+
+### 4. **InvestmentAccount** (inherits from Account)
+- **Attributes:**
+  - `stocks: List<Stock>` (a list of stocks held in the account)
+  
+- **Methods:**
+  - `buyStock(stock: Stock, quantity: int): void` (buys a specified quantity of a stock)
+  - `sellStock(stock: Stock, quantity: int): void` (sells a specified quantity of a stock)
+  - `getStocks(): List<Stock>` (returns the list of stocks in the account)
+
+### 5. **Stock**
+- **Attributes:**
+  - `ticker: String` (the stock symbol)
+  - `quantity: int` (the number of shares owned)
+  - `price: Double` (the current price per share)
+  
+- **Methods:**
+  - `getTicker(): String`
+  - `getQuantity(): int`
+  - `getPrice(): Double`
+  - `updatePrice(newPrice: Double): void` (updates the price of the stock)
+
+### 6. **Commission**
+- **Attributes:**
+  - `rate: Double` (the commission rate as a percentage)
+  
+- **Methods:**
+  - `calculateCommission(amount: Double): Double` (calculates the commission based on the transaction amount)
+  - `getRate(): Double`
+
+These attributes and methods provide a structured way to represent the entities and their behaviors within the banking system, allowing for effective management of customer accounts and transactions.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided classes and their descriptions, here are the identified relationships along with their types and cardinalities:
+
+1. **Customer -- Association -- Account** : 1..*  
+   - A customer can have multiple accounts, but each account is associated with exactly one customer.
+
+2. **Account -- Inheritance -- SavingsAccount** : 1  
+   - SavingsAccount is a specialized type of Account. Each SavingsAccount is an Account, but not all Accounts are SavingsAccounts.
+
+3. **Account -- Inheritance -- InvestmentAccount** : 1  
+   - InvestmentAccount is another specialized type of Account. Each InvestmentAccount is an Account, but not all Accounts are InvestmentAccounts.
+
+4. **InvestmentAccount -- Aggregation -- Stock** : 0..*  
+   - An InvestmentAccount can hold multiple Stocks, but a Stock can exist independently of an InvestmentAccount (it can be bought or sold).
+
+5. **Commission -- Association -- InvestmentAccount** : 0..*  
+   - An InvestmentAccount may incur multiple commissions based on stock transactions, but a commission is not tied to a specific InvestmentAccount unless a transaction occurs.
+
+6. **Stock -- Association -- Commission** : 0..*  
+   - A Stock can be associated with multiple commissions (for different transactions), but a commission is related to a specific stock transaction.
+
+These relationships help to define how the classes interact with each other within the banking system.
+
+
+==================== Step 4: Textual UML ====================
+```
+CLASS: Customer
+Description: Represents individuals who hold accounts in the bank, identified by attributes such as name and address.
+ATTRIBUTES:
+- name: String
+- address: String
+- customerID: String
+METHODS:
+- getName(): String
+- getAddress(): String
+- updateAddress(newAddress: String): void
+- getCustomerID(): String
+
+CLASS: Account
+Description: A general representation of a financial account held by a customer, with attributes like balance and account type.
+ATTRIBUTES:
+- balance: Double
+- accountNumber: String
+- accountType: String
+METHODS:
+- getBalance(): Double
+- deposit(amount: Double): void
+- withdraw(amount: Double): void
+- getAccountNumber(): String
+- getAccountType(): String
+
+CLASS: SavingsAccount
+Description: A specific type of account that offers an interest rate, inheriting from the Account class.
+ATTRIBUTES:
+- interestRate: Double
+METHODS:
+- calculateInterest(): Double
+- applyInterest(): void
+
+CLASS: InvestmentAccount
+Description: A specific type of account used for buying stocks, inheriting from the Account class.
+ATTRIBUTES:
+- stocks: List<Stock>
+METHODS:
+- buyStock(stock: Stock, quantity: int): void
+- sellStock(stock: Stock, quantity: int): void
+- getStocks(): List<Stock>
+
+CLASS: Stock
+Description: Represents the financial instruments that can be bought and sold within investment accounts, including attributes like quantity and price (ticker).
+ATTRIBUTES:
+- ticker: String
+- quantity: int
+- price: Double
+METHODS:
+- getTicker(): String
+- getQuantity(): int
+- getPrice(): Double
+- updatePrice(newPrice: Double): void
+
+CLASS: Commission
+Description: Represents the fee applied by the bank on stock orders, affecting transactions made in investment accounts.
+ATTRIBUTES:
+- rate: Double
+METHODS:
+- calculateCommission(amount: Double): Double
+- getRate(): Double
+
+RELATIONSHIPS:
+- Customer -- Association -- Account 1..*
+- Account -- Inheritance -- SavingsAccount 1
+- Account -- Inheritance -- InvestmentAccount 1
+- InvestmentAccount -- Aggregation -- Stock 0..*
+- Commission -- Association -- InvestmentAccount 0..*
+- Stock -- Association -- Commission 0..*
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Customer {
+    - name: String
+    - address: String
+    - customerID: String
+    + getName(): String
+    + getAddress(): String
+    + updateAddress(newAddress: String): void
+    + getCustomerID(): String
+}
+
+class Account {
+    - balance: Double
+    - accountNumber: String
+    - accountType: String
+    + getBalance(): Double
+    + deposit(amount: Double): void
+    + withdraw(amount: Double): void
+    + getAccountNumber(): String
+    + getAccountType(): String
+}
+
+class SavingsAccount {
+    - interestRate: Double
+    + calculateInterest(): Double
+    + applyInterest(): void
+}
+
+class InvestmentAccount {
+    - stocks: List<Stock>
+    + buyStock(stock: Stock, quantity: int): void
+    + sellStock(stock: Stock, quantity: int): void
+    + getStocks(): List<Stock>
+}
+
+class Stock {
+    - ticker: String
+    - quantity: int
+    - price: Double
+    + getTicker(): String
+    + getQuantity(): int
+    + getPrice(): Double
+    + updatePrice(newPrice: Double): void
+}
+
+class Commission {
+    - rate: Double
+    + calculateCommission(amount: Double): Double
+    + getRate(): Double
+}
+
+Customer "1" -- "0..*" Account
+Account <|-- SavingsAccount
+Account <|-- InvestmentAccount
+InvestmentAccount *-- "0..*" Stock
+Commission -- "0..*" InvestmentAccount
+Stock -- "0..*" Commission
+
+@enduml
+

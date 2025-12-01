@@ -1,0 +1,54 @@
+@startuml
+class Customer {
+    +customerId
+}
+
+class Account {
+    +accountId
+}
+
+class ShoppingCart {
+    +cartId
+}
+
+class Order {
+    +orderId
+    +orderStatus
+}
+
+class Payment {
+    +paymentId
+}
+
+class LineItem {
+    +lineItemId
+    +quantity
+}
+
+class Product {
+    +productId
+    +name
+    +price
+}
+
+class WebUser {
+    +loginName
+    +state
+}
+
+Customer "1" -- "1" Account
+Customer "0..*" -- "0..*" Order
+Account "1" -- "1" ShoppingCart
+Account "1" -- "0..*" Order
+Order "0..*" -- "0..*" Payment
+ShoppingCart "1" -- "0..*" LineItem
+Order "0..*" -- "0..*" LineItem
+Payment "1" -- "1" Account
+Payment "1" -- "1" Order
+LineItem "1" -- "1" Product
+LineItem "1" -- "1" Order
+LineItem "1" -- "1" ShoppingCart
+Product "0..*" -- "0..*" LineItem
+WebUser --|> Customer
+WebUser "1" -- "1" ShoppingCart
+@enduml

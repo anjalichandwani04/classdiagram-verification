@@ -1,0 +1,86 @@
+@startuml
+
+class Bank {
+    +bankId
+    +name
+}
+
+class Branch {
+    +branchNumber
+    +address
+}
+
+class Account <<abstract>> {
+    +accountNumber
+    +balance
+    +creditLimit
+    +interestRate
+    +monthlyFee
+    +deposit(amount)
+    +withdraw(amount)
+    +getBalance()
+}
+
+class MortgageAccount {
+    +propertyCollateral
+    +calculateMonthlyPayment()
+}
+
+class CheckingAccount {
+    +overdraftLimit
+    +writeCheck(amount)
+}
+
+class CreditCardAccount {
+    +expiryDate
+    +hasSecondaryCards
+    +addSecondaryCard(cardHolderName)
+    +removeSecondaryCard(cardHolderName)
+}
+
+class JointAccount {
+    +accountHolders
+    +addAccountHolder(client)
+    +removeAccountHolder(client)
+}
+
+class Client {
+    +clientId
+    +name
+    +contactInfo
+}
+
+class Employee {
+    +employeeId
+    +name
+    +position
+}
+
+class Division {
+    +divisionId
+    +name
+}
+
+class Manager <<inherits from Employee>> {
+    +department
+    +approveLoan(application)
+}
+
+Bank "1" -- "1..*" Branch : has
+Branch "1" -- "1..*" Account : has
+Branch "1" -- "1..*" Employee : has
+Branch "1" -- "1" Division : belongs to
+Account "1" -- "1" Client : belongs to
+Account "1" -- "1" Branch : associated with
+Client "0..*" -- "1" Employee : assigned to
+Employee "1" -- "0..*" Client : can have
+Division "1" -- "1..*" Branch : has
+Division "1" -- "1" Manager : has
+Manager "1" -- "0..*" Employee : manages
+
+Account <|-- MortgageAccount
+Account <|-- CheckingAccount
+Account <|-- CreditCardAccount
+Account <|-- JointAccount
+
+@enduml

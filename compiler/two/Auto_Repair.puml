@@ -1,0 +1,41 @@
+@startuml
+class Employee {
+    +employeeId
+    +name
+    +address
+}
+
+class Owner {
+    +ownerId
+    +name
+    +address
+    +phone
+}
+
+class Car {
+    +licensePlate
+    +make
+    +model
+    +color
+}
+
+class PartAccessory {
+    +serialNumber
+    +category
+    +price
+}
+
+class AssemblyService {
+    +serviceId
+    +kmsAtService
+    +workHours
+    +admissionDate
+    +finishDate
+}
+
+Employee "1" -- "0..*" AssemblyService
+Owner "1" -- "0..*" Car
+Car "1" -- "0..*" AssemblyService
+Car "0..*" -- "0..*" PartAccessory
+PartAccessory "0..*" -- "0..*" AssemblyService
+@enduml

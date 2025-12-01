@@ -1,0 +1,69 @@
+plaintext
+CLASS: Customer
+Description: Represents individuals or entities that use the delivery service. Each customer has unique attributes such as a VAT number, name, phone number, and address.
+ATTRIBUTES:
+- vatNumber: String
+- name: String
+- phoneNumber: String
+- address: String
+- deliveryCenter: DeliveryCenter
+METHODS:
+- login(username: String, password: String): Boolean
+- sendPackage(recipient: Customer, weight: Double, deliveryType: String): String
+- getDeliveryCenter(): DeliveryCenter
+
+CLASS: Package
+Description: Represents the item being sent from one customer to another. It has attributes like weight, delivery type (normal or urgent), and a unique identifier code.
+ATTRIBUTES:
+- identifierCode: String
+- weight: Double
+- deliveryType: String
+- sender: Customer
+- recipient: Customer
+- status: String
+METHODS:
+- getDetails(): String
+- updateStatus(newStatus: String): void
+
+CLASS: DeliveryCenter
+Description: Represents the physical location where packages are delivered and picked up. Each delivery center has a unique name and address, and is associated with customers.
+ATTRIBUTES:
+- name: String
+- address: String
+- customers: List<Customer>
+METHODS:
+- addCustomer(customer: Customer): void
+- getCustomers(): List<Customer>
+
+CLASS: Courier
+Description: Represents individuals responsible for delivering packages from the delivery center to the recipient. Each courier has a VAT number, name, phone number, and is associated with a single delivery center.
+ATTRIBUTES:
+- vatNumber: String
+- name: String
+- phoneNumber: String
+- deliveryCenter: DeliveryCenter
+METHODS:
+- assignPackage(package: Package): void
+- getDeliveryCenter(): DeliveryCenter
+
+CLASS: Delivery
+Description: Represents the process of transporting a package from the sender's delivery center to the recipient's delivery center. This class may encapsulate the routing and handling of the package during transit.
+ATTRIBUTES:
+- package: Package
+- courier: Courier
+- fromCenter: DeliveryCenter
+- toCenter: DeliveryCenter
+METHODS:
+- startDelivery(): void
+- completeDelivery(): void
+- getDeliveryStatus(): String
+
+RELATIONSHIPS:
+- Customer Association DeliveryCenter 1..1
+- Customer Association Package 1..*
+- Package Association Customer 1..1
+- DeliveryCenter Aggregation Customer 1..*
+- DeliveryCenter Association Courier 1..*
+- Courier Association Delivery 1..*
+- Package Association Delivery 1..1
+- Delivery Association DeliveryCenter 1..2

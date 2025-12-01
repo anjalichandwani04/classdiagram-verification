@@ -1,0 +1,159 @@
+```
+CLASS: Project Manager
+Description: This entity represents the individual responsible for overseeing and managing the project, making it a key role in the project management system.
+ATTRIBUTES:
+- name: String
+- email: String
+- phone: String
+- projects: List<Project>
+METHODS:
+- createProject(): Project
+- initiateProject(project: Project): void
+- terminateProject(project: Project): void
+- assignTeam(team: Team): void
+
+RELATIONSHIPS:
+- Project Manager manages Project 1..*
+
+CLASS: Project
+Description: The central entity that encompasses the entire effort, including its start and end dates, and is subject to initiation and termination.
+ATTRIBUTES:
+- startDate: Date
+- endDate: Date
+- status: String
+- requirements: List<Requirements>
+- system: System
+- team: Team
+METHODS:
+- addRequirement(requirement: Requirements): void
+- removeRequirement(requirement: Requirements): void
+- updateStatus(newStatus: String): void
+- produceSystem(): System
+
+RELATIONSHIPS:
+- Project contains Team 1..1
+- Project uses Requirements 0..*
+- Project produces System 0..1
+
+CLASS: Team
+Description: Refers to the group of individuals working under the project manager to execute the project, highlighting the collaborative aspect of project management.
+ATTRIBUTES:
+- members: List<String>
+- project: Project
+METHODS:
+- addMember(member: String): void
+- removeMember(member: String): void
+- getTeamMembers(): List<String>
+
+RELATIONSHIPS:
+- Team is part of Project 1..1
+
+CLASS: Requirements
+Description: These are the inputs for the project that define what needs to be accomplished, making them a critical component of the project lifecycle.
+ATTRIBUTES:
+- description: String
+- percentComplete: Double
+- validationStatus: String
+- media: List<Media>
+METHODS:
+- validate(): void
+- updateDescription(newDescription: String): void
+- updatePercentComplete(newPercent: Double): void
+- publish(media: Media): void
+
+RELATIONSHIPS:
+- Requirements is a Work Product 1..1
+- Requirements published via Media 0..*
+
+CLASS: System
+Description: Represents the output of the project, which is the end product or part of a product that is developed based on the requirements.
+ATTRIBUTES:
+- description: String
+- percentComplete: Double
+- validationStatus: String
+- platform: Platform
+METHODS:
+- validate(): void
+- updateDescription(newDescription: String): void
+- updatePercentComplete(newPercent: Double): void
+- deploy(platform: Platform): void
+
+RELATIONSHIPS:
+- System is a Work Product 1..1
+- System deployed on Platform 0..*
+
+CLASS: Work Product
+Description: A general term that encompasses both requirements and systems, indicating items that are created, used, updated, and validated throughout the project.
+ATTRIBUTES:
+- description: String
+- percentComplete: Double
+- validationStatus: String
+METHODS:
+- updateDescription(newDescription: String): void
+- updatePercentComplete(newPercent: Double): void
+- validate(): void
+
+RELATIONSHIPS:
+- Work Product has Description 1..1
+- Work Product has Percent Complete 1..1
+- Work Product undergoes Validation 0..*
+
+CLASS: Description
+Description: This refers to the textual or documented explanation of a work product, which is essential for understanding its purpose and scope.
+ATTRIBUTES:
+- text: String
+METHODS:
+- getText(): String
+- setText(newText: String): void
+
+RELATIONSHIPS:
+- Description is associated with Work Product 1..1
+
+CLASS: Percent Complete
+Description: Represents the progress metric for work products, indicating how much of the work has been completed at any given time.
+ATTRIBUTES:
+- value: Double
+METHODS:
+- getValue(): Double
+- setValue(newValue: Double): void
+
+RELATIONSHIPS:
+- Percent Complete is associated with Work Product 1..1
+
+CLASS: Validation
+Description: This entity represents the process of confirming that a work product meets its requirements, which is crucial for ensuring quality.
+ATTRIBUTES:
+- status: String
+- date: Date
+- validatedBy: String
+METHODS:
+- performValidation(): void
+- getValidationStatus(): String
+
+RELATIONSHIPS:
+- Validation is associated with Work Product 0..*
+
+CLASS: Media
+Description: Refers to the various forms through which requirements can be published, such as intranet or paper, highlighting the communication aspect of project management.
+ATTRIBUTES:
+- type: String
+- content: String
+METHODS:
+- publish(): void
+- getContent(): String
+
+RELATIONSHIPS:
+- Media is used by Requirements 0..*
+
+CLASS: Platform
+Description: Represents the specific environments onto which systems can be deployed, indicating the technical aspect of the project outputs.
+ATTRIBUTES:
+- name: String
+- version: String
+METHODS:
+- getDetails(): String
+- isCompatible(system: System): Boolean
+
+RELATIONSHIPS:
+- Platform hosts System 0..*
+```

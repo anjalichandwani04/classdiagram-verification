@@ -1,0 +1,59 @@
+@startuml
+class MovieShop {
+    +shopId: String
+    +name: String
+    +address: String
+    +addMovie(movie: Movie)
+    +removeMovie(movie: Movie)
+    +browseCatalogue(): List<Movie>
+    +orderMovie(movie: Movie)
+}
+
+class Movie {
+    +movieId: String
+    +title: String
+    +genre: String
+    +status: String
+    +price: Double
+    +updateStatus(newStatus: String)
+    +setPrice(newPrice: Double)
+}
+
+class User {
+    +userId: String
+    +name: String
+    +contactInfo: String
+    +buyMovie(movie: Movie)
+    +browseCatalogue(): List<Movie>
+}
+
+class Subscriber {
+    +subscriberId: String
+    +subscriptionCard: Card
+    +rentMovie(movie: Movie)
+    +rechargeCard(amount: Double)
+    +checkCardBalance(): Double
+}
+
+class Card {
+    +cardId: String
+    +balance: Double
+    +updateBalance(amount: Double)
+    +getBalance(): Double
+}
+
+class Order {
+    +orderId: String
+    +orderDate: Date
+    +totalAmount: Double
+    +addMovie(movie: Movie)
+    +calculateTotal(): Double
+}
+
+MovieShop "1" -- "0..*" Movie : has >
+User "1" -- "0..*" Order : places >
+Subscriber "1" -- "1" Card : has >
+Subscriber "0..*" -- "0..*" Movie : rents >
+Order "0..*" -- "1" Movie : includes >
+Movie "0..*" -- "0..*" Order : part of >
+@enduml

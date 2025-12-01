@@ -1,0 +1,54 @@
+@startuml
+class Ingredient {
+    +ingredientId
+    +name
+    +measuringUnit
+    +quantityInStock
+}
+
+class Dish {
+    +dishId
+    +name
+}
+
+class Table {
+    +tableId
+    +maxCapacity
+}
+
+class Meal {
+    +mealId
+    +date
+    +startTime
+    +endTime
+}
+
+class Waiter {
+    +waiterId
+    +name
+    +address
+    +phoneNumber
+}
+
+class Client {
+    +taxId
+    +name
+    +address
+}
+
+class DishIngredient {
+    +quantity
+}
+
+class MealDish {
+    +quantity
+}
+
+Ingredient "1..*" -- "1..*" DishIngredient
+Dish "1..*" -- "1..*" DishIngredient
+Dish "1..*" -- "1..*" MealDish
+Meal "1..*" -- "1..*" MealDish
+Meal "1" -- "1" Table
+Meal "1" -- "1" Waiter
+Meal "0..1" -- "1" Client
+@enduml

@@ -1,0 +1,84 @@
+@startuml
+
+class Client {
+    - nationalIdNumber: String
+    - taxIdentificationNumber: String
+    - name: String
+    - address: String
+    + getNationalIdNumber(): String
+    + getTaxIdentificationNumber(): String
+    + getName(): String
+    + getAddress(): String
+    + setNationalIdNumber(nin: String): void
+    + setTaxIdentificationNumber(tin: String): void
+    + setName(name: String): void
+    + setAddress(address: String): void
+}
+
+class BicycleModel {
+    - uniqueName: String
+    - type: String
+    - numberOfGears: int
+    + getUniqueName(): String
+    + getType(): String
+    + getNumberOfGears(): int
+    + setUniqueName(name: String): void
+    + setType(type: String): void
+    + setNumberOfGears(gears: int): void
+}
+
+class Bicycle {
+    - uniqueId: String
+    - model: BicycleModel
+    + getUniqueId(): String
+    + getModel(): BicycleModel
+    + setUniqueId(id: String): void
+    + setModel(model: BicycleModel): void
+}
+
+class Store {
+    - uniqueName: String
+    - address: String
+    + getUniqueName(): String
+    + getAddress(): String
+    + setUniqueName(name: String): void
+    + setAddress(address: String): void
+}
+
+class Reservation {
+    - client: Client
+    - pickupDate: Date
+    - bicycleModel: BicycleModel
+    - store: Store
+    + getClient(): Client
+    + getPickupDate(): Date
+    + getBicycleModel(): BicycleModel
+    + getStore(): Store
+    + setClient(client: Client): void
+    + setPickupDate(date: Date): void
+    + setBicycleModel(model: BicycleModel): void
+    + setStore(store: Store): void
+}
+
+class Rental {
+    - bicycle: Bicycle
+    - pickupDate: Date
+    - returnDate: Date
+    + getBicycle(): Bicycle
+    + getPickupDate(): Date
+    + getReturnDate(): Date
+    + setBicycle(bicycle: Bicycle): void
+    + setPickupDate(date: Date): void
+    + setReturnDate(date: Date): void
+}
+
+Client "1" o-- "1..*" Reservation
+Client "1" o-- "1..*" Rental
+BicycleModel "1" o-- "1..*" Bicycle
+BicycleModel "1" o-- "1..*" Reservation
+Bicycle "1" o-- "1..1" Rental
+Store "1" o-- "1..*" Reservation
+Store "1" o-- "1..1" Rental
+Reservation *-- "1..1" Rental
+
+@enduml

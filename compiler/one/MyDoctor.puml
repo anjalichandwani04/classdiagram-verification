@@ -1,0 +1,61 @@
+@startuml
+class Hospital {
+    +hospitalId
+    +name
+    +address
+}
+
+class Office {
+    +officeId
+    +name
+    +location
+}
+
+class User {
+    +userId
+    +name
+    +email
+    +login()
+    +logout()
+}
+
+class Doctor {
+    +doctorId
+    +specialty
+    +createSchedule(office: Office, date: Date, startTime: Time, endTime: Time)
+    +applyToPractice(office: Office)
+}
+
+class Patient {
+    +patientId
+    +contactNumber
+    +bookAppointment(appointment: Appointment)
+    +viewDoctors()
+}
+
+class Schedule {
+    +scheduleId
+    +date
+    +startTime
+    +endTime
+}
+
+class Appointment {
+    +appointmentId
+    +appointmentType
+    +appointmentDate
+    +startTime
+    +duration
+    +status
+    +sendConfirmationEmail()
+}
+
+Hospital "1" -- "0..*" Office : has >
+Doctor "1" -- "0..*" Schedule : creates >
+Office "1" -- "0..*" Schedule : has >
+Doctor "1" -- "0..*" Appointment : has >
+Patient "1" -- "0..*" Appointment : books >
+Schedule "1" -- "0..*" Appointment : linked to >
+User <|-- Doctor
+User <|-- Patient
+@enduml

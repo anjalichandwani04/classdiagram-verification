@@ -1,0 +1,46 @@
+```plantuml
+@startuml
+
+class Scene {
+    code: String
+    description: String
+    type: SceneType
+    +addSetup(setup: Setup): void
+    +getSetups(): List<Setup>
+}
+
+class Setup {
+    code: String
+    description: String
+    photographicParameters: String
+    +addTake(take: Take): void
+    +getTakes(): List<Take>
+}
+
+class Take {
+    takeNumber: Integer
+    filmLength: Float
+    reelCode: String
+    +getDetails(): String
+}
+
+class Location {
+    code: String
+    address: String
+    description: String
+    +getDetails(): String
+}
+
+enum SceneType {
+    INTERNAL
+    EXTERNAL
+    DAY_SCENE
+    NIGHT_SCENE
+}
+
+Scene "1" -- "1..*" Setup : contains >
+Setup "1" -- "1..*" Take : contains >
+Scene "0..1" -- "1" Location : associated with >
+
+@enduml
+```

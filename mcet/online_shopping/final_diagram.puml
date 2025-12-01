@@ -1,0 +1,113 @@
+@startuml
+
+class Customer {
+    - customerId: String
+    - account: Account
+    - webUser: WebUser
+    + getCustomerId(): String
+    + getAccount(): Account
+    + registerWebUser(webUser: WebUser): void
+}
+
+class Account {
+    - accountId: String
+    - customer: Customer
+    - shoppingCart: ShoppingCart
+    - orders: List<Order>
+    + getAccountId(): String
+    + getCustomer(): Customer
+    + getShoppingCart(): ShoppingCart
+    + getOrders(): List<Order>
+    + addOrder(order: Order): void
+}
+
+class ShoppingCart {
+    - cartId: String
+    - account: Account
+    - lineItems: List<LineItem>
+    + getCartId(): String
+    + getAccount(): Account
+    + getLineItems(): List<LineItem>
+    + addLineItem(lineItem: LineItem): void
+    + removeLineItem(lineItem: LineItem): void
+}
+
+class Order {
+    - orderId: String
+    - account: Account
+    - lineItems: List<LineItem>
+    - status: OrderStatus
+    - payments: List<Payment>
+    + getOrderId(): String
+    + getAccount(): Account
+    + getLineItems(): List<LineItem>
+    + getStatus(): OrderStatus
+    + addPayment(payment: Payment): void
+}
+
+class Payment {
+    - paymentId: String
+    - order: Order
+    - account: Account
+    - amount: Double
+    - paymentDate: Date
+    + getPaymentId(): String
+    + getOrder(): Order
+    + getAccount(): Account
+    + getAmount(): Double
+    + getPaymentDate(): Date
+}
+
+class WebUser {
+    - loginName: String
+    - customer: Customer
+    - state: String
+    + getLoginName(): String
+    + getCustomer(): Customer
+    + getState(): String
+    + setState(state: String): void
+}
+
+class LineItem {
+    - lineItemId: String
+    - product: Product
+    - quantity: Integer
+    - price: Double
+    + getLineItemId(): String
+    + getProduct(): Product
+    + getQuantity(): Integer
+    + getPrice(): Double
+}
+
+class Product {
+    - productId: String
+    - name: String
+    - description: String
+    - price: Double
+    - lineItems: List<LineItem>
+    + getProductId(): String
+    + getName(): String
+    + getDescription(): String
+    + getPrice(): Double
+    + getLineItems(): List<LineItem>
+}
+
+class OrderStatus {
+    - statusId: String
+    - statusName: String
+    + getStatusId(): String
+    + getStatusName(): String
+}
+
+Customer "1" -- "1" Account
+Customer "0..1" -- "1" WebUser
+Account "1" o-- "1" ShoppingCart
+Account "1" o-- "0..*" Order
+ShoppingCart "0..*" *-- "1" LineItem
+Order "0..*" *-- "1" LineItem
+Order "0..*" o-- "0..*" Payment
+Order "1" -- "1" OrderStatus
+Payment "1" -- "1" Account
+LineItem "1" -- "1" Product
+
+@enduml

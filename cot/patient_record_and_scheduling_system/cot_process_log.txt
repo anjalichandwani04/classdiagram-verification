@@ -1,0 +1,536 @@
+PROJECT: Patient Record and Scheduling System
+REQ:
+A patient record and scheduling system in a doctor’s office is used by the receptionists, nurses, and doctors. The receptionists use the system to enter new patient information when first-time patients visit the doctor. They also schedule all appointments. The nurses use the system to keep track of the results of each visit including diagnosis and medications. For each visit, free form text fields are used captures information on diagnosis and treatment. Multiple medications may be prescribed during each visit. The nurses can also access the information to print out a history of patient visits. The doctors primarily use the system to view patient history. The doctors may enter some patient treatment information and prescriptions occasionally, but most frequently they let the nurses enter this information. -- Each patient is assigned to a family. The head of family is responsible for the person with the primary medical coverage. Information about doctors is maintained since a family has a primary care physician, but different doctors may be the ones seeing the patient during the visit.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with justifications for each:
+
+1. **Patient**
+   - Justification: Represents individuals receiving medical care. The system tracks their information, visit history, and treatment details.
+
+2. **Family**
+   - Justification: Represents a group of patients, with a head of family responsible for medical coverage. This entity helps in organizing patients under a common household.
+
+3. **Doctor**
+   - Justification: Represents medical professionals who provide care to patients. The system maintains information about doctors, including their roles as primary care physicians.
+
+4. **Receptionist**
+   - Justification: Represents staff members who manage patient information and appointments. They are key users of the system for entering new patient data and scheduling.
+
+5. **Nurse**
+   - Justification: Represents healthcare professionals who track patient visits, diagnoses, and medications. They play a crucial role in managing patient records and treatment information.
+
+6. **Appointment**
+   - Justification: Represents scheduled visits between patients and doctors. This entity is essential for managing the timing and organization of patient care.
+
+7. **Visit**
+   - Justification: Represents individual instances of patient consultations with healthcare providers. Each visit includes details such as diagnosis, treatment, and medications prescribed.
+
+8. **Diagnosis**
+   - Justification: Represents the identification of a medical condition based on patient visits. It is a key component of patient records and treatment plans.
+
+9. **Medication**
+   - Justification: Represents prescribed drugs for patients. Multiple medications can be associated with a single visit, making this entity important for treatment tracking.
+
+10. **Treatment**
+    - Justification: Represents the care provided to patients during visits, including procedures and therapies. It is essential for documenting patient care.
+
+11. **Patient History**
+    - Justification: Represents the cumulative record of a patient's visits, diagnoses, and treatments over time. This is crucial for doctors to review prior to consultations.
+
+These classes/entities encapsulate the key components of the patient record and scheduling system, focusing on the real-world entities involved in the healthcare process described.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes for the patient record and scheduling system, here are the suggested attributes and methods for each class:
+
+### 1. **Patient**
+- **Attributes:**
+  - `patientID: String`
+  - `name: String`
+  - `dateOfBirth: Date`
+  - `gender: String`
+  - `contactInfo: String`
+  - `familyID: String`
+  - `primaryCarePhysicianID: String`
+  
+- **Methods:**
+  - `getPatientDetails(): Patient`
+  - `updateContactInfo(newContactInfo: String): void`
+  - `addVisit(visit: Visit): void`
+  - `getPatientHistory(): PatientHistory`
+
+### 2. **Family**
+- **Attributes:**
+  - `familyID: String`
+  - `headOfFamilyID: String`
+  - `members: List<Patient>`
+  
+- **Methods:**
+  - `addMember(patient: Patient): void`
+  - `removeMember(patientID: String): void`
+  - `getFamilyMembers(): List<Patient>`
+
+### 3. **Doctor**
+- **Attributes:**
+  - `doctorID: String`
+  - `name: String`
+  - `specialization: String`
+  - `contactInfo: String`
+  - `patients: List<Patient>`
+  
+- **Methods:**
+  - `getDoctorDetails(): Doctor`
+  - `addPatient(patient: Patient): void`
+  - `removePatient(patientID: String): void`
+  - `viewPatientHistory(patientID: String): PatientHistory`
+
+### 4. **Receptionist**
+- **Attributes:**
+  - `receptionistID: String`
+  - `name: String`
+  - `contactInfo: String`
+  
+- **Methods:**
+  - `addNewPatient(patient: Patient): void`
+  - `scheduleAppointment(appointment: Appointment): void`
+  - `updatePatientInfo(patient: Patient): void`
+
+### 5. **Nurse**
+- **Attributes:**
+  - `nurseID: String`
+  - `name: String`
+  - `contactInfo: String`
+  
+- **Methods:**
+  - `recordVisit(visit: Visit): void`
+  - `updateDiagnosis(visitID: String, diagnosis: Diagnosis): void`
+  - `prescribeMedication(visitID: String, medication: Medication): void`
+  - `printPatientHistory(patientID: String): void`
+
+### 6. **Appointment**
+- **Attributes:**
+  - `appointmentID: String`
+  - `patientID: String`
+  - `doctorID: String`
+  - `dateTime: Date`
+  - `status: String`
+  
+- **Methods:**
+  - `getAppointmentDetails(): Appointment`
+  - `reschedule(newDateTime: Date): void`
+  - `cancel(): void`
+
+### 7. **Visit**
+- **Attributes:**
+  - `visitID: String`
+  - `patientID: String`
+  - `doctorID: String`
+  - `dateTime: Date`
+  - `diagnosis: Diagnosis`
+  - `treatment: Treatment`
+  - `medications: List<Medication>`
+  
+- **Methods:**
+  - `getVisitDetails(): Visit`
+  - `addDiagnosis(diagnosis: Diagnosis): void`
+  - `addTreatment(treatment: Treatment): void`
+  - `addMedication(medication: Medication): void`
+
+### 8. **Diagnosis**
+- **Attributes:**
+  - `diagnosisID: String`
+  - `description: String`
+  - `dateDiagnosed: Date`
+  
+- **Methods:**
+  - `getDiagnosisDetails(): Diagnosis`
+  - `updateDescription(newDescription: String): void`
+
+### 9. **Medication**
+- **Attributes:**
+  - `medicationID: String`
+  - `name: String`
+  - `dosage: String`
+  - `frequency: String`
+  
+- **Methods:**
+  - `getMedicationDetails(): Medication`
+  - `updateDosage(newDosage: String): void`
+
+### 10. **Treatment**
+- **Attributes:**
+  - `treatmentID: String`
+  - `description: String`
+  - `dateAdministered: Date`
+  
+- **Methods:**
+  - `getTreatmentDetails(): Treatment`
+  - `updateDescription(newDescription: String): void`
+
+### 11. **Patient History**
+- **Attributes:**
+  - `patientID: String`
+  - `visits: List<Visit>`
+  
+- **Methods:**
+  - `getHistoryDetails(): PatientHistory`
+  - `addVisit(visit: Visit): void`
+
+This structure provides a comprehensive overview of the classes, their attributes, and methods, facilitating the management of patient records and scheduling in a healthcare setting.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided context and the identified classes, here are the relationships, their types, and cardinalities:
+
+1. **Patient** -- Association -- **Family** : 1
+   - Each patient belongs to one family.
+
+2. **Family** -- Aggregation -- **Patient** : *
+   - A family can have multiple members (patients).
+
+3. **Patient** -- Association -- **Doctor** : 0..1
+   - A patient may have one primary care physician, but it is possible for a patient not to have one.
+
+4. **Doctor** -- Aggregation -- **Patient** : *
+   - A doctor can have multiple patients assigned to them.
+
+5. **Receptionist** -- Association -- **Patient** : *
+   - A receptionist can manage multiple patients.
+
+6. **Receptionist** -- Association -- **Appointment** : *
+   - A receptionist can schedule multiple appointments.
+
+7. **Patient** -- Association -- **Appointment** : *
+   - A patient can have multiple appointments.
+
+8. **Doctor** -- Association -- **Appointment** : *
+   - A doctor can have multiple appointments scheduled with patients.
+
+9. **Visit** -- Association -- **Patient** : 1
+   - Each visit is associated with one patient.
+
+10. **Visit** -- Association -- **Doctor** : 1
+    - Each visit is conducted by one doctor.
+
+11. **Visit** -- Association -- **Diagnosis** : 0..*
+    - A visit can have zero or more diagnoses associated with it.
+
+12. **Visit** -- Association -- **Treatment** : 0..*
+    - A visit can include zero or more treatments.
+
+13. **Visit** -- Association -- **Medication** : 0..*
+    - A visit can include zero or more medications prescribed.
+
+14. **Diagnosis** -- Association -- **Visit** : 1
+    - Each diagnosis is associated with one visit.
+
+15. **Medication** -- Association -- **Visit** : 1
+    - Each medication is associated with one visit.
+
+16. **Treatment** -- Association -- **Visit** : 1
+    - Each treatment is associated with one visit.
+
+17. **PatientHistory** -- Association -- **Patient** : 1
+    - Each patient history record is associated with one patient.
+
+18. **PatientHistory** -- Aggregation -- **Visit** : *
+    - A patient history can include multiple visits.
+
+This structure captures the relationships and cardinalities between the various classes in the patient record and scheduling system, reflecting the interactions and dependencies among them.
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Patient
+Description: Represents individuals receiving medical care. The system tracks their information, visit history, and treatment details.
+ATTRIBUTES:
+- patientID: String
+- name: String
+- dateOfBirth: Date
+- gender: String
+- contactInfo: String
+- familyID: String
+- primaryCarePhysicianID: String
+METHODS:
+- getPatientDetails(): Patient
+- updateContactInfo(newContactInfo: String): void
+- addVisit(visit: Visit): void
+- getPatientHistory(): PatientHistory
+
+CLASS: Family
+Description: Represents a group of patients, with a head of family responsible for medical coverage. This entity helps in organizing patients under a common household.
+ATTRIBUTES:
+- familyID: String
+- headOfFamilyID: String
+- members: List<Patient>
+METHODS:
+- addMember(patient: Patient): void
+- removeMember(patientID: String): void
+- getFamilyMembers(): List<Patient>
+
+CLASS: Doctor
+Description: Represents medical professionals who provide care to patients. The system maintains information about doctors, including their roles as primary care physicians.
+ATTRIBUTES:
+- doctorID: String
+- name: String
+- specialization: String
+- contactInfo: String
+- patients: List<Patient>
+METHODS:
+- getDoctorDetails(): Doctor
+- addPatient(patient: Patient): void
+- removePatient(patientID: String): void
+- viewPatientHistory(patientID: String): PatientHistory
+
+CLASS: Receptionist
+Description: Represents staff members who manage patient information and appointments. They are key users of the system for entering new patient data and scheduling.
+ATTRIBUTES:
+- receptionistID: String
+- name: String
+- contactInfo: String
+METHODS:
+- addNewPatient(patient: Patient): void
+- scheduleAppointment(appointment: Appointment): void
+- updatePatientInfo(patient: Patient): void
+
+CLASS: Nurse
+Description: Represents healthcare professionals who track patient visits, diagnoses, and medications. They play a crucial role in managing patient records and treatment information.
+ATTRIBUTES:
+- nurseID: String
+- name: String
+- contactInfo: String
+METHODS:
+- recordVisit(visit: Visit): void
+- updateDiagnosis(visitID: String, diagnosis: Diagnosis): void
+- prescribeMedication(visitID: String, medication: Medication): void
+- printPatientHistory(patientID: String): void
+
+CLASS: Appointment
+Description: Represents scheduled visits between patients and doctors. This entity is essential for managing the timing and organization of patient care.
+ATTRIBUTES:
+- appointmentID: String
+- patientID: String
+- doctorID: String
+- dateTime: Date
+- status: String
+METHODS:
+- getAppointmentDetails(): Appointment
+- reschedule(newDateTime: Date): void
+- cancel(): void
+
+CLASS: Visit
+Description: Represents individual instances of patient consultations with healthcare providers. Each visit includes details such as diagnosis, treatment, and medications prescribed.
+ATTRIBUTES:
+- visitID: String
+- patientID: String
+- doctorID: String
+- dateTime: Date
+- diagnosis: Diagnosis
+- treatment: Treatment
+- medications: List<Medication>
+METHODS:
+- getVisitDetails(): Visit
+- addDiagnosis(diagnosis: Diagnosis): void
+- addTreatment(treatment: Treatment): void
+- addMedication(medication: Medication): void
+
+CLASS: Diagnosis
+Description: Represents the identification of a medical condition based on patient visits. It is a key component of patient records and treatment plans.
+ATTRIBUTES:
+- diagnosisID: String
+- description: String
+- dateDiagnosed: Date
+METHODS:
+- getDiagnosisDetails(): Diagnosis
+- updateDescription(newDescription: String): void
+
+CLASS: Medication
+Description: Represents prescribed drugs for patients. Multiple medications can be associated with a single visit, making this entity important for treatment tracking.
+ATTRIBUTES:
+- medicationID: String
+- name: String
+- dosage: String
+- frequency: String
+METHODS:
+- getMedicationDetails(): Medication
+- updateDosage(newDosage: String): void
+
+CLASS: Treatment
+Description: Represents the care provided to patients during visits, including procedures and therapies. It is essential for documenting patient care.
+ATTRIBUTES:
+- treatmentID: String
+- description: String
+- dateAdministered: Date
+METHODS:
+- getTreatmentDetails(): Treatment
+- updateDescription(newDescription: String): void
+
+CLASS: PatientHistory
+Description: Represents the cumulative record of a patient's visits, diagnoses, and treatments over time. This is crucial for doctors to review prior to consultations.
+ATTRIBUTES:
+- patientID: String
+- visits: List<Visit>
+METHODS:
+- getHistoryDetails(): PatientHistory
+- addVisit(visit: Visit): void
+
+RELATIONSHIPS:
+- Patient Association Family 1
+- Family Aggregation Patient *
+- Patient Association Doctor 0..1
+- Doctor Aggregation Patient *
+- Receptionist Association Patient *
+- Receptionist Association Appointment *
+- Patient Association Appointment *
+- Doctor Association Appointment *
+- Visit Association Patient 1
+- Visit Association Doctor 1
+- Visit Association Diagnosis 0..*
+- Visit Association Treatment 0..*
+- Visit Association Medication 0..*
+- Diagnosis Association Visit 1
+- Medication Association Visit 1
+- Treatment Association Visit 1
+- PatientHistory Association Patient 1
+- PatientHistory Aggregation Visit *
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Patient {
+    - patientID: String
+    - name: String
+    - dateOfBirth: Date
+    - gender: String
+    - contactInfo: String
+    - familyID: String
+    - primaryCarePhysicianID: String
+    + getPatientDetails(): Patient
+    + updateContactInfo(newContactInfo: String): void
+    + addVisit(visit: Visit): void
+    + getPatientHistory(): PatientHistory
+}
+
+class Family {
+    - familyID: String
+    - headOfFamilyID: String
+    - members: List<Patient>
+    + addMember(patient: Patient): void
+    + removeMember(patientID: String): void
+    + getFamilyMembers(): List<Patient>
+}
+
+class Doctor {
+    - doctorID: String
+    - name: String
+    - specialization: String
+    - contactInfo: String
+    - patients: List<Patient>
+    + getDoctorDetails(): Doctor
+    + addPatient(patient: Patient): void
+    + removePatient(patientID: String): void
+    + viewPatientHistory(patientID: String): PatientHistory
+}
+
+class Receptionist {
+    - receptionistID: String
+    - name: String
+    - contactInfo: String
+    + addNewPatient(patient: Patient): void
+    + scheduleAppointment(appointment: Appointment): void
+    + updatePatientInfo(patient: Patient): void
+}
+
+class Nurse {
+    - nurseID: String
+    - name: String
+    - contactInfo: String
+    + recordVisit(visit: Visit): void
+    + updateDiagnosis(visitID: String, diagnosis: Diagnosis): void
+    + prescribeMedication(visitID: String, medication: Medication): void
+    + printPatientHistory(patientID: String): void
+}
+
+class Appointment {
+    - appointmentID: String
+    - patientID: String
+    - doctorID: String
+    - dateTime: Date
+    - status: String
+    + getAppointmentDetails(): Appointment
+    + reschedule(newDateTime: Date): void
+    + cancel(): void
+}
+
+class Visit {
+    - visitID: String
+    - patientID: String
+    - doctorID: String
+    - dateTime: Date
+    - diagnosis: Diagnosis
+    - treatment: Treatment
+    - medications: List<Medication>
+    + getVisitDetails(): Visit
+    + addDiagnosis(diagnosis: Diagnosis): void
+    + addTreatment(treatment: Treatment): void
+    + addMedication(medication: Medication): void
+}
+
+class Diagnosis {
+    - diagnosisID: String
+    - description: String
+    - dateDiagnosed: Date
+    + getDiagnosisDetails(): Diagnosis
+    + updateDescription(newDescription: String): void
+}
+
+class Medication {
+    - medicationID: String
+    - name: String
+    - dosage: String
+    - frequency: String
+    + getMedicationDetails(): Medication
+    + updateDosage(newDosage: String): void
+}
+
+class Treatment {
+    - treatmentID: String
+    - description: String
+    - dateAdministered: Date
+    + getTreatmentDetails(): Treatment
+    + updateDescription(newDescription: String): void
+}
+
+class PatientHistory {
+    - patientID: String
+    - visits: List<Visit>
+    + getHistoryDetails(): PatientHistory
+    + addVisit(visit: Visit): void
+}
+
+' Relationships
+Patient "1" o-- "1" Family
+Family "1" *-- "*" Patient
+Patient "0..1" o-- "0..*" Doctor
+Doctor "1" *-- "*" Patient
+Receptionist "1" o-- "*" Patient
+Receptionist "1" o-- "*" Appointment
+Patient "1" o-- "*" Appointment
+Doctor "1" o-- "*" Appointment
+Visit "1" o-- "1" Patient
+Visit "1" o-- "1" Doctor
+Visit "0..*" o-- "1" Diagnosis
+Visit "0..*" o-- "1" Treatment
+Visit "0..*" o-- "1" Medication
+Diagnosis "1" o-- "1" Visit
+Medication "1" o-- "1" Visit
+Treatment "1" o-- "1" Visit
+PatientHistory "1" o-- "1" Patient
+PatientHistory "1" *-- "*" Visit
+
+@enduml
+

@@ -1,0 +1,70 @@
+@startuml
+class Hospital {
+    - name: String
+    - location: String
+    + addOffice(office: Office): void
+    + removeOffice(office: Office): void
+    + getOffices(): List<Office>
+}
+
+class Office {
+    - officeNumber: String
+    - location: String
+    + addSchedule(schedule: Schedule): void
+    + removeSchedule(schedule: Schedule): void
+    + getSchedules(): List<Schedule>
+}
+
+abstract class User {
+    - username: String
+    - email: String
+    - password: String
+    + login(): void
+    + logout(): void
+}
+
+class Doctor {
+    - specialization: String
+    + applyToPractice(office: Office): void
+    + createSchedule(office: Office, schedule: Schedule): void
+    + getAvailableSchedules(date: Date): List<Schedule>
+}
+
+class Patient {
+    - firstName: String
+    - lastName: String
+    + bookAppointment(appointment: Appointment): void
+    + viewDoctors(): List<Doctor>
+    + viewSchedules(office: Office): List<Schedule>
+}
+
+class Schedule {
+    - date: Date
+    - startTime: Time
+    - endTime: Time
+    + isAvailable(startTime: Time, duration: int): boolean
+    + getAppointments(): List<Appointment>
+}
+
+class Appointment {
+    - type: AppointmentType
+    - date: Date
+    - startTime: Time
+    - duration: int
+    - doctor: Doctor
+    - patient: Patient
+    + confirm(): void
+    + cancel(): void
+}
+
+Hospital "1" -- "0..*" Office
+Office "1" -- "0..*" Schedule
+Doctor "0..*" -- "0..*" Office
+Doctor "1" -- "0..*" Schedule
+Patient "0..*" -- "0..*" Appointment
+Doctor "1" -- "0..*" Appointment
+Schedule "0..*" -- "0..*" Appointment
+
+User <|-- Doctor
+User <|-- Patient
+@enduml

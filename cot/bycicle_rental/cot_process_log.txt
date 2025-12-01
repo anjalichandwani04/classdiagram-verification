@@ -1,0 +1,353 @@
+PROJECT: Bycicle Rental
+REQ:
+A bicycle renting company wants to create an information system that allows it to store the data regarding all their reservations and rentals. The system should follow these requirements: ● It should be possible to store the national id number (NIN), tax identification number (TIN), name and address for every client. The NIN and TIN must be different for every client and all clients should have at least a TIN and a name. ● The database should also contain information about the bicycle models that can be rented- Each model has an unique name, a type (that can only be road, mountain, bmx or hybrid) and the number of gears. ● Each bicycle has a unique identifying number and a model. ● The company has several different stores where bicycles can be picked up and returned. Each one of these stores is identified by an unique name and has an address (both mandatory). ● When a reservation is made, the following data must be known: which client did the reservation, when will he pick up the bike (day), which bike model he wants and where will he pick up the bike (store). ● When a bike is picked up, the actual bike that was picked up must be stored in the database. ● When a bike is returned, the return date should be stored in the database.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, the main classes/entities that can be identified are as follows:
+
+1. **Client**
+   - Justification: Represents individuals who rent bicycles. Contains attributes such as national id number (NIN), tax identification number (TIN), name, and address.
+
+2. **BicycleModel**
+   - Justification: Represents the different models of bicycles available for rent. Contains attributes such as unique name, type (road, mountain, bmx, hybrid), and number of gears.
+
+3. **Bicycle**
+   - Justification: Represents the actual bicycles that can be rented. Each bicycle has a unique identifying number and is associated with a specific BicycleModel.
+
+4. **Store**
+   - Justification: Represents the physical locations where bicycles can be picked up and returned. Each store has a unique name and an address.
+
+5. **Reservation**
+   - Justification: Represents the action of reserving a bicycle. Contains information about the client making the reservation, the date of pickup, the desired bicycle model, and the store where the bike will be picked up.
+
+6. **Rental**
+   - Justification: Represents the actual transaction of renting a bicycle. It includes details about which specific Bicycle was picked up and the return date when the bicycle is returned.
+
+These classes encapsulate the key entities and their relationships as described in the requirements for the bicycle renting company's information system.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and the provided description, here are the attributes and methods for each class:
+
+### 1. **Client**
+- **Attributes:**
+  - `nationalIdNumber: String`
+  - `taxIdentificationNumber: String`
+  - `name: String`
+  - `address: String`
+
+- **Methods:**
+  - `getNationalIdNumber(): String`
+  - `getTaxIdentificationNumber(): String`
+  - `getName(): String`
+  - `getAddress(): String`
+  - `setNationalIdNumber(nin: String): void`
+  - `setTaxIdentificationNumber(tin: String): void`
+  - `setName(name: String): void`
+  - `setAddress(address: String): void`
+
+### 2. **BicycleModel**
+- **Attributes:**
+  - `uniqueName: String`
+  - `type: String` (values: "road", "mountain", "bmx", "hybrid")
+  - `numberOfGears: int`
+
+- **Methods:**
+  - `getUniqueName(): String`
+  - `getType(): String`
+  - `getNumberOfGears(): int`
+  - `setUniqueName(name: String): void`
+  - `setType(type: String): void`
+  - `setNumberOfGears(gears: int): void`
+
+### 3. **Bicycle**
+- **Attributes:**
+  - `uniqueId: String`
+  - `model: BicycleModel`
+
+- **Methods:**
+  - `getUniqueId(): String`
+  - `getModel(): BicycleModel`
+  - `setUniqueId(id: String): void`
+  - `setModel(model: BicycleModel): void`
+
+### 4. **Store**
+- **Attributes:**
+  - `uniqueName: String`
+  - `address: String`
+
+- **Methods:**
+  - `getUniqueName(): String`
+  - `getAddress(): String`
+  - `setUniqueName(name: String): void`
+  - `setAddress(address: String): void`
+
+### 5. **Reservation**
+- **Attributes:**
+  - `client: Client`
+  - `pickupDate: Date`
+  - `bicycleModel: BicycleModel`
+  - `store: Store`
+
+- **Methods:**
+  - `getClient(): Client`
+  - `getPickupDate(): Date`
+  - `getBicycleModel(): BicycleModel`
+  - `getStore(): Store`
+  - `setClient(client: Client): void`
+  - `setPickupDate(date: Date): void`
+  - `setBicycleModel(model: BicycleModel): void`
+  - `setStore(store: Store): void`
+
+### 6. **Rental**
+- **Attributes:**
+  - `bicycle: Bicycle`
+  - `pickupDate: Date`
+  - `returnDate: Date`
+
+- **Methods:**
+  - `getBicycle(): Bicycle`
+  - `getPickupDate(): Date`
+  - `getReturnDate(): Date`
+  - `setBicycle(bicycle: Bicycle): void`
+  - `setPickupDate(date: Date): void`
+  - `setReturnDate(date: Date): void`
+
+These attributes and methods encapsulate the necessary properties and behaviors for each class in the bicycle renting company's information system.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided classes and their descriptions, here are the identified relationships, their types, and cardinalities:
+
+1. **Client** -- **Association** -- **Reservation** : **1..***
+   - A client can make multiple reservations, but each reservation is associated with exactly one client.
+
+2. **BicycleModel** -- **Association** -- **Bicycle** : **1..***
+   - A bicycle model can have multiple bicycles associated with it, but each bicycle corresponds to exactly one bicycle model.
+
+3. **Store** -- **Association** -- **Reservation** : **1..***
+   - A store can be associated with multiple reservations, but each reservation is linked to exactly one store.
+
+4. **BicycleModel** -- **Association** -- **Reservation** : **1..***
+   - A bicycle model can be requested in multiple reservations, but each reservation is for exactly one bicycle model.
+
+5. **Bicycle** -- **Association** -- **Rental** : **1..1**
+   - Each rental is associated with exactly one bicycle, and each bicycle can only be rented in one rental at a time.
+
+6. **Client** -- **Association** -- **Rental** : **1..* (indirectly through Reservation)**
+   - A client can have multiple rentals, but each rental is associated with exactly one client (indirectly through the reservation process).
+
+7. **Store** -- **Association** -- **Rental** : **1..1**
+   - Each rental is associated with exactly one store where the bicycle is picked up.
+
+8. **Reservation** -- **Composition** -- **Rental** : **1..1**
+   - Each reservation leads to exactly one rental when the bicycle is picked up, and a rental cannot exist without a corresponding reservation.
+
+### Summary of Relationships:
+- **Client** -- **Association** -- **Reservation** : **1..***
+- **BicycleModel** -- **Association** -- **Bicycle** : **1..***
+- **Store** -- **Association** -- **Reservation** : **1..***
+- **BicycleModel** -- **Association** -- **Reservation** : **1..***
+- **Bicycle** -- **Association** -- **Rental** : **1..1**
+- **Client** -- **Association** -- **Rental** : **1..***
+- **Store** -- **Association** -- **Rental** : **1..1**
+- **Reservation** -- **Composition** -- **Rental** : **1..1**
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Client
+Description: Represents individuals who rent bicycles. Contains attributes such as national id number (NIN), tax identification number (TIN), name, and address.
+ATTRIBUTES:
+- nationalIdNumber: String
+- taxIdentificationNumber: String
+- name: String
+- address: String
+METHODS:
+- getNationalIdNumber(): String
+- getTaxIdentificationNumber(): String
+- getName(): String
+- getAddress(): String
+- setNationalIdNumber(nin: String): void
+- setTaxIdentificationNumber(tin: String): void
+- setName(name: String): void
+- setAddress(address: String): void
+
+RELATIONSHIPS:
+- Client Association Reservation 1..*
+- Client Association Rental 1..* (indirectly through Reservation)
+
+CLASS: BicycleModel
+Description: Represents the different models of bicycles available for rent. Contains attributes such as unique name, type (road, mountain, bmx, hybrid), and number of gears.
+ATTRIBUTES:
+- uniqueName: String
+- type: String
+- numberOfGears: int
+METHODS:
+- getUniqueName(): String
+- getType(): String
+- getNumberOfGears(): int
+- setUniqueName(name: String): void
+- setType(type: String): void
+- setNumberOfGears(gears: int): void
+
+RELATIONSHIPS:
+- BicycleModel Association Bicycle 1..*
+- BicycleModel Association Reservation 1..*
+
+CLASS: Bicycle
+Description: Represents the actual bicycles that can be rented. Each bicycle has a unique identifying number and is associated with a specific BicycleModel.
+ATTRIBUTES:
+- uniqueId: String
+- model: BicycleModel
+METHODS:
+- getUniqueId(): String
+- getModel(): BicycleModel
+- setUniqueId(id: String): void
+- setModel(model: BicycleModel): void
+
+RELATIONSHIPS:
+- Bicycle Association Rental 1..1
+
+CLASS: Store
+Description: Represents the physical locations where bicycles can be picked up and returned. Each store has a unique name and an address.
+ATTRIBUTES:
+- uniqueName: String
+- address: String
+METHODS:
+- getUniqueName(): String
+- getAddress(): String
+- setUniqueName(name: String): void
+- setAddress(address: String): void
+
+RELATIONSHIPS:
+- Store Association Reservation 1..*
+- Store Association Rental 1..1
+
+CLASS: Reservation
+Description: Represents the action of reserving a bicycle. Contains information about the client making the reservation, the date of pickup, the desired bicycle model, and the store where the bike will be picked up.
+ATTRIBUTES:
+- client: Client
+- pickupDate: Date
+- bicycleModel: BicycleModel
+- store: Store
+METHODS:
+- getClient(): Client
+- getPickupDate(): Date
+- getBicycleModel(): BicycleModel
+- getStore(): Store
+- setClient(client: Client): void
+- setPickupDate(date: Date): void
+- setBicycleModel(model: BicycleModel): void
+- setStore(store: Store): void
+
+RELATIONSHIPS:
+- Reservation Composition Rental 1..1
+
+CLASS: Rental
+Description: Represents the actual transaction of renting a bicycle. It includes details about which specific Bicycle was picked up and the return date when the bicycle is returned.
+ATTRIBUTES:
+- bicycle: Bicycle
+- pickupDate: Date
+- returnDate: Date
+METHODS:
+- getBicycle(): Bicycle
+- getPickupDate(): Date
+- getReturnDate(): Date
+- setBicycle(bicycle: Bicycle): void
+- setPickupDate(date: Date): void
+- setReturnDate(date: Date): void
+
+RELATIONSHIPS:
+- Rental Association Bicycle 1..1
+- Rental Association Store 1..1
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Client {
+    - nationalIdNumber: String
+    - taxIdentificationNumber: String
+    - name: String
+    - address: String
+    + getNationalIdNumber(): String
+    + getTaxIdentificationNumber(): String
+    + getName(): String
+    + getAddress(): String
+    + setNationalIdNumber(nin: String): void
+    + setTaxIdentificationNumber(tin: String): void
+    + setName(name: String): void
+    + setAddress(address: String): void
+}
+
+class BicycleModel {
+    - uniqueName: String
+    - type: String
+    - numberOfGears: int
+    + getUniqueName(): String
+    + getType(): String
+    + getNumberOfGears(): int
+    + setUniqueName(name: String): void
+    + setType(type: String): void
+    + setNumberOfGears(gears: int): void
+}
+
+class Bicycle {
+    - uniqueId: String
+    - model: BicycleModel
+    + getUniqueId(): String
+    + getModel(): BicycleModel
+    + setUniqueId(id: String): void
+    + setModel(model: BicycleModel): void
+}
+
+class Store {
+    - uniqueName: String
+    - address: String
+    + getUniqueName(): String
+    + getAddress(): String
+    + setUniqueName(name: String): void
+    + setAddress(address: String): void
+}
+
+class Reservation {
+    - client: Client
+    - pickupDate: Date
+    - bicycleModel: BicycleModel
+    - store: Store
+    + getClient(): Client
+    + getPickupDate(): Date
+    + getBicycleModel(): BicycleModel
+    + getStore(): Store
+    + setClient(client: Client): void
+    + setPickupDate(date: Date): void
+    + setBicycleModel(model: BicycleModel): void
+    + setStore(store: Store): void
+}
+
+class Rental {
+    - bicycle: Bicycle
+    - pickupDate: Date
+    - returnDate: Date
+    + getBicycle(): Bicycle
+    + getPickupDate(): Date
+    + getReturnDate(): Date
+    + setBicycle(bicycle: Bicycle): void
+    + setPickupDate(date: Date): void
+    + setReturnDate(date: Date): void
+}
+
+Client "1" o-- "1..*" Reservation
+Client "1" o-- "1..*" Rental
+BicycleModel "1" o-- "1..*" Bicycle
+BicycleModel "1" o-- "1..*" Reservation
+Bicycle "1" o-- "1..1" Rental
+Store "1" o-- "1..*" Reservation
+Store "1" o-- "1..1" Rental
+Reservation *-- "1..1" Rental
+
+@enduml
+

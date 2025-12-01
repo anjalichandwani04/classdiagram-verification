@@ -1,0 +1,26 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The owner of a veterinary clinic wants to create a database to store information about all veterinary services performed.
+[OK] For each admitted animal, its name, breed, and owner must be stored.
+[OK] Each animal should be given a unique numeric identifier.
+[OK] For each owner, its name, address, and phone number must be stored.
+[OK] A unique numeric identifier should also be generated for each owner.
+[OK] An animal might be owner-less.
+[OK] It should be possible to store information about a specific breed even if no animals of that breed have been treated at the clinic.
+[OK] Each appointment always has a responsible physician.
+[OK] All appointments start at a certain date and time.
+[OK] Appointments are attended by an animal and its owner.
+[OK] For each physician, his name, address, and phone number must be stored.
+[OK] A unique numeric identifier should also be generated for each physician.
+[OK] In an appointment, several medical conditions might be detected.
+[OK] Each condition has a common name and a scientific name.
+[OK] No two conditions have the same scientific name.
+[OK] It should be possible to store information about the most common conditions for each different breed in the database.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] The clinic often rescues abandoned dogs from the streets.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design states that an owner can be absent for certain animals, but it does not clarify how owner-less animals are represented in the Appointment class.
+[ISSUE] Holistic Issue: The design lacks a clear representation of the relationship between breeds and their common medical conditions.

@@ -1,0 +1,34 @@
+@startuml
+class Customer {
+    +customerId : String
+    +name : String
+    +address : String
+}
+
+class Account {
+    +accountId : String
+    +balance : Decimal
+}
+
+class SavingsAccount {
+    +interestRate : Decimal
+}
+
+class InvestmentAccount {
+    +commissionRate : Decimal
+}
+
+class StockOrder {
+    +orderId : String
+    +ticker : String
+    +quantity : Integer
+    +pricePerShare : Decimal
+    +totalCost : Decimal
+}
+
+Customer "1" -- "0..*" Account : owns >
+Account "1" -- "0..*" StockOrder : contains >
+Account <|-- SavingsAccount
+Account <|-- InvestmentAccount
+InvestmentAccount "1" -- "0..*" StockOrder : places >
+@enduml

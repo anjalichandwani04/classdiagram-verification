@@ -1,0 +1,34 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The system must store the national id number (NIN) for every client.
+[OK] The system must store the tax identification number (TIN) for every client.
+[OK] The system must store the name for every client.
+[OK] The system must store the address for every client.
+[OK] The database must contain information about bicycle models that can be rented.
+[OK] Each bicycle model must have a number of gears.
+[OK] Each bicycle must have a model.
+[OK] The company must have several different stores for bicycle pick up and return.
+[OK] Each store must have an address.
+[OK] When a reservation is made, the client who made the reservation must be known.
+[OK] When a reservation is made, the day the bike will be picked up must be known.
+[OK] When a reservation is made, the bike model that is wanted must be known.
+[OK] When a reservation is made, the store where the bike will be picked up must be known.
+[OK] When a bike is picked up, the actual bike that was picked up must be stored in the database.
+[OK] When a bike is returned, the return date must be stored in the database.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] The NIN must be different for every client.
+[MISSING] The TIN must be different for every client.
+[MISSING] All clients must have at least a TIN.
+[MISSING] All clients must have at least a name.
+[MISSING] Each bicycle model must have a unique name.
+[MISSING] Each bicycle model must have a type that can only be road, mountain, bmx, or hybrid.
+[MISSING] Each bicycle must have a unique identifying number.
+[MISSING] Each store must be identified by a unique name.
+[MISSING] The address for each store is mandatory.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not specify that NIN and TIN must be different for every client.
+[ISSUE] Holistic Issue: The design does not explicitly state that all clients should have at least a TIN and a name.
+[ISSUE] Holistic Issue: The design does not specify the relationship between Rental and Reservation clearly in terms of how they interact.

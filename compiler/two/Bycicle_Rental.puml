@@ -1,0 +1,41 @@
+@startuml
+class Client {
+    +clientId: String
+    +NIN: String
+    +TIN: String
+    +name: String
+    +address: String
+}
+
+class BicycleModel {
+    +modelId: String
+    +name: String
+    +type: String
+    +numberOfGears: Integer
+}
+
+class Bicycle {
+    +bicycleId: String
+    +model: BicycleModel
+}
+
+class Store {
+    +storeId: String
+    +name: String
+    +address: String
+}
+
+class Reservation {
+    +reservationId: String
+    +pickupDate: Date
+    +returnDate: Date
+}
+
+Client "1..*" -- "0..*" Reservation
+BicycleModel "1..*" -- "0..*" Bicycle
+Bicycle "0..*" -- "1" Reservation
+Store "1..*" -- "0..*" Reservation
+Reservation "1" -- "1" Client
+Reservation "1" -- "1" Bicycle
+Reservation "1" -- "1" Store
+@enduml

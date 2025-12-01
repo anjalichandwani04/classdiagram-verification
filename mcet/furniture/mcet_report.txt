@@ -1,0 +1,41 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The known furniture factory Hi-Key-Ah intends to implement an information system.
+[OK] The information system will store all data on the different types of furniture and components produced by the factory.
+[OK] The factory produces several lines of furniture.
+[OK] Each line of furniture has a different name.
+[OK] Each line of furniture consists of several pieces of furniture of different types.
+[OK] The types of furniture include beds, tables, and chairs.
+[OK] All furniture pieces have a type.
+[OK] All furniture pieces have a single reference.
+[OK] All furniture pieces have a selling price.
+[OK] Each component produced can be used in more than one piece of furniture.
+[OK] Each piece of furniture is composed of several components.
+[OK] The same component can be used more than once in the same piece of furniture.
+[OK] Every type of component produced is assigned a unique numerical code.
+[OK] Every type of component produced has a manufacturing price.
+[OK] Every type of component produced has a type.
+[OK] The types of components include screws, hinges, and shelves.
+[OK] The furniture is sold in various stores throughout the world.
+[OK] Each store has a different address.
+[OK] Each store has a fax number.
+[OK] Stores must place orders every time they need to replenish their stock.
+[OK] Orders must be stored in the database.
+[OK] Each order has an order number.
+[OK] Each order has a date.
+[OK] Each order has the store that placed the order.
+[OK] Each order has a list of all the ordered furniture.
+[OK] Each order has quantities of the ordered furniture.
+
+--- 2. MISSING REQUIREMENTS ---
+None detected.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not include a unique identifier for each FurnitureLine, which is necessary for tracking and referencing.
+[ISSUE] Holistic Issue: The Component class lacks a method to retrieve the manufacturing price, which is mentioned in the requirements.
+[ISSUE] Holistic Issue: The Store class does not include an order history or a method to retrieve orders placed by the store, which is necessary for tracking orders.
+[ISSUE] Holistic Issue: The relationship between Store and Order is defined as Association, but it should be Aggregation to reflect that stores can have multiple orders.
+[ISSUE] Holistic Issue: The design does not specify the need for a method to retrieve all orders placed by a store, which is implied in the requirements.
+[ISSUE] Holistic Issue: The OrderItem class does not include a method to update the quantity of an item in an order, which is necessary for managing orders.
+[ISSUE] Holistic Issue: The relationship between FurniturePiece and Component is defined as Composition, but it should allow for multiple instances of the same component in a single furniture piece.

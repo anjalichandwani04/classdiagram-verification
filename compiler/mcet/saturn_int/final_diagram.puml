@@ -1,0 +1,86 @@
+@startuml
+class Employee {
+    - name: String
+    - department: String
+    - employeeNumber: String
+    - identityCard: IdentityCard
+    + getName(): String
+    + getDepartment(): String
+    + getEmployeeNumber(): String
+    + getIdentityCard(): IdentityCard
+}
+
+class IdentityCard {
+    - cardNumber: String
+    - type: String
+    - dateOfIssuance: Date
+    + getCardNumber(): String
+    + getType(): String
+    + getDateOfIssuance(): Date
+}
+
+class CarPark {
+    - capacity: int
+    - currentOccupancy: int
+    - isFull: boolean
+    + isCarParkFull(): boolean
+    + addCar(): void
+    + removeCar(): void
+    + getCurrentOccupancy(): int
+    + getCapacity(): int
+}
+
+class Barrier {
+    - isRaised: boolean
+    - location: String
+    + raise(): void
+    + lower(): void
+    + isBarrierRaised(): boolean
+}
+
+class CardReader {
+    - readerID: String
+    - isOperational: boolean
+    + readCard(card: IdentityCard): boolean
+    + verifyCard(cardNumber: String): boolean
+    + sendSignalToBarrier(barrier: Barrier): void
+}
+
+class Guest {
+    - name: String
+    - visitDuration: int
+    - identityCard: IdentityCard
+    + getName(): String
+    + getVisitDuration(): int
+    + getIdentityCard(): IdentityCard
+}
+
+class Reception {
+    - location: String
+    - guestCardsIssued: List<IdentityCard>
+    + issueGuestCard(guest: Guest): IdentityCard
+    + collectGuestCard(card: IdentityCard): void
+    + getIssuedGuestCards(): List<IdentityCard>
+}
+
+class Sign {
+    - message: String
+    - isDisplayed: boolean
+    + displayMessage(message: String): void
+    + turnOff(): void
+    + turnOn(): void
+    + getMessage(): String
+}
+
+Employee "1" -- "1" IdentityCard
+Guest "1" -- "1" IdentityCard
+CarPark "1" o-- "*" Barrier
+CarPark "1" o-- "1" CardReader
+CardReader "1" -- "*" Barrier
+CarPark "1" *-- "1" Sign
+Reception "0..*" o-- "0..*" IdentityCard
+Reception "0..*" -- "0..*" Guest
+Guest "0..1" -- "0..*" Reception
+CarPark "0..*" -- "0..*" Employee
+CarPark "0..*" -- "0..*" Guest
+@enduml

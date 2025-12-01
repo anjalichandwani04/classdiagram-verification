@@ -1,0 +1,94 @@
+```
+CLASS: Contract
+Description: This class represents the basic prepaid cell phone contract. It contains attributes such as contract number and balance, and methods for managing these attributes.
+ATTRIBUTES:
+- contractNumber: int
+- balance: double
+METHODS:
+- getCharges(): double
+- getBalance(): double
+- setBalance(double balance): void
+
+RELATIONSHIPS:
+- Contract Aggregation Option 0..*
+
+CLASS: Option
+Description: This class represents the various options that can be added to a contract (e.g., data, SMS, minutes, transfer rate). Each option has a monthly charge associated with it.
+ATTRIBUTES:
+- monthlyCharge: double
+METHODS:
+- getMonthlyCharge(): double
+- getCharges(): double
+
+RELATIONSHIPS:
+- Option Inheritance DataOption 1
+- Option Inheritance SmsOption 1
+- Option Inheritance MinutesOption 1
+- Option Inheritance TransferRateOption 1
+
+CLASS: DataOption
+Description: This class is a specific type of Option that represents the 100 MB of data. It will have its own charge and behavior.
+ATTRIBUTES:
+- monthlyCharge: double (set to 1.00€)
+METHODS:
+- getMonthlyCharge(): double
+- getCharges(): double
+
+RELATIONSHIPS:
+- None
+
+CLASS: SmsOption
+Description: This class is a specific type of Option that represents the 50 SMS. It will have its own charge and behavior.
+ATTRIBUTES:
+- monthlyCharge: double (set to 0.50€)
+METHODS:
+- getMonthlyCharge(): double
+- getCharges(): double
+
+RELATIONSHIPS:
+- None
+
+CLASS: MinutesOption
+Description: This class is a specific type of Option that represents the 50 minutes. It will have its own charge and behavior.
+ATTRIBUTES:
+- monthlyCharge: double (set to 1.50€)
+METHODS:
+- getMonthlyCharge(): double
+- getCharges(): double
+
+RELATIONSHIPS:
+- None
+
+CLASS: TransferRateOption
+Description: This class is a specific type of Option that represents the Double Transfer Rate. It will have its own charge and behavior.
+ATTRIBUTES:
+- monthlyCharge: double (set to 2.00€)
+METHODS:
+- getMonthlyCharge(): double
+- getCharges(): double
+
+RELATIONSHIPS:
+- None
+
+CLASS: Decorator
+Description: This class serves as a base for the decorator pattern, allowing options to be added to the contract dynamically. It will facilitate the aggregation of charges from the basic contract and any added options.
+ATTRIBUTES:
+- contract: Contract
+METHODS:
+- getCharges(): double
+- getBalance(): double
+- setBalance(double balance): void
+
+RELATIONSHIPS:
+- Decorator Composition Contract 1
+
+CLASS: ChargesCalculator
+Description: This class is responsible for calculating the total monthly charges of a contract, taking into account the base contract and any options that have been added.
+ATTRIBUTES:
+- contract: Contract
+METHODS:
+- calculateTotalCharges(): double
+
+RELATIONSHIPS:
+- ChargesCalculator Composition Contract 1
+```

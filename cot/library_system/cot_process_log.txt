@@ -1,0 +1,326 @@
+PROJECT: Library System
+REQ:
+The exercise id to design a class structure for a library system. It should fulfil those requirements: ● There are two type of users – under-aged and adults. ● Under-aged users are identified with usage of their full name and student card. ● Adult users are identified with usage of their full name and ID card. ● The library contains books. ● There is basic information about every book (title, author, etc). ● The user can borrow at most 4 books at the same time. ● There is a history of previously borrowed books for every user (along with all the dates).
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description of the library system, the following main classes/entities can be identified:
+
+1. **User**
+   - Justification: This class represents the general concept of a user in the library system. It encompasses both under-aged and adult users, capturing shared attributes such as full name.
+
+2. **UnderAgedUser**
+   - Justification: This class represents users who are under-aged. It extends the User class and includes specific attributes like student card, which differentiates it from adult users.
+
+3. **AdultUser**
+   - Justification: This class represents adult users. It also extends the User class and includes attributes such as ID card, which are specific to adult users.
+
+4. **Book**
+   - Justification: This class represents the books available in the library. It contains basic information about each book, such as title and author.
+
+5. **Borrowing**
+   - Justification: This class represents the act of borrowing books. It can include attributes such as the user who borrowed the book, the book that was borrowed, and the borrowing date. This class can also help manage the limit of 4 books per user.
+
+6. **BorrowingHistory**
+   - Justification: This class represents the history of previously borrowed books for each user. It can include a collection of Borrowing instances along with the dates of each borrowing, allowing tracking of past transactions.
+
+These classes encapsulate the main entities and concepts described in the library system, focusing on the real-world entities involved.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes for the library system, here are the attributes and methods for each class:
+
+### 1. User
+**Attributes:**
+- `fullName: String`
+- `email: String`
+- `phoneNumber: String`
+
+**Methods:**
+- `getFullName(): String`
+- `getEmail(): String`
+- `getPhoneNumber(): String`
+- `setFullName(name: String): void`
+- `setEmail(email: String): void`
+- `setPhoneNumber(phone: String): void`
+
+### 2. UnderAgedUser (extends User)
+**Attributes:**
+- `studentCard: String`
+- `borrowedBooks: List<Book>`
+
+**Methods:**
+- `getStudentCard(): String`
+- `setStudentCard(card: String): void`
+- `borrowBook(book: Book): boolean`  // Returns true if the book is borrowed successfully
+- `returnBook(book: Book): boolean`   // Returns true if the book is returned successfully
+- `getBorrowedBooks(): List<Book>`
+
+### 3. AdultUser (extends User)
+**Attributes:**
+- `idCard: String`
+- `borrowedBooks: List<Book>`
+
+**Methods:**
+- `getIdCard(): String`
+- `setIdCard(card: String): void`
+- `borrowBook(book: Book): boolean`  // Returns true if the book is borrowed successfully
+- `returnBook(book: Book): boolean`   // Returns true if the book is returned successfully
+- `getBorrowedBooks(): List<Book>`
+
+### 4. Book
+**Attributes:**
+- `title: String`
+- `author: String`
+- `isbn: String`
+- `availableCopies: int`
+
+**Methods:**
+- `getTitle(): String`
+- `getAuthor(): String`
+- `getIsbn(): String`
+- `getAvailableCopies(): int`
+- `setAvailableCopies(copies: int): void`
+- `isAvailable(): boolean`  // Returns true if there are available copies
+
+### 5. Borrowing
+**Attributes:**
+- `user: User`
+- `book: Book`
+- `borrowingDate: Date`
+- `returnDate: Date`
+
+**Methods:**
+- `getUser(): User`
+- `getBook(): Book`
+- `getBorrowingDate(): Date`
+- `getReturnDate(): Date`
+- `setReturnDate(date: Date): void`
+
+### 6. BorrowingHistory
+**Attributes:**
+- `user: User`
+- `borrowings: List<Borrowing>`
+
+**Methods:**
+- `getUser(): User`
+- `getBorrowings(): List<Borrowing>`
+- `addBorrowing(borrowing: Borrowing): void`
+- `getBorrowingHistory(): List<Borrowing>`  // Returns the history of borrowings for the user
+
+### Summary
+This structure captures the essential attributes and behaviors of each class in the library system. The methods allow for interaction with the attributes, enabling functionalities such as borrowing and returning books, as well as managing user information and borrowing history.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided class structure and requirements for the library system, here are the identified relationships along with their types and cardinalities:
+
+1. **User -- Inheritance -- UnderAgedUser** : 1
+   - An UnderAgedUser is a specialized type of User.
+
+2. **User -- Inheritance -- AdultUser** : 1
+   - An AdultUser is a specialized type of User.
+
+3. **User -- Aggregation -- BorrowingHistory** : 1
+   - A User has a BorrowingHistory that tracks their borrowing transactions.
+
+4. **User -- Association -- Borrowing** : 0..*
+   - A User can have multiple Borrowing instances (0 to many), representing the books they have borrowed.
+
+5. **Book -- Association -- Borrowing** : 0..*
+   - A Book can be associated with multiple Borrowing instances (0 to many), representing the times it has been borrowed.
+
+6. **Borrowing -- Composition -- User** : 1
+   - Each Borrowing instance is associated with exactly one User who borrowed the book.
+
+7. **Borrowing -- Composition -- Book** : 1
+   - Each Borrowing instance is associated with exactly one Book that is borrowed.
+
+8. **BorrowingHistory -- Aggregation -- Borrowing** : 0..*
+   - A BorrowingHistory can contain multiple Borrowing instances (0 to many), representing the history of borrowings for a User.
+
+### Summary of Relationships:
+- **User -- Inheritance -- UnderAgedUser** : 1
+- **User -- Inheritance -- AdultUser** : 1
+- **User -- Aggregation -- BorrowingHistory** : 1
+- **User -- Association -- Borrowing** : 0..*
+- **Book -- Association -- Borrowing** : 0..*
+- **Borrowing -- Composition -- User** : 1
+- **Borrowing -- Composition -- Book** : 1
+- **BorrowingHistory -- Aggregation -- Borrowing** : 0..* 
+
+This structure captures the relationships and cardinalities between the classes in the library system, ensuring that the requirements are met.
+
+
+==================== Step 4: Textual UML ====================
+```
+CLASS: User
+Description: This class represents the general concept of a user in the library system, encompassing both under-aged and adult users with shared attributes.
+ATTRIBUTES:
+- fullName: String
+- email: String
+- phoneNumber: String
+METHODS:
+- getFullName(): String
+- getEmail(): String
+- getPhoneNumber(): String
+- setFullName(name: String): void
+- setEmail(email: String): void
+- setPhoneNumber(phone: String): void
+
+CLASS: UnderAgedUser
+Description: This class represents users who are under-aged, extending the User class and including specific attributes like student card.
+ATTRIBUTES:
+- studentCard: String
+- borrowedBooks: List<Book>
+METHODS:
+- getStudentCard(): String
+- setStudentCard(card: String): void
+- borrowBook(book: Book): boolean
+- returnBook(book: Book): boolean
+- getBorrowedBooks(): List<Book>
+
+CLASS: AdultUser
+Description: This class represents adult users, extending the User class and including attributes specific to adult users such as ID card.
+ATTRIBUTES:
+- idCard: String
+- borrowedBooks: List<Book>
+METHODS:
+- getIdCard(): String
+- setIdCard(card: String): void
+- borrowBook(book: Book): boolean
+- returnBook(book: Book): boolean
+- getBorrowedBooks(): List<Book>
+
+CLASS: Book
+Description: This class represents the books available in the library, containing basic information about each book.
+ATTRIBUTES:
+- title: String
+- author: String
+- isbn: String
+- availableCopies: int
+METHODS:
+- getTitle(): String
+- getAuthor(): String
+- getIsbn(): String
+- getAvailableCopies(): int
+- setAvailableCopies(copies: int): void
+- isAvailable(): boolean
+
+CLASS: Borrowing
+Description: This class represents the act of borrowing books, including attributes for the user, book, and borrowing dates.
+ATTRIBUTES:
+- user: User
+- book: Book
+- borrowingDate: Date
+- returnDate: Date
+METHODS:
+- getUser(): User
+- getBook(): Book
+- getBorrowingDate(): Date
+- getReturnDate(): Date
+- setReturnDate(date: Date): void
+
+CLASS: BorrowingHistory
+Description: This class represents the history of previously borrowed books for each user, tracking past transactions.
+ATTRIBUTES:
+- user: User
+- borrowings: List<Borrowing>
+METHODS:
+- getUser(): User
+- getBorrowings(): List<Borrowing>
+- addBorrowing(borrowing: Borrowing): void
+- getBorrowingHistory(): List<Borrowing>
+
+RELATIONSHIPS:
+- User Inheritance UnderAgedUser 1
+- User Inheritance AdultUser 1
+- User Aggregation BorrowingHistory 1
+- User Association Borrowing 0..*
+- Book Association Borrowing 0..*
+- Borrowing Composition User 1
+- Borrowing Composition Book 1
+- BorrowingHistory Aggregation Borrowing 0..*
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class User {
+    - fullName: String
+    - email: String
+    - phoneNumber: String
+    + getFullName(): String
+    + getEmail(): String
+    + getPhoneNumber(): String
+    + setFullName(name: String): void
+    + setEmail(email: String): void
+    + setPhoneNumber(phone: String): void
+}
+
+class UnderAgedUser {
+    - studentCard: String
+    - borrowedBooks: List<Book>
+    + getStudentCard(): String
+    + setStudentCard(card: String): void
+    + borrowBook(book: Book): boolean
+    + returnBook(book: Book): boolean
+    + getBorrowedBooks(): List<Book>
+}
+
+class AdultUser {
+    - idCard: String
+    - borrowedBooks: List<Book>
+    + getIdCard(): String
+    + setIdCard(card: String): void
+    + borrowBook(book: Book): boolean
+    + returnBook(book: Book): boolean
+    + getBorrowedBooks(): List<Book>
+}
+
+class Book {
+    - title: String
+    - author: String
+    - isbn: String
+    - availableCopies: int
+    + getTitle(): String
+    + getAuthor(): String
+    + getIsbn(): String
+    + getAvailableCopies(): int
+    + setAvailableCopies(copies: int): void
+    + isAvailable(): boolean
+}
+
+class Borrowing {
+    - user: User
+    - book: Book
+    - borrowingDate: Date
+    - returnDate: Date
+    + getUser(): User
+    + getBook(): Book
+    + getBorrowingDate(): Date
+    + getReturnDate(): Date
+    + setReturnDate(date: Date): void
+}
+
+class BorrowingHistory {
+    - user: User
+    - borrowings: List<Borrowing>
+    + getUser(): User
+    + getBorrowings(): List<Borrowing>
+    + addBorrowing(borrowing: Borrowing): void
+    + getBorrowingHistory(): List<Borrowing>
+}
+
+User <|-- UnderAgedUser
+User <|-- AdultUser
+User o-- BorrowingHistory
+User --> Borrowing
+Book --> Borrowing
+Borrowing *-- User
+Borrowing *-- Book
+BorrowingHistory o-- Borrowing
+
+@enduml
+

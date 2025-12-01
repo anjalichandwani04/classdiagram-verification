@@ -1,0 +1,61 @@
+@startuml
+
+class Customer {
+    - vatNumber: String
+    - name: String
+    - phoneNumber: String
+    - address: String
+    - deliveryCenter: DeliveryCenter
+    + login(username: String, password: String): Boolean
+    + sendPackage(recipient: Customer, weight: Double, deliveryType: String): String
+    + getDeliveryCenter(): DeliveryCenter
+}
+
+class Package {
+    - identifierCode: String
+    - weight: Double
+    - deliveryType: String
+    - sender: Customer
+    - recipient: Customer
+    - status: String
+    + getDetails(): String
+    + updateStatus(newStatus: String): void
+}
+
+class DeliveryCenter {
+    - name: String
+    - address: String
+    - customers: List<Customer>
+    + addCustomer(customer: Customer): void
+    + getCustomers(): List<Customer>
+}
+
+class Courier {
+    - vatNumber: String
+    - name: String
+    - phoneNumber: String
+    - deliveryCenter: DeliveryCenter
+    + assignPackage(package: Package): void
+    + getDeliveryCenter(): DeliveryCenter
+}
+
+class Delivery {
+    - package: Package
+    - courier: Courier
+    - fromCenter: DeliveryCenter
+    - toCenter: DeliveryCenter
+    + startDelivery(): void
+    + completeDelivery(): void
+    + getDeliveryStatus(): String
+}
+
+Customer "1" -- "1" DeliveryCenter
+Customer "1" -- "*" Package
+Package "1" -- "1" Customer
+DeliveryCenter "1" o-- "*" Customer
+DeliveryCenter "1" -- "*" Courier
+Courier "1" -- "*" Delivery
+Package "1" -- "1" Delivery
+Delivery "1" -- "2" DeliveryCenter
+
+@enduml

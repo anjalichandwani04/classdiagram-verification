@@ -1,0 +1,40 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The system models the management of flights and pilots.
+[OK] An airline operates flights.
+[OK] Each airline has an ID.
+[OK] Each flight has an ID.
+[OK] Each flight has a departure airport.
+[OK] Each flight has an arrival airport.
+[OK] An airport has a unique identifier.
+[OK] Each flight has a pilot.
+[OK] Each flight has a co-pilot.
+[OK] Each flight uses an aircraft of a certain type.
+[OK] Each flight has a departure time.
+[OK] Each flight has an arrival time.
+[OK] An airline owns a set of aircraft of different types.
+[OK] An aircraft can be in a working state.
+[OK] An aircraft can be under repair.
+[OK] An aircraft can be landed.
+[OK] An aircraft can be airborne.
+[OK] A company has a set of pilots.
+[OK] Each pilot has an experience level.
+[OK] The experience level of a pilot ranges from 1 to 3.
+[OK] A type of aeroplane may need a particular number of pilots.
+[OK] A type of aeroplane may have different roles for pilots.
+[OK] There must be at least one co-pilot for each flight.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] There must be at least one captain for each flight.
+[MISSING] A captain must have an experience level of 3.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not specify that a captain must have an experience level of 3.
+[ISSUE] Holistic Issue: The Flight class associates a Co-Pilot as a separate class instead of using the Pilot class with a role distinction.
+[ISSUE] Holistic Issue: The design lacks a mechanism to enforce the requirement of having at least one captain and one co-pilot for each flight.
+[ISSUE] Holistic Issue: The Aircraft class does not include a mechanism to differentiate between working and under repair states.
+[ISSUE] Holistic Issue: The design does not address the relationship between aircraft types and the specific roles required for pilots.
+[ISSUE] Holistic Issue: The Pilot class does not explicitly mention the different roles (e.g., captain, co-pilot) that pilots can have.
+[ISSUE] Diagram Contradiction: Flight Association Airport 2 - The requirement states that each flight has one departure and one arrival airport, not two.
+[ISSUE] Diagram Contradiction: Pilot Association Experience Level 1 - The requirement states that experience levels are 1 to 3, not a direct association.

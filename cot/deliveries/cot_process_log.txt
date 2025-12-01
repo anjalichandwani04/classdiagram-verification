@@ -1,0 +1,266 @@
+PROJECT: Deliveries
+REQ:
+The owner of a small delivery company plans to have an information system that allows him to save data about his customers and deliveries. After some time studying the problem, he reached the following requirements: ● Each customer has a VAT number, a name, a phone number and an address. There are no two clients with the same VAT number. ● When a customer wants to send a package to another customer, he just has to login to the company website, select the customer he wants to send the package to, enter the package’s weight and if the delivery is normal or urgent. He then receives an unique identifier code that he writes on the package. ● The package is then delivered by the customer at the delivery center of his choosing. A delivery center has a unique name and an address. ● Each client has an associated delivery center. This delivery center is chosen by the company and it is normally the one closest to the customer’s house. ● The package is them routed through an internal system until it reaches the delivery center of the recipient. ● The package is then delivered by hand from that delivery center to the recipient by a courier. ● Couriers have a single VAT number, a name and a phone number. Each courier works in a single delivery center. ● A courier is assigned to a packet as soon as the packet is introduced in the system.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with brief justifications for each:
+
+1. **Customer**
+   - Justification: Represents individuals or entities that use the delivery service. Each customer has unique attributes such as a VAT number, name, phone number, and address.
+
+2. **Package**
+   - Justification: Represents the item being sent from one customer to another. It has attributes like weight, delivery type (normal or urgent), and a unique identifier code.
+
+3. **DeliveryCenter**
+   - Justification: Represents the physical location where packages are delivered and picked up. Each delivery center has a unique name and address, and is associated with customers.
+
+4. **Courier**
+   - Justification: Represents individuals responsible for delivering packages from the delivery center to the recipient. Each courier has a VAT number, name, phone number, and is associated with a single delivery center.
+
+5. **Delivery**
+   - Justification: Represents the process of transporting a package from the sender's delivery center to the recipient's delivery center. This class may encapsulate the routing and handling of the package during transit.
+
+These classes encapsulate the key entities and their relationships as described in the requirements for the information system of the delivery company.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and the provided description, here are the attributes and methods for each class:
+
+### 1. **Customer**
+- **Attributes:**
+  - `vatNumber: String` - Unique identifier for the customer.
+  - `name: String` - Name of the customer.
+  - `phoneNumber: String` - Contact number of the customer.
+  - `address: String` - Address of the customer.
+  - `deliveryCenter: DeliveryCenter` - The delivery center associated with the customer.
+
+- **Methods:**
+  - `login(username: String, password: String): Boolean` - Authenticates the customer.
+  - `sendPackage(recipient: Customer, weight: Double, deliveryType: String): String` - Initiates sending a package and returns a unique identifier code.
+  - `getDeliveryCenter(): DeliveryCenter` - Returns the associated delivery center.
+
+### 2. **Package**
+- **Attributes:**
+  - `identifierCode: String` - Unique identifier code for the package.
+  - `weight: Double` - Weight of the package.
+  - `deliveryType: String` - Type of delivery (normal or urgent).
+  - `sender: Customer` - The customer sending the package.
+  - `recipient: Customer` - The customer receiving the package.
+  - `status: String` - Current status of the package (e.g., in transit, delivered).
+
+- **Methods:**
+  - `getDetails(): String` - Returns details about the package.
+  - `updateStatus(newStatus: String): void` - Updates the status of the package.
+
+### 3. **DeliveryCenter**
+- **Attributes:**
+  - `name: String` - Unique name of the delivery center.
+  - `address: String` - Address of the delivery center.
+  - `customers: List<Customer>` - List of customers associated with the delivery center.
+
+- **Methods:**
+  - `addCustomer(customer: Customer): void` - Adds a customer to the delivery center.
+  - `getCustomers(): List<Customer>` - Returns a list of customers associated with the delivery center.
+
+### 4. **Courier**
+- **Attributes:**
+  - `vatNumber: String` - Unique identifier for the courier.
+  - `name: String` - Name of the courier.
+  - `phoneNumber: String` - Contact number of the courier.
+  - `deliveryCenter: DeliveryCenter` - The delivery center where the courier works.
+
+- **Methods:**
+  - `assignPackage(package: Package): void` - Assigns a package to the courier for delivery.
+  - `getDeliveryCenter(): DeliveryCenter` - Returns the delivery center where the courier works.
+
+### 5. **Delivery**
+- **Attributes:**
+  - `package: Package` - The package being delivered.
+  - `courier: Courier` - The courier assigned to deliver the package.
+  - `fromCenter: DeliveryCenter` - The delivery center from which the package is dispatched.
+  - `toCenter: DeliveryCenter` - The delivery center where the package is delivered.
+
+- **Methods:**
+  - `startDelivery(): void` - Initiates the delivery process.
+  - `completeDelivery(): void` - Marks the delivery as complete.
+  - `getDeliveryStatus(): String` - Returns the current status of the delivery.
+
+These attributes and methods encapsulate the necessary properties and behaviors for each class in the delivery company's information system.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided description and the identified classes, here are the relationships between the classes along with their types and cardinalities:
+
+1. **Customer** -- **Association** -- **DeliveryCenter** : 1..1  
+   - Each customer is associated with exactly one delivery center.
+
+2. **Customer** -- **Association** -- **Package** : 1..*  
+   - A customer can send multiple packages, but each package has exactly one sender (customer).
+
+3. **Package** -- **Association** -- **Customer** : 1..1  
+   - Each package has exactly one recipient (customer).
+
+4. **DeliveryCenter** -- **Aggregation** -- **Customer** : 1..*  
+   - A delivery center can have multiple customers associated with it, but a customer belongs to only one delivery center.
+
+5. **DeliveryCenter** -- **Association** -- **Courier** : 1..*  
+   - A delivery center can employ multiple couriers, but each courier works at exactly one delivery center.
+
+6. **Courier** -- **Association** -- **Delivery** : 1..*  
+   - A courier can be assigned to deliver multiple packages (deliveries), but each delivery is handled by exactly one courier.
+
+7. **Package** -- **Association** -- **Delivery** : 1..1  
+   - Each package is associated with exactly one delivery.
+
+8. **Delivery** -- **Association** -- **DeliveryCenter** : 1..2  
+   - Each delivery involves two delivery centers: one from which the package is dispatched and one where it is delivered.
+
+In summary, the relationships can be listed as follows:
+
+1. **Customer** -- Association -- **DeliveryCenter** : 1..1
+2. **Customer** -- Association -- **Package** : 1..*
+3. **Package** -- Association -- **Customer** : 1..1
+4. **DeliveryCenter** -- Aggregation -- **Customer** : 1..*
+5. **DeliveryCenter** -- Association -- **Courier** : 1..*
+6. **Courier** -- Association -- **Delivery** : 1..*
+7. **Package** -- Association -- **Delivery** : 1..1
+8. **Delivery** -- Association -- **DeliveryCenter** : 1..2
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Customer
+Description: Represents individuals or entities that use the delivery service. Each customer has unique attributes such as a VAT number, name, phone number, and address.
+ATTRIBUTES:
+- vatNumber: String
+- name: String
+- phoneNumber: String
+- address: String
+- deliveryCenter: DeliveryCenter
+METHODS:
+- login(username: String, password: String): Boolean
+- sendPackage(recipient: Customer, weight: Double, deliveryType: String): String
+- getDeliveryCenter(): DeliveryCenter
+
+CLASS: Package
+Description: Represents the item being sent from one customer to another. It has attributes like weight, delivery type (normal or urgent), and a unique identifier code.
+ATTRIBUTES:
+- identifierCode: String
+- weight: Double
+- deliveryType: String
+- sender: Customer
+- recipient: Customer
+- status: String
+METHODS:
+- getDetails(): String
+- updateStatus(newStatus: String): void
+
+CLASS: DeliveryCenter
+Description: Represents the physical location where packages are delivered and picked up. Each delivery center has a unique name and address, and is associated with customers.
+ATTRIBUTES:
+- name: String
+- address: String
+- customers: List<Customer>
+METHODS:
+- addCustomer(customer: Customer): void
+- getCustomers(): List<Customer>
+
+CLASS: Courier
+Description: Represents individuals responsible for delivering packages from the delivery center to the recipient. Each courier has a VAT number, name, phone number, and is associated with a single delivery center.
+ATTRIBUTES:
+- vatNumber: String
+- name: String
+- phoneNumber: String
+- deliveryCenter: DeliveryCenter
+METHODS:
+- assignPackage(package: Package): void
+- getDeliveryCenter(): DeliveryCenter
+
+CLASS: Delivery
+Description: Represents the process of transporting a package from the sender's delivery center to the recipient's delivery center. This class may encapsulate the routing and handling of the package during transit.
+ATTRIBUTES:
+- package: Package
+- courier: Courier
+- fromCenter: DeliveryCenter
+- toCenter: DeliveryCenter
+METHODS:
+- startDelivery(): void
+- completeDelivery(): void
+- getDeliveryStatus(): String
+
+RELATIONSHIPS:
+- Customer Association DeliveryCenter 1..1
+- Customer Association Package 1..*
+- Package Association Customer 1..1
+- DeliveryCenter Aggregation Customer 1..*
+- DeliveryCenter Association Courier 1..*
+- Courier Association Delivery 1..*
+- Package Association Delivery 1..1
+- Delivery Association DeliveryCenter 1..2
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Customer {
+    - vatNumber: String
+    - name: String
+    - phoneNumber: String
+    - address: String
+    - deliveryCenter: DeliveryCenter
+    + login(username: String, password: String): Boolean
+    + sendPackage(recipient: Customer, weight: Double, deliveryType: String): String
+    + getDeliveryCenter(): DeliveryCenter
+}
+
+class Package {
+    - identifierCode: String
+    - weight: Double
+    - deliveryType: String
+    - sender: Customer
+    - recipient: Customer
+    - status: String
+    + getDetails(): String
+    + updateStatus(newStatus: String): void
+}
+
+class DeliveryCenter {
+    - name: String
+    - address: String
+    - customers: List<Customer>
+    + addCustomer(customer: Customer): void
+    + getCustomers(): List<Customer>
+}
+
+class Courier {
+    - vatNumber: String
+    - name: String
+    - phoneNumber: String
+    - deliveryCenter: DeliveryCenter
+    + assignPackage(package: Package): void
+    + getDeliveryCenter(): DeliveryCenter
+}
+
+class Delivery {
+    - package: Package
+    - courier: Courier
+    - fromCenter: DeliveryCenter
+    - toCenter: DeliveryCenter
+    + startDelivery(): void
+    + completeDelivery(): void
+    + getDeliveryStatus(): String
+}
+
+Customer "1" -- "1" DeliveryCenter
+Customer "1" -- "*" Package
+Package "1" -- "1" Customer
+DeliveryCenter "1" o-- "*" Customer
+DeliveryCenter "1" -- "*" Courier
+Courier "1" -- "*" Delivery
+Package "1" -- "1" Delivery
+Delivery "1" -- "2" DeliveryCenter
+
+@enduml
+

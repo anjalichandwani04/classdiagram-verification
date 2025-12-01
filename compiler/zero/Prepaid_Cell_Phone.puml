@@ -1,0 +1,64 @@
+```plantuml
+@startuml
+class BasicContract {
+    - contractNumber: int
+    - balance: double
+    + BasicContract(contractNumber: int, initialBalance: double)
+    + getCharges(): double
+    + getBalance(): double
+    + setBalance(balance: double): void
+}
+
+abstract class ContractDecorator {
+    - contract: BasicContract
+    + ContractDecorator(contract: BasicContract)
+    + getCharges(): double
+    + getBalance(): double
+    + setBalance(balance: double): void
+}
+
+class DataOption {
+    - contract: BasicContract
+    - monthlyCharge: double = 1.00
+    + DataOption(contract: BasicContract)
+    + getCharges(): double
+    + getBalance(): double
+    + setBalance(balance: double): void
+}
+
+class SmsOption {
+    - contract: BasicContract
+    - monthlyCharge: double = 0.50
+    + SmsOption(contract: BasicContract)
+    + getCharges(): double
+    + getBalance(): double
+    + setBalance(balance: double): void
+}
+
+class MinutesOption {
+    - contract: BasicContract
+    - monthlyCharge: double = 1.50
+    + MinutesOption(contract: BasicContract)
+    + getCharges(): double
+    + getBalance(): double
+    + setBalance(balance: double): void
+}
+
+class DoubleTransferRateOption {
+    - contract: BasicContract
+    - monthlyCharge: double = 2.00
+    + DoubleTransferRateOption(contract: BasicContract)
+    + getCharges(): double
+    + getBalance(): double
+    + setBalance(balance: double): void
+}
+
+BasicContract <|-- ContractDecorator
+ContractDecorator <|-- DataOption
+ContractDecorator <|-- SmsOption
+ContractDecorator <|-- MinutesOption
+ContractDecorator <|-- DoubleTransferRateOption
+
+BasicContract "1" -- "1..*" ContractDecorator : contains
+@enduml
+```

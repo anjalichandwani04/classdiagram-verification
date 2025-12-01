@@ -1,0 +1,84 @@
+```plaintext
+CLASS: FurnitureLine
+Description: Represents the different lines of furniture produced by the factory, each with a unique name and consisting of various pieces of furniture.
+ATTRIBUTES:
+- name: String
+- furniturePieces: List<FurniturePiece>
+METHODS:
+- addFurniturePiece(piece: FurniturePiece): void
+- removeFurniturePiece(piece: FurniturePiece): void
+- getFurniturePieces(): List<FurniturePiece>
+
+RELATIONSHIPS:
+- FurnitureLine Aggregation FurniturePiece 1..*
+
+CLASS: FurniturePiece
+Description: Represents individual pieces of furniture (e.g., beds, tables, chairs) that belong to a furniture line. Each piece has a type, reference, and selling price.
+ATTRIBUTES:
+- type: String
+- reference: String
+- sellingPrice: double
+- components: List<Component>
+METHODS:
+- addComponent(component: Component): void
+- removeComponent(component: Component): void
+- getComponents(): List<Component>
+
+RELATIONSHIPS:
+- FurniturePiece Composition Component 0..*
+
+CLASS: Component
+Description: Represents the individual components (e.g., screws, hinges, shelves) used to assemble furniture pieces. Each component has a unique numerical code, manufacturing price, and type.
+ATTRIBUTES:
+- code: int
+- manufacturingPrice: double
+- type: String
+METHODS:
+- getCode(): int
+- getManufacturingPrice(): double
+- getType(): String
+
+RELATIONSHIPS:
+(No relationships defined)
+
+CLASS: Store
+Description: Represents the various stores that sell the furniture. Each store has a unique address and fax number.
+ATTRIBUTES:
+- address: String
+- faxNumber: String
+METHODS:
+- getAddress(): String
+- getFaxNumber(): String
+- updateAddress(newAddress: String): void
+
+RELATIONSHIPS:
+- Store Association Order 1..*
+
+CLASS: Order
+Description: Represents the orders placed by stores to replenish their stock. Each order has an order number, date, associated store, and a list of ordered furniture pieces with their quantities.
+ATTRIBUTES:
+- orderNumber: String
+- date: Date
+- store: Store
+- orderItems: List<OrderItem>
+METHODS:
+- addOrderItem(item: OrderItem): void
+- removeOrderItem(item: OrderItem): void
+- getOrderItems(): List<OrderItem>
+
+RELATIONSHIPS:
+- Order Aggregation OrderItem 1..*
+
+CLASS: OrderItem
+Description: Represents the individual items within an order, detailing the specific furniture pieces ordered and their quantities. This class helps manage the relationship between orders and the furniture pieces.
+ATTRIBUTES:
+- furniturePiece: FurniturePiece
+- quantity: int
+METHODS:
+- getFurniturePiece(): FurniturePiece
+- getQuantity(): int
+- setQuantity(newQuantity: int): void
+
+RELATIONSHIPS:
+- OrderItem Association FurniturePiece 1
+```

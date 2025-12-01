@@ -1,0 +1,20 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] Design a system for a movie-shop to handle ordering of movies.
+[OK] Design a system for a movie-shop to handle browsing of the catalogue of the store.
+[OK] Design a system for a movie-shop to handle user subscriptions with rechargeable cards.
+[OK] Only subscribers are allowed to hire movies with their own card.
+[OK] Credit is updated on the card during rent operations.
+[OK] Both users and subscribers can buy a movie.
+[OK] User data is saved in the related order when a movie is bought.
+[OK] Subscriber data is saved in the related order when a movie is bought.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] When a movie is not available, it is ordered.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not explicitly mention the process for ordering a movie when it is not available, as stated in the requirements.
+[ISSUE] Holistic Issue: The design does not clarify how the credit is updated on the card during rent operations, which is a key requirement.
+[ISSUE] Holistic Issue: The design lacks a method for handling user subscriptions and their management, which is implied in the requirements.
+[ISSUE] Holistic Issue: The design does not differentiate between the purchasing process for users and subscribers, which may lead to confusion regarding the requirements.

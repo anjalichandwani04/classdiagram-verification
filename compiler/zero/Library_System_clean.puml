@@ -1,0 +1,39 @@
+@startuml
+abstract class User {
+    +fullName: String
+    +borrowedBooks: List<Book>
+    +borrowHistory: List<BorrowRecord>
+    +borrowBook(book: Book): Boolean
+    +returnBook(book: Book): Boolean
+    +getBorrowHistory(): List<BorrowRecord>
+}
+
+class UnderagedUser {
+    +studentCard: String
+}
+
+class AdultUser {
+    +idCard: String
+}
+
+class Book {
+    +title: String
+    +author: String
+    +isbn: String
+    +isAvailable: Boolean
+    +markAsBorrowed()
+    +markAsReturned()
+}
+
+class BorrowRecord {
+    +book: Book
+    +borrowDate: Date
+    +returnDate: Date
+    +getDuration(): Integer
+}
+
+User <|-- UnderagedUser
+User <|-- AdultUser
+User "1" *-- "*" BorrowRecord
+User "1" -- "*" Book
+@enduml

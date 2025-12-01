@@ -1,0 +1,31 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] A project manager uses the project management system to manage a project.
+[OK] The project manager leads a team to execute the project within the project's start and end dates.
+[OK] Once a project is created in the project management system, a manager may initiate the project.
+[OK] A manager may terminate the project due to its completion or for some other reason.
+[OK] As input, a project uses requirements.
+[OK] As output, a project produces a system or part of a system.
+[OK] The requirements and system are work products.
+[OK] Work products are created, used, updated, and elaborated on throughout a project.
+[OK] Every work product has a description.
+[OK] Every work product is of some percent complete throughout the effort.
+[OK] Every work product may be validated.
+[OK] Validation is dependent on the type of work product.
+[OK] Requirements may be published using various types of media.
+[OK] Systems may be deployed onto specific platforms.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] Requirements are validated with users in workshops.
+[MISSING] The system is validated by being tested against the requirements.
+[MISSING] Requirements may be published on an intranet.
+[MISSING] Requirements may be published in paper form.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not explicitly mention the concept of 'work products' as a general category that encompasses both requirements and systems, which is highlighted in the requirements.
+[ISSUE] Holistic Issue: The design states that 'Requirements is a Work Product 1..1', but it should reflect that requirements can be validated in workshops with users, which is not captured in the design.
+[ISSUE] Holistic Issue: The design lacks a clear representation of the project lifecycle stages (creation, initiation, termination) as described in the requirements.
+[ISSUE] Holistic Issue: The design does not specify that the validation of work products is dependent on their type, as mentioned in the requirements.
+[ISSUE] Holistic Issue: The design does not include the aspect of 'percent complete' for the project itself, which is implied in the requirements.
+[ISSUE] Holistic Issue: The design does not address the potential for a project to be terminated for reasons other than completion, as stated in the requirements.

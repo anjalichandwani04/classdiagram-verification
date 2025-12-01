@@ -1,0 +1,365 @@
+PROJECT: Saturn Int. Management
+REQ:
+Saturn Int. management wants to improve their security measures, both for their building and on site. They would like to prevent people who are not part of the company to use their car park. Saturn Int. has decided to issue identity cards to all employees. Each card records the name, department and number of a company staff, and give them access to the company car park. Employees are asked to wear the cards while on the site. There is a barrier and a card reader placed at the entrance to the car park. When a driver drives his car into the car park, he/she inserts his or her identity card into the card reader. The card reader then verify the card number to see if it is known to the system. If the number is recognized, the reader sends a signal to trigger the barrier to rise. The driver can then drive his/her car into the car park. There is another barrier at the exit of the car park, which is automatically raised when a car wishes to leave the car park. A sign at the entrance display “Full” when there are no spaces in the car park. It is only switched off when a car leaves. There is another type of card for guests, which also permits access to the car park. The card records a number and the current date. Such cards may be sent out in advance, or collected from reception. All guest cards must be returned to reception when the visitor leaves Saturn Int.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with justifications for each:
+
+1. **Employee**
+   - Justification: Represents the staff members of Saturn Int. who are issued identity cards for access to the car park. Contains attributes such as name, department, and employee number.
+
+2. **IdentityCard**
+   - Justification: Represents the cards issued to employees and guests. Contains attributes such as card number, type (employee or guest), and possibly the date of issuance for guest cards.
+
+3. **CarPark**
+   - Justification: Represents the physical location where cars are parked. It has attributes related to capacity and current occupancy status (e.g., "Full" sign).
+
+4. **Barrier**
+   - Justification: Represents the barriers at the entrance and exit of the car park. It controls access based on the verification of identity cards.
+
+5. **CardReader**
+   - Justification: Represents the device that reads identity cards and verifies their validity. It interacts with the barriers to control access to the car park.
+
+6. **Guest**
+   - Justification: Represents visitors to Saturn Int. who are issued guest cards for temporary access to the car park. This class may have attributes related to the guest's visit duration.
+
+7. **Reception**
+   - Justification: Represents the location or entity responsible for issuing guest cards and collecting them upon the guest's departure. It manages the distribution of guest access.
+
+8. **Sign**
+   - Justification: Represents the display sign at the entrance of the car park that indicates whether the car park is full or has available spaces.
+
+These classes encapsulate the key entities involved in the security and access management system described in the scenario. Each class serves a specific role in the overall functionality of managing access to the car park for employees and guests.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and the provided description, here are the attributes and methods for each class:
+
+### 1. **Employee**
+- **Attributes:**
+  - `name: String`
+  - `department: String`
+  - `employeeNumber: String`
+  - `identityCard: IdentityCard` (Association with IdentityCard)
+
+- **Methods:**
+  - `getName(): String`
+  - `getDepartment(): String`
+  - `getEmployeeNumber(): String`
+  - `getIdentityCard(): IdentityCard`
+
+### 2. **IdentityCard**
+- **Attributes:**
+  - `cardNumber: String`
+  - `type: String` (e.g., "employee" or "guest")
+  - `dateOfIssuance: Date` (for guest cards)
+
+- **Methods:**
+  - `getCardNumber(): String`
+  - `getType(): String`
+  - `getDateOfIssuance(): Date`
+
+### 3. **CarPark**
+- **Attributes:**
+  - `capacity: int`
+  - `currentOccupancy: int`
+  - `isFull: boolean`
+
+- **Methods:**
+  - `isCarParkFull(): boolean`
+  - `addCar(): void`
+  - `removeCar(): void`
+  - `getCurrentOccupancy(): int`
+  - `getCapacity(): int`
+
+### 4. **Barrier**
+- **Attributes:**
+  - `isRaised: boolean`
+  - `location: String` (e.g., "entrance" or "exit")
+
+- **Methods:**
+  - `raise(): void`
+  - `lower(): void`
+  - `isBarrierRaised(): boolean`
+
+### 5. **CardReader**
+- **Attributes:**
+  - `readerID: String`
+  - `isOperational: boolean`
+
+- **Methods:**
+  - `readCard(card: IdentityCard): boolean`
+  - `verifyCard(cardNumber: String): boolean`
+  - `sendSignalToBarrier(barrier: Barrier): void`
+
+### 6. **Guest**
+- **Attributes:**
+  - `name: String`
+  - `visitDuration: int` (in hours)
+  - `identityCard: IdentityCard` (Association with IdentityCard)
+
+- **Methods:**
+  - `getName(): String`
+  - `getVisitDuration(): int`
+  - `getIdentityCard(): IdentityCard`
+
+### 7. **Reception**
+- **Attributes:**
+  - `location: String`
+  - `guestCardsIssued: List<IdentityCard>`
+
+- **Methods:**
+  - `issueGuestCard(guest: Guest): IdentityCard`
+  - `collectGuestCard(card: IdentityCard): void`
+  - `getIssuedGuestCards(): List<IdentityCard>`
+
+### 8. **Sign**
+- **Attributes:**
+  - `message: String` (e.g., "Full" or "Available")
+  - `isDisplayed: boolean`
+
+- **Methods:**
+  - `displayMessage(message: String): void`
+  - `turnOff(): void`
+  - `turnOn(): void`
+  - `getMessage(): String`
+
+These attributes and methods provide a structured representation of the classes involved in the security and access management system for Saturn Int.'s car park. Each class encapsulates relevant data and behaviors that contribute to the overall functionality of the system.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided classes and their descriptions, here are the identified relationships along with their types and cardinalities:
+
+1. **Employee** -- Association -- **IdentityCard** : 1..1  
+   (Each employee has exactly one identity card.)
+
+2. **Guest** -- Association -- **IdentityCard** : 1..1  
+   (Each guest is issued exactly one identity card.)
+
+3. **CarPark** -- Aggregation -- **Barrier** : 1..*  
+   (A car park can have multiple barriers, but barriers can exist independently of a specific car park.)
+
+4. **CarPark** -- Aggregation -- **CardReader** : 1..1  
+   (A car park has one card reader that is used for access control.)
+
+5. **CardReader** -- Association -- **Barrier** : 1..*  
+   (A card reader can control multiple barriers, but each barrier is controlled by one card reader at a time.)
+
+6. **CarPark** -- Composition -- **Sign** : 1..1  
+   (A sign is an integral part of the car park and cannot exist without it.)
+
+7. **Reception** -- Aggregation -- **IdentityCard** : 0..*  
+   (Reception can issue multiple guest identity cards, but it can also exist without any guest cards being issued.)
+
+8. **Reception** -- Association -- **Guest** : 0..*  
+   (Reception can issue guest cards to multiple guests, but it can also exist without any guests.)
+
+9. **Guest** -- Association -- **Reception** : 0..1  
+   (Each guest may interact with reception to obtain a guest card, but not all guests may need to visit reception.)
+
+10. **CarPark** -- Association -- **Employee** : 0..*  
+    (Employees can use the car park, but it is not mandatory for all employees to park there.)
+
+11. **CarPark** -- Association -- **Guest** : 0..*  
+    (Guests can use the car park, but it is not mandatory for all guests to park there.)
+
+These relationships and cardinalities provide a clear understanding of how the classes interact with each other within the context of the car park access management system at Saturn Int.
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Employee
+Description: Represents the staff members of Saturn Int. who are issued identity cards for access to the car park.
+ATTRIBUTES:
+- name: String
+- department: String
+- employeeNumber: String
+- identityCard: IdentityCard
+METHODS:
+- getName(): String
+- getDepartment(): String
+- getEmployeeNumber(): String
+- getIdentityCard(): IdentityCard
+
+CLASS: IdentityCard
+Description: Represents the cards issued to employees and guests, containing identification information.
+ATTRIBUTES:
+- cardNumber: String
+- type: String
+- dateOfIssuance: Date
+METHODS:
+- getCardNumber(): String
+- getType(): String
+- getDateOfIssuance(): Date
+
+CLASS: CarPark
+Description: Represents the physical location where cars are parked, managing occupancy and access.
+ATTRIBUTES:
+- capacity: int
+- currentOccupancy: int
+- isFull: boolean
+METHODS:
+- isCarParkFull(): boolean
+- addCar(): void
+- removeCar(): void
+- getCurrentOccupancy(): int
+- getCapacity(): int
+
+CLASS: Barrier
+Description: Represents the barriers at the entrance and exit of the car park, controlling access based on identity card verification.
+ATTRIBUTES:
+- isRaised: boolean
+- location: String
+METHODS:
+- raise(): void
+- lower(): void
+- isBarrierRaised(): boolean
+
+CLASS: CardReader
+Description: Represents the device that reads identity cards and verifies their validity for access control.
+ATTRIBUTES:
+- readerID: String
+- isOperational: boolean
+METHODS:
+- readCard(card: IdentityCard): boolean
+- verifyCard(cardNumber: String): boolean
+- sendSignalToBarrier(barrier: Barrier): void
+
+CLASS: Guest
+Description: Represents visitors to Saturn Int. who are issued guest cards for temporary access to the car park.
+ATTRIBUTES:
+- name: String
+- visitDuration: int
+- identityCard: IdentityCard
+METHODS:
+- getName(): String
+- getVisitDuration(): int
+- getIdentityCard(): IdentityCard
+
+CLASS: Reception
+Description: Represents the location responsible for issuing guest cards and collecting them upon the guest's departure.
+ATTRIBUTES:
+- location: String
+- guestCardsIssued: List<IdentityCard>
+METHODS:
+- issueGuestCard(guest: Guest): IdentityCard
+- collectGuestCard(card: IdentityCard): void
+- getIssuedGuestCards(): List<IdentityCard>
+
+CLASS: Sign
+Description: Represents the display sign at the entrance of the car park indicating its occupancy status.
+ATTRIBUTES:
+- message: String
+- isDisplayed: boolean
+METHODS:
+- displayMessage(message: String): void
+- turnOff(): void
+- turnOn(): void
+- getMessage(): String
+
+RELATIONSHIPS:
+- Employee Association IdentityCard 1..1
+- Guest Association IdentityCard 1..1
+- CarPark Aggregation Barrier 1..*
+- CarPark Aggregation CardReader 1..1
+- CardReader Association Barrier 1..*
+- CarPark Composition Sign 1..1
+- Reception Aggregation IdentityCard 0..*
+- Reception Association Guest 0..*
+- Guest Association Reception 0..1
+- CarPark Association Employee 0..*
+- CarPark Association Guest 0..*
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Employee {
+    - name: String
+    - department: String
+    - employeeNumber: String
+    - identityCard: IdentityCard
+    + getName(): String
+    + getDepartment(): String
+    + getEmployeeNumber(): String
+    + getIdentityCard(): IdentityCard
+}
+
+class IdentityCard {
+    - cardNumber: String
+    - type: String
+    - dateOfIssuance: Date
+    + getCardNumber(): String
+    + getType(): String
+    + getDateOfIssuance(): Date
+}
+
+class CarPark {
+    - capacity: int
+    - currentOccupancy: int
+    - isFull: boolean
+    + isCarParkFull(): boolean
+    + addCar(): void
+    + removeCar(): void
+    + getCurrentOccupancy(): int
+    + getCapacity(): int
+}
+
+class Barrier {
+    - isRaised: boolean
+    - location: String
+    + raise(): void
+    + lower(): void
+    + isBarrierRaised(): boolean
+}
+
+class CardReader {
+    - readerID: String
+    - isOperational: boolean
+    + readCard(card: IdentityCard): boolean
+    + verifyCard(cardNumber: String): boolean
+    + sendSignalToBarrier(barrier: Barrier): void
+}
+
+class Guest {
+    - name: String
+    - visitDuration: int
+    - identityCard: IdentityCard
+    + getName(): String
+    + getVisitDuration(): int
+    + getIdentityCard(): IdentityCard
+}
+
+class Reception {
+    - location: String
+    - guestCardsIssued: List<IdentityCard>
+    + issueGuestCard(guest: Guest): IdentityCard
+    + collectGuestCard(card: IdentityCard): void
+    + getIssuedGuestCards(): List<IdentityCard>
+}
+
+class Sign {
+    - message: String
+    - isDisplayed: boolean
+    + displayMessage(message: String): void
+    + turnOff(): void
+    + turnOn(): void
+    + getMessage(): String
+}
+
+Employee "1" o-- "1" IdentityCard
+Guest "1" o-- "1" IdentityCard
+CarPark "1" *-- "1..*" Barrier
+CarPark "1" *-- "1" CardReader
+CardReader "1" o-- "1..*" Barrier
+CarPark "1" *-- "1" Sign
+Reception "0..*" *-- "0..*" IdentityCard
+Reception "0..*" o-- "0..*" Guest
+Guest "0..1" o-- "0..*" Reception
+CarPark "0..*" o-- "0..*" Employee
+CarPark "0..*" o-- "0..*" Guest
+
+@enduml
+

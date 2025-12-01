@@ -1,0 +1,129 @@
+```plaintext
+CLASS: Hospital
+Description: Represents the overarching entity that contains multiple offices where doctors practice.
+ATTRIBUTES:
+- name: String
+- location: String
+- offices: List<Office>
+METHODS:
+- addOffice(office: Office): void
+- removeOffice(office: Office): void
+- getOffices(): List<Office>
+
+RELATIONSHIPS:
+- Hospital aggregation Office 1..*
+
+CLASS: Office
+Description: Represents individual locations within a hospital where doctors can see patients and manage their schedules.
+ATTRIBUTES:
+- name: String
+- location: String
+- hospital: Hospital
+- doctors: List<Doctor>
+- schedules: List<Schedule>
+METHODS:
+- addDoctor(doctor: Doctor): void
+- removeDoctor(doctor: Doctor): void
+- createSchedule(schedule: Schedule): void
+- getSchedules(): List<Schedule>
+
+RELATIONSHIPS:
+- Office aggregation Doctor 0..*
+- Office aggregation Schedule 0..*
+- Office association Doctor 0..*
+
+CLASS: Doctor
+Description: Represents the medical professionals who can create schedules, practice in offices, and have appointments with patients.
+ATTRIBUTES:
+- name: String
+- specialization: String
+- offices: List<Office>
+- schedules: List<Schedule>
+METHODS:
+- addOffice(office: Office): void
+- removeOffice(office: Office): void
+- createSchedule(schedule: Schedule): void
+- getAvailableSchedules(): List<Schedule>
+
+RELATIONSHIPS:
+- Doctor association Schedule 0..*
+- Doctor association Office 0..*
+
+CLASS: Patient
+Description: Represents the users of the application who can view doctors, schedules, and book appointments.
+ATTRIBUTES:
+- name: String
+- email: String
+- appointments: List<Appointment>
+METHODS:
+- bookAppointment(appointment: Appointment): void
+- cancelAppointment(appointment: Appointment): void
+- getAppointments(): List<Appointment>
+
+RELATIONSHIPS:
+- Patient association Appointment 0..*
+
+CLASS: Schedule
+Description: Represents the time slots available for doctors in specific offices, indicating when they are available for appointments.
+ATTRIBUTES:
+- date: Date
+- startTime: Time
+- endTime: Time
+- doctor: Doctor
+- office: Office
+- appointments: List<Appointment>
+METHODS:
+- addAppointment(appointment: Appointment): void
+- removeAppointment(appointment: Appointment): void
+- isAvailable(time: Time, duration: int): boolean
+
+RELATIONSHIPS:
+- Schedule association Appointment 0..*
+- Schedule association Doctor 0..*
+- Schedule aggregation Office 0..*
+
+CLASS: Appointment
+Description: Represents the actual bookings made by patients with doctors, which can be of different types (Blood Test, Consultation, Surgery).
+ATTRIBUTES:
+- patient: Patient
+- doctor: Doctor
+- schedule: Schedule
+- appointmentType: AppointmentType
+- dateTime: DateTime
+METHODS:
+- confirm(): void
+- cancel(): void
+- getDetails(): String
+
+RELATIONSHIPS:
+- Appointment association Doctor 1
+- Appointment association Schedule 1
+- Appointment association Appointment Type 1
+- Appointment association Email 0..*
+
+CLASS: Email
+Description: Represents the communication sent to patients for appointment confirmations, indicating a notification mechanism within the application.
+ATTRIBUTES:
+- recipient: String
+- subject: String
+- body: String
+- sentDate: DateTime
+METHODS:
+- send(): void
+- getDetails(): String
+
+RELATIONSHIPS:
+- Email association Appointment 0..1
+
+CLASS: Appointment Type
+Description: Represents the different categories of appointments (Blood Test, Consultation, Surgery) that have specific durations and characteristics.
+ATTRIBUTES:
+- name: String
+- duration: int
+METHODS:
+- getDuration(): int
+- getName(): String
+
+RELATIONSHIPS:
+- Appointment Type association Appointment 1
+```

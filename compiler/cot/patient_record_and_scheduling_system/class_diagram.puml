@@ -1,0 +1,134 @@
+@startuml
+
+class Patient {
+    - patientID: String
+    - name: String
+    - dateOfBirth: Date
+    - gender: String
+    - contactInfo: String
+    - familyID: String
+    - primaryCarePhysicianID: String
+    + getPatientDetails(): Patient
+    + updateContactInfo(newContactInfo: String): void
+    + addVisit(visit: Visit): void
+    + getPatientHistory(): PatientHistory
+}
+
+class Family {
+    - familyID: String
+    - headOfFamilyID: String
+    - members: List<Patient>
+    + addMember(patient: Patient): void
+    + removeMember(patientID: String): void
+    + getFamilyMembers(): List<Patient>
+}
+
+class Doctor {
+    - doctorID: String
+    - name: String
+    - specialization: String
+    - contactInfo: String
+    - patients: List<Patient>
+    + getDoctorDetails(): Doctor
+    + addPatient(patient: Patient): void
+    + removePatient(patientID: String): void
+    + viewPatientHistory(patientID: String): PatientHistory
+}
+
+class Receptionist {
+    - receptionistID: String
+    - name: String
+    - contactInfo: String
+    + addNewPatient(patient: Patient): void
+    + scheduleAppointment(appointment: Appointment): void
+    + updatePatientInfo(patient: Patient): void
+}
+
+class Nurse {
+    - nurseID: String
+    - name: String
+    - contactInfo: String
+    + recordVisit(visit: Visit): void
+    + updateDiagnosis(visitID: String, diagnosis: Diagnosis): void
+    + prescribeMedication(visitID: String, medication: Medication): void
+    + printPatientHistory(patientID: String): void
+}
+
+class Appointment {
+    - appointmentID: String
+    - patientID: String
+    - doctorID: String
+    - dateTime: Date
+    - status: String
+    + getAppointmentDetails(): Appointment
+    + reschedule(newDateTime: Date): void
+    + cancel(): void
+}
+
+class Visit {
+    - visitID: String
+    - patientID: String
+    - doctorID: String
+    - dateTime: Date
+    - diagnosis: Diagnosis
+    - treatment: Treatment
+    - medications: List<Medication>
+    + getVisitDetails(): Visit
+    + addDiagnosis(diagnosis: Diagnosis): void
+    + addTreatment(treatment: Treatment): void
+    + addMedication(medication: Medication): void
+}
+
+class Diagnosis {
+    - diagnosisID: String
+    - description: String
+    - dateDiagnosed: Date
+    + getDiagnosisDetails(): Diagnosis
+    + updateDescription(newDescription: String): void
+}
+
+class Medication {
+    - medicationID: String
+    - name: String
+    - dosage: String
+    - frequency: String
+    + getMedicationDetails(): Medication
+    + updateDosage(newDosage: String): void
+}
+
+class Treatment {
+    - treatmentID: String
+    - description: String
+    - dateAdministered: Date
+    + getTreatmentDetails(): Treatment
+    + updateDescription(newDescription: String): void
+}
+
+class PatientHistory {
+    - patientID: String
+    - visits: List<Visit>
+    + getHistoryDetails(): PatientHistory
+    + addVisit(visit: Visit): void
+}
+
+' Relationships
+Patient "1" o-- "1" Family
+Family "1" *-- "*" Patient
+Patient "0..1" o-- "0..*" Doctor
+Doctor "1" *-- "*" Patient
+Receptionist "1" o-- "*" Patient
+Receptionist "1" o-- "*" Appointment
+Patient "1" o-- "*" Appointment
+Doctor "1" o-- "*" Appointment
+Visit "1" o-- "1" Patient
+Visit "1" o-- "1" Doctor
+Visit "0..*" o-- "1" Diagnosis
+Visit "0..*" o-- "1" Treatment
+Visit "0..*" o-- "1" Medication
+Diagnosis "1" o-- "1" Visit
+Medication "1" o-- "1" Visit
+Treatment "1" o-- "1" Visit
+PatientHistory "1" o-- "1" Patient
+PatientHistory "1" *-- "*" Visit
+
+@enduml

@@ -1,0 +1,36 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The software application will manage filmed scenes for realizing a movie.
+[OK] Every scene is identified by a code.
+[OK] Every scene is described by a text in natural language.
+[OK] Every scene is filmed from at least one position.
+[OK] Each filming position is called a setup.
+[OK] Every setup is characterized by a code.
+[OK] Every setup has a text in natural language for photographic parameters.
+[OK] A setup is related to a single scene.
+[OK] For every setup, several takes may be filmed.
+[OK] Every take is characterized by a positive natural number.
+[OK] Every take has a real number representing the number of meters of film used.
+[OK] Every take has a code for the reel where the film is stored.
+[OK] A take is associated with a single setup.
+[OK] Scenes are divided into internals and externals.
+[OK] Internals are filmed in a theater.
+[OK] Externals are filmed in a location.
+[OK] Externals can be classified as 'day scene' or 'night scene'.
+[OK] Locations are characterized by a code.
+[OK] Locations have an address.
+[OK] Locations have a text describing them in natural language.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] The software will follow the 'Hollywood Approach'.
+[MISSING] Photographic parameters include aperture, exposure, focal length, and filters.
+[MISSING] At least one take must be filmed for every setup.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The requirement specifies that a scene can be either internal or external, but the design does not clearly indicate how a scene is classified as internal or external. The design should include a mechanism to distinguish between these two types.
+[ISSUE] Holistic Issue: The requirement mentions that externals can be classified into 'day scene' or 'night scene', but the design does not explicitly show how this classification is handled within the External class.
+[ISSUE] Holistic Issue: The requirement states that each setup is related to a single scene, but the design implies that a Setup can exist independently without a clear reference to its associated Scene in the relationship.
+[ISSUE] Holistic Issue: The requirement specifies that a take is characterized by a positive natural number for its number, but the design does not enforce this constraint on the 'number' attribute in the Take class.
+[ISSUE] Holistic Issue: The requirement states that locations should have a description in natural language, but the design does not specify the format or constraints for the description attribute in the Location class.
+[ISSUE] Holistic Issue: The design does not include methods for the Scene class to retrieve the types of scenes (internal or external), which is a necessary feature according to the requirements.

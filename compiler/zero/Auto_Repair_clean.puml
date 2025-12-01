@@ -1,0 +1,58 @@
+@startuml
+
+class Employee {
+    +employeeId: String
+    +name: String
+    +address: String
+    +getEmployeeDetails(): String
+    +assignService(service: AssemblyService): void
+}
+
+class Owner {
+    +ownerId: String
+    +name: String
+    +address: String
+    +phone: String
+    +getOwnerDetails(): String
+    +addCar(car: Car): void
+}
+
+class Car {
+    +licensePlate: String
+    +make: String
+    +model: String
+    +color: String
+    +owner: Owner
+    +getCarDetails(): String
+    +updateOwner(newOwner: Owner): void
+}
+
+class PartAccessory {
+    +serialNumber: String
+    +category: String
+    +price: Decimal
+    +compatibleModels: List<String>
+    +getPartAccessoryDetails(): String
+    +isCompatibleWith(model: String): Boolean
+}
+
+class AssemblyService {
+    +serviceId: String
+    +car: Car
+    +kmsAtService: Integer
+    +responsibleEmployee: Employee
+    +fittedParts: List<PartAccessory>
+    +workHours: Integer
+    +admissionDate: Date
+    +finishDate: Date
+    +getServiceDetails(): String
+    +calculateTotalCost(): Decimal
+}
+
+Employee "1" -- "0..*" AssemblyService : responsible for >
+Owner "1" -- "0..*" Car : owns >
+Car "1" -- "0..*" AssemblyService : has >
+AssemblyService "0..*" -- "0..*" PartAccessory : includes >
+PartAccessory "0..*" -- "0..*" Car : fits >
+
+@enduml

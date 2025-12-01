@@ -1,0 +1,40 @@
+@startuml
+class Airline {
+    +airlineId
+}
+
+class Flight {
+    +flightId
+    +departureTime
+    +arrivalTime
+}
+
+class Pilot {
+    +pilotId
+    +name
+    +experienceLevel
+}
+
+class Aircraft {
+    +aircraftId
+    +aircraftType
+    +state
+    +status
+}
+
+class Airport {
+    +airportId
+    +name
+    +location
+}
+
+Airline "1" -- "*" Flight
+Airline "1" -- "*" Aircraft
+Airline "1" -- "*" Pilot
+Flight "1" -- "1" Pilot : as Captain
+Flight "1" -- "1" Pilot : as Co-Pilot
+Flight "*" -- "1" Aircraft
+Flight "1" -- "1" Airport : as Departure
+Flight "1" -- "1" Airport : as Arrival
+Airport "1" -- "*" Flight
+@enduml

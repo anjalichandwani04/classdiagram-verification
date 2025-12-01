@@ -1,0 +1,66 @@
+```plantuml
+@startuml
+class Ingredient {
+    +name: String
+    +measuringUnit: String
+    +quantityInStock: Float
+    +getName(): String
+    +getMeasuringUnit(): String
+    +getQuantityInStock(): Float
+    +setQuantityInStock(quantity: Float): void
+}
+
+class Dish {
+    +name: String
+    +identifier: Integer
+    +getName(): String
+    +getIdentifier(): Integer
+    +getIngredients(): List<Ingredient>
+    +addIngredient(ingredient: Ingredient, quantity: Float): void
+}
+
+class Table {
+    +identifier: Integer
+    +maxCapacity: Integer
+    +getIdentifier(): Integer
+    +getMaxCapacity(): Integer
+}
+
+class Meal {
+    +date: Date
+    +startTime: Time
+    +endTime: Time
+    +getDate(): Date
+    +getStartTime(): Time
+    +getEndTime(): Time
+    +getDishes(): List<Dish>
+    +addDish(dish: Dish, quantity: Integer): void
+}
+
+class Waiter {
+    +identifier: Integer
+    +name: String
+    +address: String
+    +phoneNumber: String
+    +getIdentifier(): Integer
+    +getName(): String
+    +getAddress(): String
+    +getPhoneNumber(): String
+}
+
+class Client {
+    +taxIdentificationNumber: String
+    +name: String
+    +address: String
+    +getTaxIdentificationNumber(): String
+    +getName(): String
+    +getAddress(): String
+}
+
+Dish "1..*" -- "1..*" Ingredient : uses >
+Meal "1..*" -- "1..*" Dish : consists of >
+Meal "1" -- "1" Table : takes place at >
+Meal "1" -- "1" Waiter : served by >
+Meal "0..1" -- "0..*" Client : consumed by >
+@enduml
+```

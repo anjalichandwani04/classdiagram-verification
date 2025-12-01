@@ -1,0 +1,31 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The contract of a prepaid cell phone should be modelled and implemented.
+[OK] A basic contract has a contract number of type int.
+[OK] A basic contract has a balance of type double.
+[OK] A basic contract has no monthly charges.
+[OK] The contract number is not automatically generated.
+[OK] The balance has a getter method.
+[OK] The balance has a setter method.
+[OK] Options can be added to a contract.
+[OK] 100 MB of data can be added to a contract with a monthly charge of 1.00€.
+[OK] 50 SMS can be added to a contract with a monthly charge of 0.50€.
+[OK] 50 minutes can be added to a contract with a monthly charge of 1.50€.
+[OK] Double Transfer Rate can be added to a contract with a monthly charge of 2.00€.
+[OK] The requirement should be implemented with the help of the decorator pattern.
+[OK] All contract elements should understand the method getCharges() that returns a double.
+[OK] All contract elements should understand the method getBalance() that returns a double.
+[OK] All contract elements should understand the method setBalance(double).
+[OK] The method getCharges() should provide the monthly charge of a contract with all its options selected.
+[OK] The methods getBalance() and setBalance() should be passed through and access the basic contract.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] The contract number is to be set as a parameter by the constructor.
+[MISSING] The initial balance is to be set as a parameter by the constructor.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The Decorator class does not explicitly show how it aggregates charges from the Contract and the added options.
+[ISSUE] Holistic Issue: The relationship between Option and its subclasses (DataOption, SmsOption, MinutesOption, TransferRateOption) is described as inheritance, but it should be composition to align with the decorator pattern.
+[ISSUE] Holistic Issue: The ChargesCalculator class is mentioned but does not integrate with the Decorator pattern or the Contract class to calculate charges correctly.
+[ISSUE] Holistic Issue: The Contract class should have a mechanism to handle the addition of options and their respective charges, which is not clearly defined.

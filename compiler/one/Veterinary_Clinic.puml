@@ -1,0 +1,51 @@
+@startuml
+class Animal {
+    +animalId: Integer
+    +name: String
+}
+
+class Owner {
+    +ownerId: Integer
+    +name: String
+    +address: String
+    +phoneNumber: String
+}
+
+class Breed {
+    +breedId: Integer
+    +commonName: String
+}
+
+class Appointment {
+    +appointmentId: Integer
+    +dateTime: DateTime
+}
+
+class Physician {
+    +physicianId: Integer
+    +name: String
+    +address: String
+    +phoneNumber: String
+}
+
+class Condition {
+    +conditionId: Integer
+    +commonName: String
+    +scientificName: String
+}
+
+Animal "1..*" -- "1" Owner : owns >
+Animal "1..*" -- "1" Breed : associated with >
+Animal "1" -- "0..*" Appointment : has >
+Owner "1" -- "0..*" Appointment : attends >
+Owner "1" -- "0..*" Animal : owns >
+Breed "1" -- "0..*" Animal : has >
+Breed "1" -- "0..*" Condition : associated with >
+Appointment "1" -- "1" Animal : for >
+Appointment "1" -- "1" Owner : attended by >
+Appointment "1" -- "1" Physician : managed by >
+Appointment "1" -- "0..*" Condition : has >
+Physician "1" -- "0..*" Appointment : manages >
+Condition "1" -- "0..*" Appointment : detected in >
+Condition "1" -- "0..*" Breed : associated with >
+@enduml

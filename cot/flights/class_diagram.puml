@@ -1,0 +1,88 @@
+@startuml
+
+class Airline {
+    - id: String
+    - name: String
+    - aircrafts: List<Aircraft>
+    - pilots: List<Pilot>
+    + addAircraft(aircraft: Aircraft): void
+    + removeAircraft(aircraftId: String): void
+    + addPilot(pilot: Pilot): void
+    + removePilot(pilotId: String): void
+    + getAircrafts(): List<Aircraft>
+    + getPilots(): List<Pilot>
+}
+
+class Flight {
+    - id: String
+    - departureAirport: Airport
+    - arrivalAirport: Airport
+    - departureTime: DateTime
+    - arrivalTime: DateTime
+    - pilot: Pilot
+    - coPilot: CoPilot
+    - aircraft: Aircraft
+    + scheduleFlight(departure: DateTime, arrival: DateTime): void
+    + getFlightDetails(): String
+    + updateFlightTimes(departure: DateTime, arrival: DateTime): void
+}
+
+class Airport {
+    - id: String
+    - name: String
+    - location: String
+    + getAirportDetails(): String
+    + updateAirportInfo(name: String, location: String): void
+}
+
+class Pilot {
+    - id: String
+    - name: String
+    - experienceLevel: ExperienceLevel
+    + getPilotDetails(): String
+    + updateExperienceLevel(level: ExperienceLevel): void
+}
+
+class CoPilot {
+    - id: String
+    - name: String
+    - experienceLevel: ExperienceLevel
+    + getCoPilotDetails(): String
+    + updateExperienceLevel(level: ExperienceLevel): void
+}
+
+class Aircraft {
+    - id: String
+    - type: AeroplaneType
+    - state: String
+    - status: String
+    + getAircraftDetails(): String
+    + updateState(state: String): void
+    + updateStatus(status: String): void
+}
+
+class ExperienceLevel {
+    - level: int
+    + getLevelDescription(): String
+}
+
+class AeroplaneType {
+    - id: String
+    - name: String
+    - requiredPilots: int
+    + getAeroplaneTypeDetails(): String
+    + updateRequiredPilots(count: int): void
+}
+
+Airline *-- "1..*" Aircraft
+Airline *-- "1..*" Pilot
+Flight --> "2" Airport
+Flight --> "1" Pilot
+Flight --> "1" CoPilot
+Flight --> "1" Aircraft
+Pilot o-- "1" ExperienceLevel
+CoPilot <|-- Pilot
+Aircraft --> "1" AeroplaneType
+AeroplaneType *-- "1..*" Pilot
+
+@enduml

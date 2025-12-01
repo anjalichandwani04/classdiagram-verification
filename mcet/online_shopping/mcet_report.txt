@@ -1,0 +1,37 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] Each customer has a unique id.
+[OK] Each customer is linked to exactly one account.
+[OK] An account owns a shopping cart.
+[OK] An account owns orders.
+[OK] A customer could register as a web user to buy items online.
+[OK] A customer is not required to be a web user.
+[OK] A web user has a login name.
+[OK] The login name serves as a unique id for the web user.
+[OK] A web user is linked to a shopping cart.
+[OK] A shopping cart belongs to an account.
+[OK] An account owns customer orders.
+[OK] A customer may have no orders.
+[OK] Each order could refer to several payments.
+[OK] An order could refer to possibly no payments.
+[OK] Every payment has a unique id.
+[OK] Every payment is related to exactly one account.
+[OK] Each order has a current order status.
+[OK] Both order and shopping cart have line items linked to a specific product.
+[OK] Each line item is related to exactly one product.
+[OK] A product could be associated with many line items.
+[OK] A product could be associated with no line items at all.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] Purchases could be made by phone.
+[MISSING] Purchases could be made by ordering from catalogues.
+[MISSING] A web user could be in several states: new, active, temporary blocked, or banned.
+[MISSING] Customer orders are sorted.
+[MISSING] Customer orders are unique.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not include the concept of order sorting and uniqueness as stated in the requirements.
+[ISSUE] Holistic Issue: The design does not mention that a customer can make purchases by phone or catalog, which is part of the requirements.
+[ISSUE] Holistic Issue: The design does not clarify that the login name of a web user serves as a unique ID, which is a requirement.
+[ISSUE] Holistic Issue: The design does not include the states of the web user (new, active, temporary blocked, banned) as specified in the requirements.

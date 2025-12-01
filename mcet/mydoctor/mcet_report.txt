@@ -1,0 +1,32 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The MyDoctor application is a management tool for doctor appointments.
+[OK] A hospital has multiple offices.
+[OK] Users of the application can be doctors.
+[OK] Users of the application can be patients.
+[OK] Doctors can apply to practice in offices.
+[OK] Doctors can create a schedule for an office.
+[OK] Patients can see existing doctors in the system.
+[OK] Patients can see the schedule of the offices.
+[OK] Patients can book appointments for specific doctors.
+[OK] Patients can book appointments for specific schedules.
+[OK] Appointments can be of three types: Blood Test, Consultation, and Surgery.
+[OK] A Blood Test appointment lasts 15 minutes.
+[OK] A Consultation appointment lasts 30 minutes.
+[OK] A Surgery appointment lasts 60 minutes.
+[OK] An email is sent to the patient with the confirmation of the appointment.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] Schedules in different offices cannot overlay.
+[MISSING] Booking an appointment is not possible if another appointment is already booked at the same time.
+[MISSING] User Mike can create a blood test booking for Doctor Ana for the 4th of September starting at 15:30 PM.
+[MISSING] User Mike cannot create an intervention booking for Doctor Ana for the 4th of September starting at 15:00 PM.
+[MISSING] User Mike can create an intervention booking for Doctor Ana for the 4th of September starting at 16:00 PM.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not explicitly enforce the rule that schedules in different offices cannot overlap for the same doctor.
+[ISSUE] Holistic Issue: The 'isAvailable' method in the Schedule class does not specify how it handles overlapping appointments across different offices.
+[ISSUE] Holistic Issue: The design lacks a mechanism for notifying patients about appointment conflicts when booking.
+[ISSUE] Holistic Issue: The design does not specify how the application handles the creation of schedules that are not allowed to overlap.
+[ISSUE] Holistic Issue: The relationship between Appointment and Email is not clearly defined in terms of when an email is sent after booking an appointment.

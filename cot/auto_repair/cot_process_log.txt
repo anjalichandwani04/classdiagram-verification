@@ -1,0 +1,480 @@
+PROJECT: Auto Repair
+REQ:
+An auto repair shop, that sells and mounts parts and accessories for all kinds of vehicles, wants a new information system to manage their clients, parts, accessories and assembly services: ● There are several employees. Each one of them has an unique identifying number, a name and an address. ● In this shop, assembly services, where parts and accessories are installed in a vehicle, are executed. For each one these services the following data must be stored: In which car the service was executed, how many kms had the car at the time, who was the responsible employee, which parts and accessories were fitted, how many work hours did it take and the admission and finish dates. ● Parts and accessories are only sold together with an assembly service. ● Each part/accessory only fits in some car models. Therefore, it is important to store that information. ● Each part/accessory has a category (radio, tyre, …), a serial number and a price. ● Each car has a license plate, a make, a model, a color and an owner. Each owner has a name, identifying number, address and a phone. ● One person can own more than one car but one car only has one owner.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with justifications for each:
+
+1. **Employee**
+   - Justification: Employees are a key entity in the auto repair shop, responsible for executing assembly services. Each employee has unique identifying attributes such as an ID, name, and address.
+
+2. **Client (Owner)**
+   - Justification: Clients (or car owners) are essential as they own the vehicles that receive services. Each client has identifying attributes such as name, ID, address, and phone number.
+
+3. **Car**
+   - Justification: Cars are the primary objects of service in the shop. Each car has specific attributes like license plate, make, model, color, and an owner associated with it.
+
+4. **Service**
+   - Justification: Assembly services represent the actions performed in the shop, where parts and accessories are installed in cars. Each service has attributes such as the car serviced, kilometers at the time of service, responsible employee, parts and accessories fitted, work hours, and admission/finish dates.
+
+5. **Part**
+   - Justification: Parts are components that can be sold and installed in vehicles. Each part has attributes like category, serial number, price, and compatibility with specific car models.
+
+6. **Accessory**
+   - Justification: Accessories are similar to parts but may serve different purposes. Like parts, they also have attributes such as category, serial number, price, and compatibility with specific car models.
+
+7. **Category**
+   - Justification: Categories classify parts and accessories (e.g., radio, tyre). This entity helps in organizing and managing the inventory of parts and accessories.
+
+8. **Model**
+   - Justification: Car models are important for determining compatibility with parts and accessories. This entity can help in managing which parts fit which models.
+
+These classes collectively represent the core entities involved in the operations of the auto repair shop and their relationships, which are crucial for the information system being developed.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes for the auto repair shop information system, here are the attributes and methods for each class:
+
+### 1. **Employee**
+- **Attributes:**
+  - `employeeID: int`
+  - `name: String`
+  - `address: String`
+
+- **Methods:**
+  - `getEmployeeID(): int`
+  - `getName(): String`
+  - `getAddress(): String`
+  - `setName(name: String): void`
+  - `setAddress(address: String): void`
+
+### 2. **Client (Owner)**
+- **Attributes:**
+  - `clientID: int`
+  - `name: String`
+  - `address: String`
+  - `phoneNumber: String`
+
+- **Methods:**
+  - `getClientID(): int`
+  - `getName(): String`
+  - `getAddress(): String`
+  - `getPhoneNumber(): String`
+  - `setName(name: String): void`
+  - `setAddress(address: String): void`
+  - `setPhoneNumber(phoneNumber: String): void`
+
+### 3. **Car**
+- **Attributes:**
+  - `licensePlate: String`
+  - `make: String`
+  - `model: String`
+  - `color: String`
+  - `owner: Client`
+
+- **Methods:**
+  - `getLicensePlate(): String`
+  - `getMake(): String`
+  - `getModel(): String`
+  - `getColor(): String`
+  - `getOwner(): Client`
+  - `setMake(make: String): void`
+  - `setModel(model: String): void`
+  - `setColor(color: String): void`
+
+### 4. **Service**
+- **Attributes:**
+  - `car: Car`
+  - `kilometersAtService: int`
+  - `responsibleEmployee: Employee`
+  - `fittedParts: List<Part>`
+  - `fittedAccessories: List<Accessory>`
+  - `workHours: float`
+  - `admissionDate: Date`
+  - `finishDate: Date`
+
+- **Methods:**
+  - `getCar(): Car`
+  - `getKilometersAtService(): int`
+  - `getResponsibleEmployee(): Employee`
+  - `getFittedParts(): List<Part>`
+  - `getFittedAccessories(): List<Accessory>`
+  - `getWorkHours(): float`
+  - `getAdmissionDate(): Date`
+  - `getFinishDate(): Date`
+  - `addPart(part: Part): void`
+  - `addAccessory(accessory: Accessory): void`
+
+### 5. **Part**
+- **Attributes:**
+  - `category: Category`
+  - `serialNumber: String`
+  - `price: float`
+  - `compatibleModels: List<Model>`
+
+- **Methods:**
+  - `getCategory(): Category`
+  - `getSerialNumber(): String`
+  - `getPrice(): float`
+  - `getCompatibleModels(): List<Model>`
+  - `setPrice(price: float): void`
+
+### 6. **Accessory**
+- **Attributes:**
+  - `category: Category`
+  - `serialNumber: String`
+  - `price: float`
+  - `compatibleModels: List<Model>`
+
+- **Methods:**
+  - `getCategory(): Category`
+  - `getSerialNumber(): String`
+  - `getPrice(): float`
+  - `getCompatibleModels(): List<Model>`
+  - `setPrice(price: float): void`
+
+### 7. **Category**
+- **Attributes:**
+  - `categoryID: int`
+  - `name: String`
+
+- **Methods:**
+  - `getCategoryID(): int`
+  - `getName(): String`
+  - `setName(name: String): void`
+
+### 8. **Model**
+- **Attributes:**
+  - `modelID: int`
+  - `name: String`
+  - `make: String`
+
+- **Methods:**
+  - `getModelID(): int`
+  - `getName(): String`
+  - `getMake(): String`
+  - `setName(name: String): void`
+  - `setMake(make: String): void`
+
+These attributes and methods provide a structured way to manage the various entities involved in the operations of the auto repair shop, allowing for efficient data handling and manipulation.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided description and the identified classes for the auto repair shop information system, here are the relationships between the classes, their types, and cardinalities:
+
+1. **Employee** -- **Association** -- **Service** : 1..*  
+   (An employee can be responsible for multiple services, but each service is executed by one employee.)
+
+2. **Client (Owner)** -- **Association** -- **Car** : 1..*  
+   (A client can own multiple cars, but each car has one owner.)
+
+3. **Car** -- **Association** -- **Service** : 1..*  
+   (A car can have multiple services performed on it, but each service is associated with one specific car.)
+
+4. **Service** -- **Composition** -- **Part** : 0..*  
+   (A service can include zero or more parts, and parts are only relevant in the context of a service.)
+
+5. **Service** -- **Composition** -- **Accessory** : 0..*  
+   (A service can include zero or more accessories, and accessories are only relevant in the context of a service.)
+
+6. **Part** -- **Association** -- **Category** : 1  
+   (Each part belongs to one category, but a category can have multiple parts.)
+
+7. **Accessory** -- **Association** -- **Category** : 1  
+   (Each accessory belongs to one category, but a category can have multiple accessories.)
+
+8. **Part** -- **Association** -- **Model** : 0..*  
+   (A part can be compatible with zero or more car models, and a model can have multiple parts associated with it.)
+
+9. **Accessory** -- **Association** -- **Model** : 0..*  
+   (An accessory can be compatible with zero or more car models, and a model can have multiple accessories associated with it.)
+
+10. **Model** -- **Association** -- **Category** : 0..*  
+   (A model can belong to zero or more categories, and a category can have multiple models associated with it.)
+
+This structure captures the relationships and cardinalities among the classes in the auto repair shop information system, providing a clear understanding of how the entities interact with each other.
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Employee
+Description: Represents an employee in the auto repair shop responsible for executing assembly services.
+ATTRIBUTES:
+- employeeID: int
+- name: String
+- address: String
+METHODS:
+- getEmployeeID(): int
+- getName(): String
+- getAddress(): String
+- setName(name: String): void
+- setAddress(address: String): void
+
+RELATIONSHIPS:
+- Employee Association Service 1..*
+
+CLASS: Client
+Description: Represents a car owner who has one or more vehicles serviced at the auto repair shop.
+ATTRIBUTES:
+- clientID: int
+- name: String
+- address: String
+- phoneNumber: String
+METHODS:
+- getClientID(): int
+- getName(): String
+- getAddress(): String
+- getPhoneNumber(): String
+- setName(name: String): void
+- setAddress(address: String): void
+- setPhoneNumber(phoneNumber: String): void
+
+RELATIONSHIPS:
+- Client Association Car 1..*
+
+CLASS: Car
+Description: Represents a vehicle that receives services at the auto repair shop.
+ATTRIBUTES:
+- licensePlate: String
+- make: String
+- model: String
+- color: String
+- owner: Client
+METHODS:
+- getLicensePlate(): String
+- getMake(): String
+- getModel(): String
+- getColor(): String
+- getOwner(): Client
+- setMake(make: String): void
+- setModel(model: String): void
+- setColor(color: String): void
+
+RELATIONSHIPS:
+- Car Association Service 1..*
+
+CLASS: Service
+Description: Represents an assembly service performed on a car, including details about the car, employee, and parts/accessories used.
+ATTRIBUTES:
+- car: Car
+- kilometersAtService: int
+- responsibleEmployee: Employee
+- fittedParts: List<Part>
+- fittedAccessories: List<Accessory>
+- workHours: float
+- admissionDate: Date
+- finishDate: Date
+METHODS:
+- getCar(): Car
+- getKilometersAtService(): int
+- getResponsibleEmployee(): Employee
+- getFittedParts(): List<Part>
+- getFittedAccessories(): List<Accessory>
+- getWorkHours(): float
+- getAdmissionDate(): Date
+- getFinishDate(): Date
+- addPart(part: Part): void
+- addAccessory(accessory: Accessory): void
+
+RELATIONSHIPS:
+- Service Composition Part 0..*
+- Service Composition Accessory 0..*
+
+CLASS: Part
+Description: Represents a component that can be sold and installed in vehicles, with specific attributes for categorization and compatibility.
+ATTRIBUTES:
+- category: Category
+- serialNumber: String
+- price: float
+- compatibleModels: List<Model>
+METHODS:
+- getCategory(): Category
+- getSerialNumber(): String
+- getPrice(): float
+- getCompatibleModels(): List<Model>
+- setPrice(price: float): void
+
+RELATIONSHIPS:
+- Part Association Category 1
+- Part Association Model 0..*
+
+CLASS: Accessory
+Description: Represents an accessory that can be sold and installed in vehicles, similar to parts but serving different purposes.
+ATTRIBUTES:
+- category: Category
+- serialNumber: String
+- price: float
+- compatibleModels: List<Model>
+METHODS:
+- getCategory(): Category
+- getSerialNumber(): String
+- getPrice(): float
+- getCompatibleModels(): List<Model>
+- setPrice(price: float): void
+
+RELATIONSHIPS:
+- Accessory Association Category 1
+- Accessory Association Model 0..*
+
+CLASS: Category
+Description: Represents a classification for parts and accessories, helping to organize inventory.
+ATTRIBUTES:
+- categoryID: int
+- name: String
+METHODS:
+- getCategoryID(): int
+- getName(): String
+- setName(name: String): void
+
+RELATIONSHIPS:
+- Category Association Part 0..*
+- Category Association Accessory 0..*
+- Category Association Model 0..*
+
+CLASS: Model
+Description: Represents a car model, which is important for determining compatibility with parts and accessories.
+ATTRIBUTES:
+- modelID: int
+- name: String
+- make: String
+METHODS:
+- getModelID(): int
+- getName(): String
+- getMake(): String
+- setName(name: String): void
+- setMake(make: String): void
+
+RELATIONSHIPS:
+- Model Association Part 0..*
+- Model Association Accessory 0..*
+- Model Association Category 0..*
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Employee {
+    - employeeID: int
+    - name: String
+    - address: String
+    + getEmployeeID(): int
+    + getName(): String
+    + getAddress(): String
+    + setName(name: String): void
+    + setAddress(address: String): void
+}
+
+class Client {
+    - clientID: int
+    - name: String
+    - address: String
+    - phoneNumber: String
+    + getClientID(): int
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+    + setName(name: String): void
+    + setAddress(address: String): void
+    + setPhoneNumber(phoneNumber: String): void
+}
+
+class Car {
+    - licensePlate: String
+    - make: String
+    - model: String
+    - color: String
+    - owner: Client
+    + getLicensePlate(): String
+    + getMake(): String
+    + getModel(): String
+    + getColor(): String
+    + getOwner(): Client
+    + setMake(make: String): void
+    + setModel(model: String): void
+    + setColor(color: String): void
+}
+
+class Service {
+    - car: Car
+    - kilometersAtService: int
+    - responsibleEmployee: Employee
+    - fittedParts: List<Part>
+    - fittedAccessories: List<Accessory>
+    - workHours: float
+    - admissionDate: Date
+    - finishDate: Date
+    + getCar(): Car
+    + getKilometersAtService(): int
+    + getResponsibleEmployee(): Employee
+    + getFittedParts(): List<Part>
+    + getFittedAccessories(): List<Accessory>
+    + getWorkHours(): float
+    + getAdmissionDate(): Date
+    + getFinishDate(): Date
+    + addPart(part: Part): void
+    + addAccessory(accessory: Accessory): void
+}
+
+class Part {
+    - category: Category
+    - serialNumber: String
+    - price: float
+    - compatibleModels: List<Model>
+    + getCategory(): Category
+    + getSerialNumber(): String
+    + getPrice(): float
+    + getCompatibleModels(): List<Model>
+    + setPrice(price: float): void
+}
+
+class Accessory {
+    - category: Category
+    - serialNumber: String
+    - price: float
+    - compatibleModels: List<Model>
+    + getCategory(): Category
+    + getSerialNumber(): String
+    + getPrice(): float
+    + getCompatibleModels(): List<Model>
+    + setPrice(price: float): void
+}
+
+class Category {
+    - categoryID: int
+    - name: String
+    + getCategoryID(): int
+    + getName(): String
+    + setName(name: String): void
+}
+
+class Model {
+    - modelID: int
+    - name: String
+    - make: String
+    + getModelID(): int
+    + getName(): String
+    + getMake(): String
+    + setName(name: String): void
+    + setMake(make: String): void
+}
+
+Employee --> "1..*" Service : Association
+Client --> "1..*" Car : Association
+Car --> "1..*" Service : Association
+Service *-- "0..*" Part : Composition
+Service *-- "0..*" Accessory : Composition
+Part --> "1" Category : Association
+Part --> "0..*" Model : Association
+Accessory --> "1" Category : Association
+Accessory --> "0..*" Model : Association
+Category --> "0..*" Part : Association
+Category --> "0..*" Accessory : Association
+Category --> "0..*" Model : Association
+Model --> "0..*" Part : Association
+Model --> "0..*" Accessory : Association
+Model --> "0..*" Category : Association
+
+@enduml
+

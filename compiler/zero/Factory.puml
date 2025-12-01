@@ -1,0 +1,78 @@
+```plantuml
+@startuml
+class Factory {
+    +factoryId: String
+    +name: String
+    +addMachine(machine: Machine): void
+    +removeMachine(machineId: String): void
+    +getMachines(): List<Machine>
+}
+
+class Machine {
+    +machineId: String
+    +serialNumber: String
+    +make: String
+    +model: String
+    +purchaseDate: Date
+    +addProduct(product: Product): void
+    +removeProduct(productId: String): void
+    +getProducts(): List<Product>
+    +addWorker(worker: Worker): void
+    +removeWorker(workerId: String): void
+    +getWorkers(): List<Worker>
+}
+
+class Worker {
+    +workerId: String
+    +firstName: String
+    +lastName: String
+    +birthDate: Date
+    +address: String
+    +skills: List<String>
+    +addSkill(skill: String): void
+    +removeSkill(skill: String): void
+    +getSkills(): List<String>
+}
+
+class Product {
+    +productId: String
+    +type: String
+    +weight: Double
+    +material: String
+    +getDetails(): String
+}
+
+class Client {
+    +clientId: String
+    +name: String
+    +address: String
+    +phoneNumber: String
+    +contactPerson: String
+    +getContactDetails(): String
+}
+
+class PurchaseOrder {
+    +orderNumber: String
+    +orderDate: Date
+    +expectedDeliveryDate: Date
+    +actualDeliveryDate: Date
+    +addProduct(product: Product, quantity: int): void
+    +removeProduct(productId: String): void
+    +getOrderDetails(): String
+}
+
+class OrderItem {
+    +productId: String
+    +quantity: int
+    +getItemDetails(): String
+}
+
+Factory "1" -- "0..*" Machine
+Machine "1" -- "0..*" Worker
+Worker "0..*" -- "0..*" Machine
+Machine "1" -- "0..*" Product
+Product "1" -- "1" Material
+Client "1" -- "0..*" PurchaseOrder
+PurchaseOrder "1" -- "0..*" OrderItem
+@enduml
+```

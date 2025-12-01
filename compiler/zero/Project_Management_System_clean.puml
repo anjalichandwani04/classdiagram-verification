@@ -1,0 +1,41 @@
+@startuml
+class ProjectManager {
+    +name: String
+    +employeeId: String
+    +createProject(name: String, startDate: Date, endDate: Date): Project
+    +initiateProject(project: Project): void
+    +terminateProject(project: Project): void
+}
+
+class Project {
+    +name: String
+    +startDate: Date
+    +endDate: Date
+    +status: String
+    +addRequirement(requirement: Requirement): void
+    +addSystem(system: System): void
+    +getWorkProducts(): List<WorkProduct>
+}
+
+abstract class WorkProduct {
+    +description: String
+    +percentComplete: Float
+    +isValidated: Boolean
+    +validate(): void
+}
+
+class Requirement {
+    +mediaType: String
+    +validateWithUsers(): void
+}
+
+class System {
+    +deploymentPlatform: String
+    +validateAgainstRequirements(requirements: List<Requirement>): void
+}
+
+ProjectManager "1" -- "0..*" Project
+Project "1" -- "0..*" WorkProduct
+WorkProduct "0..1" -- "0..*" Requirement
+WorkProduct "0..1" -- "0..*" System
+@enduml

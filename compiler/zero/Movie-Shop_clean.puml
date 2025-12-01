@@ -1,0 +1,40 @@
+@startuml
+class User {
+    +userId: String
+    +name: String
+    +email: String
+    +register(): void
+    +browseCatalogue(): List<Movie>
+    +buyMovie(movie: Movie): Order
+}
+
+class Subscriber {
+    +subscriptionId: String
+    +cardBalance: float
+    +rentMovie(movie: Movie): void
+    +rechargeCard(amount: float): void
+    +checkBalance(): float
+}
+
+class Movie {
+    +movieId: String
+    +title: String
+    +availableCopies: int
+    +isAvailable(): boolean
+    +orderMovie(): void
+}
+
+class Order {
+    +orderId: String
+    +user: User
+    +movie: Movie
+    +orderDate: Date
+    +processOrder(): void
+}
+
+User "1" -- "0..*" Order : places >
+Subscriber --|> User
+Subscriber "1" -- "0..*" Movie : rents >
+Movie "1" -- "0..*" Order : ordered in >
+Order "1" *-- "1" Movie : contains >
+@enduml

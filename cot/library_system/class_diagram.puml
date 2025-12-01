@@ -1,0 +1,78 @@
+@startuml
+
+class User {
+    - fullName: String
+    - email: String
+    - phoneNumber: String
+    + getFullName(): String
+    + getEmail(): String
+    + getPhoneNumber(): String
+    + setFullName(name: String): void
+    + setEmail(email: String): void
+    + setPhoneNumber(phone: String): void
+}
+
+class UnderAgedUser {
+    - studentCard: String
+    - borrowedBooks: List<Book>
+    + getStudentCard(): String
+    + setStudentCard(card: String): void
+    + borrowBook(book: Book): boolean
+    + returnBook(book: Book): boolean
+    + getBorrowedBooks(): List<Book>
+}
+
+class AdultUser {
+    - idCard: String
+    - borrowedBooks: List<Book>
+    + getIdCard(): String
+    + setIdCard(card: String): void
+    + borrowBook(book: Book): boolean
+    + returnBook(book: Book): boolean
+    + getBorrowedBooks(): List<Book>
+}
+
+class Book {
+    - title: String
+    - author: String
+    - isbn: String
+    - availableCopies: int
+    + getTitle(): String
+    + getAuthor(): String
+    + getIsbn(): String
+    + getAvailableCopies(): int
+    + setAvailableCopies(copies: int): void
+    + isAvailable(): boolean
+}
+
+class Borrowing {
+    - user: User
+    - book: Book
+    - borrowingDate: Date
+    - returnDate: Date
+    + getUser(): User
+    + getBook(): Book
+    + getBorrowingDate(): Date
+    + getReturnDate(): Date
+    + setReturnDate(date: Date): void
+}
+
+class BorrowingHistory {
+    - user: User
+    - borrowings: List<Borrowing>
+    + getUser(): User
+    + getBorrowings(): List<Borrowing>
+    + addBorrowing(borrowing: Borrowing): void
+    + getBorrowingHistory(): List<Borrowing>
+}
+
+User <|-- UnderAgedUser
+User <|-- AdultUser
+User o-- BorrowingHistory
+User --> Borrowing
+Book --> Borrowing
+Borrowing *-- User
+Borrowing *-- Book
+BorrowingHistory o-- Borrowing
+
+@enduml

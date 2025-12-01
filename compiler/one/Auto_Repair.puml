@@ -1,0 +1,61 @@
+@startuml
+class Employee {
+    - employeeId: String
+    - name: String
+    - address: String
+    + getEmployeeDetails(): String
+    + assignService(service: AssemblyService): void
+}
+
+class Owner {
+    - ownerId: String
+    - name: String
+    - address: String
+    - phone: String
+    + getOwnerDetails(): String
+    + addCar(car: Car): void
+}
+
+class Car {
+    - licensePlate: String
+    - make: String
+    - model: String
+    - color: String
+    - ownerId: String
+    + getCarDetails(): String
+    + updateCarDetails(): void
+}
+
+class PartAccessory {
+    - serialNumber: String
+    - category: String
+    - price: Decimal
+    + getPartAccessoryDetails(): String
+    + updatePrice(newPrice: Decimal): void
+}
+
+class AssemblyService {
+    - serviceId: String
+    - carLicensePlate: String
+    - employeeId: String
+    - workHours: Decimal
+    - admissionDate: Date
+    - finishDate: Date
+    - kmsAtService: Integer
+    + getServiceDetails(): String
+    + calculateTotalCost(parts: List<PartAccessory>): Decimal
+}
+
+class ServicePartAccessory {
+    - serviceId: String
+    - serialNumber: String
+    + getServicePartAccessoryDetails(): String
+}
+
+Employee "1" -- "0..*" AssemblyService : manages >
+Owner "1" -- "0..*" Car : owns >
+Car "1" -- "0..*" AssemblyService : serviced by >
+AssemblyService "0..*" -- "0..*" PartAccessory : uses >
+AssemblyService "1" -- "1" ServicePartAccessory : includes >
+PartAccessory "1" -- "1" ServicePartAccessory : included in >
+@enduml

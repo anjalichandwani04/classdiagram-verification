@@ -1,0 +1,462 @@
+PROJECT: Online Shopping
+REQ:
+Each customer has unique id and is linked to exactly one account. Account owns shopping cart and orders. Customer could register as a web user to be able to buy items online. Customer is not required to be a web user because purchases could also be made by phone or by ordering from catalogues. Web user has login name which also serves as unique id. Web user could be in several states - new, active, temporary blocked, or banned, and be linked to a shopping cart. Shopping cart belongs to account. Account owns customer orders. Customer may have no orders. Customer orders are sorted and unique. Each order could refer to several payments, possibly none. Every payment has unique id and is related to exactly one account. Each order has current order status. Both order and shopping cart have line items linked to a specific product. Each line item is related to exactly one product. A product could be associated to many line items or no item at all.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with justifications for each:
+
+1. **Customer**
+   - Justification: Represents individuals who make purchases. Each customer has a unique ID and is linked to an account.
+
+2. **Account**
+   - Justification: Represents a financial or transactional entity that owns a shopping cart and customer orders. It links customers to their purchases.
+
+3. **ShoppingCart**
+   - Justification: Represents a temporary storage for items that a customer intends to purchase. It is linked to an account and contains line items.
+
+4. **Order**
+   - Justification: Represents a completed transaction that may consist of multiple payments. Each order is linked to an account and has a current status.
+
+5. **Payment**
+   - Justification: Represents a financial transaction related to an order. Each payment has a unique ID and is associated with an account.
+
+6. **WebUser**
+   - Justification: Represents customers who register to buy items online. It has a unique login name and can have various states (new, active, etc.).
+
+7. **LineItem**
+   - Justification: Represents individual items within a shopping cart or order. Each line item is linked to a specific product.
+
+8. **Product**
+   - Justification: Represents items available for purchase. A product can be associated with multiple line items or none at all.
+
+9. **OrderStatus**
+   - Justification: Represents the current state of an order (e.g., pending, completed, canceled). This is important for tracking the order's progress.
+
+These classes encapsulate the key entities and their relationships as described in the scenario, focusing on the nouns that represent real-world entities.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and the provided description, here are the attributes and methods for each class:
+
+### 1. **Customer**
+- **Attributes:**
+  - `customerId: String` (Unique identifier for the customer)
+  - `account: Account` (Link to the associated account)
+  - `webUser: WebUser` (Optional link to a web user, if applicable)
+
+- **Methods:**
+  - `getCustomerId(): String` (Returns the customer's unique ID)
+  - `getAccount(): Account` (Returns the associated account)
+  - `registerWebUser(webUser: WebUser): void` (Links a web user to the customer)
+
+### 2. **Account**
+- **Attributes:**
+  - `accountId: String` (Unique identifier for the account)
+  - `customer: Customer` (Link to the associated customer)
+  - `shoppingCart: ShoppingCart` (Link to the shopping cart)
+  - `orders: List<Order>` (List of orders associated with the account)
+
+- **Methods:**
+  - `getAccountId(): String` (Returns the account's unique ID)
+  - `getCustomer(): Customer` (Returns the associated customer)
+  - `getShoppingCart(): ShoppingCart` (Returns the shopping cart)
+  - `getOrders(): List<Order>` (Returns the list of orders)
+  - `addOrder(order: Order): void` (Adds an order to the account)
+
+### 3. **ShoppingCart**
+- **Attributes:**
+  - `cartId: String` (Unique identifier for the shopping cart)
+  - `account: Account` (Link to the associated account)
+  - `lineItems: List<LineItem>` (List of line items in the cart)
+
+- **Methods:**
+  - `getCartId(): String` (Returns the cart's unique ID)
+  - `getAccount(): Account` (Returns the associated account)
+  - `getLineItems(): List<LineItem>` (Returns the list of line items)
+  - `addLineItem(lineItem: LineItem): void` (Adds a line item to the cart)
+  - `removeLineItem(lineItem: LineItem): void` (Removes a line item from the cart)
+
+### 4. **Order**
+- **Attributes:**
+  - `orderId: String` (Unique identifier for the order)
+  - `account: Account` (Link to the associated account)
+  - `lineItems: List<LineItem>` (List of line items in the order)
+  - `status: OrderStatus` (Current status of the order)
+  - `payments: List<Payment>` (List of payments associated with the order)
+
+- **Methods:**
+  - `getOrderId(): String` (Returns the order's unique ID)
+  - `getAccount(): Account` (Returns the associated account)
+  - `getLineItems(): List<LineItem>` (Returns the list of line items)
+  - `getStatus(): OrderStatus` (Returns the current order status)
+  - `addPayment(payment: Payment): void` (Adds a payment to the order)
+
+### 5. **Payment**
+- **Attributes:**
+  - `paymentId: String` (Unique identifier for the payment)
+  - `order: Order` (Link to the associated order)
+  - `account: Account` (Link to the associated account)
+  - `amount: Double` (Amount of the payment)
+  - `paymentDate: Date` (Date of the payment)
+
+- **Methods:**
+  - `getPaymentId(): String` (Returns the payment's unique ID)
+  - `getOrder(): Order` (Returns the associated order)
+  - `getAccount(): Account` (Returns the associated account)
+  - `getAmount(): Double` (Returns the payment amount)
+  - `getPaymentDate(): Date` (Returns the date of the payment)
+
+### 6. **WebUser**
+- **Attributes:**
+  - `loginName: String` (Unique login name for the web user)
+  - `customer: Customer` (Link to the associated customer)
+  - `state: String` (Current state of the web user, e.g., new, active, blocked, banned)
+
+- **Methods:**
+  - `getLoginName(): String` (Returns the web user's login name)
+  - `getCustomer(): Customer` (Returns the associated customer)
+  - `getState(): String` (Returns the current state)
+  - `setState(state: String): void` (Sets the state of the web user)
+
+### 7. **LineItem**
+- **Attributes:**
+  - `lineItemId: String` (Unique identifier for the line item)
+  - `product: Product` (Link to the associated product)
+  - `quantity: Integer` (Quantity of the product in the line item)
+  - `price: Double` (Price of the product)
+
+- **Methods:**
+  - `getLineItemId(): String` (Returns the line item's unique ID)
+  - `getProduct(): Product` (Returns the associated product)
+  - `getQuantity(): Integer` (Returns the quantity)
+  - `getPrice(): Double` (Returns the price)
+
+### 8. **Product**
+- **Attributes:**
+  - `productId: String` (Unique identifier for the product)
+  - `name: String` (Name of the product)
+  - `description: String` (Description of the product)
+  - `price: Double` (Price of the product)
+  - `lineItems: List<LineItem>` (List of line items associated with the product)
+
+- **Methods:**
+  - `getProductId(): String` (Returns the product's unique ID)
+  - `getName(): String` (Returns the product name)
+  - `getDescription(): String` (Returns the product description)
+  - `getPrice(): Double` (Returns the product price)
+  - `getLineItems(): List<LineItem>` (Returns the list of line items)
+
+### 9. **OrderStatus**
+- **Attributes:**
+  - `statusId: String` (Unique identifier for the order status)
+  - `statusName: String` (Name of the status, e.g., pending, completed, canceled)
+
+- **Methods:**
+  - `getStatusId(): String` (Returns the status's unique ID)
+  - `getStatusName(): String` (Returns the name of the status)
+
+This structure provides a comprehensive overview of the classes, their attributes, and methods, reflecting the relationships and functionalities described in the scenario.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided description and the identified classes, here are the relationships between the classes, along with their types and cardinalities:
+
+1. **Customer** -- Association -- **Account** : 1
+   - Each customer is linked to exactly one account.
+
+2. **Account** -- Aggregation -- **ShoppingCart** : 1
+   - An account owns one shopping cart.
+
+3. **Account** -- Aggregation -- **Order** : 0..*
+   - An account can have zero or more orders.
+
+4. **Customer** -- Association -- **WebUser** : 0..1
+   - A customer may or may not be a web user (optional relationship).
+
+5. **WebUser** -- Association -- **ShoppingCart** : 0..1
+   - A web user can be linked to a shopping cart, but it is not mandatory.
+
+6. **ShoppingCart** -- Composition -- **LineItem** : 0..*
+   - A shopping cart can contain zero or more line items, and the line items are part of the shopping cart.
+
+7. **Order** -- Composition -- **LineItem** : 0..*
+   - An order can contain zero or more line items, and the line items are part of the order.
+
+8. **LineItem** -- Association -- **Product** : 1
+   - Each line item is related to exactly one product.
+
+9. **Order** -- Aggregation -- **Payment** : 0..*
+   - An order can have zero or more payments associated with it.
+
+10. **Payment** -- Association -- **Account** : 1
+    - Each payment is related to exactly one account.
+
+11. **Order** -- Association -- **OrderStatus** : 1
+    - Each order has exactly one current order status.
+
+This structure captures the relationships and cardinalities between the classes as described in the scenario.
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Customer
+Description: Represents individuals who make purchases. Each customer has a unique ID and is linked to an account.
+ATTRIBUTES:
+- customerId: String
+- account: Account
+- webUser: WebUser
+METHODS:
+- getCustomerId(): String
+- getAccount(): Account
+- registerWebUser(webUser: WebUser): void
+
+RELATIONSHIPS:
+- Customer association Account 1
+- Customer association WebUser 0..1
+
+CLASS: Account
+Description: Represents a financial or transactional entity that owns a shopping cart and customer orders. It links customers to their purchases.
+ATTRIBUTES:
+- accountId: String
+- customer: Customer
+- shoppingCart: ShoppingCart
+- orders: List<Order>
+METHODS:
+- getAccountId(): String
+- getCustomer(): Customer
+- getShoppingCart(): ShoppingCart
+- getOrders(): List<Order>
+- addOrder(order: Order): void
+
+RELATIONSHIPS:
+- Account aggregation ShoppingCart 1
+- Account aggregation Order 0..*
+
+CLASS: ShoppingCart
+Description: Represents a temporary storage for items that a customer intends to purchase. It is linked to an account and contains line items.
+ATTRIBUTES:
+- cartId: String
+- account: Account
+- lineItems: List<LineItem>
+METHODS:
+- getCartId(): String
+- getAccount(): Account
+- getLineItems(): List<LineItem>
+- addLineItem(lineItem: LineItem): void
+- removeLineItem(lineItem: LineItem): void
+
+RELATIONSHIPS:
+- ShoppingCart composition LineItem 0..*
+
+CLASS: Order
+Description: Represents a completed transaction that may consist of multiple payments. Each order is linked to an account and has a current status.
+ATTRIBUTES:
+- orderId: String
+- account: Account
+- lineItems: List<LineItem>
+- status: OrderStatus
+- payments: List<Payment>
+METHODS:
+- getOrderId(): String
+- getAccount(): Account
+- getLineItems(): List<LineItem>
+- getStatus(): OrderStatus
+- addPayment(payment: Payment): void
+
+RELATIONSHIPS:
+- Order composition LineItem 0..*
+- Order aggregation Payment 0..*
+- Order association OrderStatus 1
+
+CLASS: Payment
+Description: Represents a financial transaction related to an order. Each payment has a unique ID and is associated with an account.
+ATTRIBUTES:
+- paymentId: String
+- order: Order
+- account: Account
+- amount: Double
+- paymentDate: Date
+METHODS:
+- getPaymentId(): String
+- getOrder(): Order
+- getAccount(): Account
+- getAmount(): Double
+- getPaymentDate(): Date
+
+RELATIONSHIPS:
+- Payment association Account 1
+
+CLASS: WebUser
+Description: Represents customers who register to buy items online. It has a unique login name and can have various states (new, active, etc.).
+ATTRIBUTES:
+- loginName: String
+- customer: Customer
+- state: String
+METHODS:
+- getLoginName(): String
+- getCustomer(): Customer
+- getState(): String
+- setState(state: String): void
+
+RELATIONSHIPS:
+- WebUser association ShoppingCart 0..1
+
+CLASS: LineItem
+Description: Represents individual items within a shopping cart or order. Each line item is linked to a specific product.
+ATTRIBUTES:
+- lineItemId: String
+- product: Product
+- quantity: Integer
+- price: Double
+METHODS:
+- getLineItemId(): String
+- getProduct(): Product
+- getQuantity(): Integer
+- getPrice(): Double
+
+RELATIONSHIPS:
+- LineItem association Product 1
+
+CLASS: Product
+Description: Represents items available for purchase. A product can be associated with multiple line items or none at all.
+ATTRIBUTES:
+- productId: String
+- name: String
+- description: String
+- price: Double
+- lineItems: List<LineItem>
+METHODS:
+- getProductId(): String
+- getName(): String
+- getDescription(): String
+- getPrice(): Double
+- getLineItems(): List<LineItem>
+
+CLASS: OrderStatus
+Description: Represents the current state of an order (e.g., pending, completed, canceled). This is important for tracking the order's progress.
+ATTRIBUTES:
+- statusId: String
+- statusName: String
+METHODS:
+- getStatusId(): String
+- getStatusName(): String
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Customer {
+    - customerId: String
+    - account: Account
+    - webUser: WebUser
+    + getCustomerId(): String
+    + getAccount(): Account
+    + registerWebUser(webUser: WebUser): void
+}
+
+class Account {
+    - accountId: String
+    - customer: Customer
+    - shoppingCart: ShoppingCart
+    - orders: List<Order>
+    + getAccountId(): String
+    + getCustomer(): Customer
+    + getShoppingCart(): ShoppingCart
+    + getOrders(): List<Order>
+    + addOrder(order: Order): void
+}
+
+class ShoppingCart {
+    - cartId: String
+    - account: Account
+    - lineItems: List<LineItem>
+    + getCartId(): String
+    + getAccount(): Account
+    + getLineItems(): List<LineItem>
+    + addLineItem(lineItem: LineItem): void
+    + removeLineItem(lineItem: LineItem): void
+}
+
+class Order {
+    - orderId: String
+    - account: Account
+    - lineItems: List<LineItem>
+    - status: OrderStatus
+    - payments: List<Payment>
+    + getOrderId(): String
+    + getAccount(): Account
+    + getLineItems(): List<LineItem>
+    + getStatus(): OrderStatus
+    + addPayment(payment: Payment): void
+}
+
+class Payment {
+    - paymentId: String
+    - order: Order
+    - account: Account
+    - amount: Double
+    - paymentDate: Date
+    + getPaymentId(): String
+    + getOrder(): Order
+    + getAccount(): Account
+    + getAmount(): Double
+    + getPaymentDate(): Date
+}
+
+class WebUser {
+    - loginName: String
+    - customer: Customer
+    - state: String
+    + getLoginName(): String
+    + getCustomer(): Customer
+    + getState(): String
+    + setState(state: String): void
+}
+
+class LineItem {
+    - lineItemId: String
+    - product: Product
+    - quantity: Integer
+    - price: Double
+    + getLineItemId(): String
+    + getProduct(): Product
+    + getQuantity(): Integer
+    + getPrice(): Double
+}
+
+class Product {
+    - productId: String
+    - name: String
+    - description: String
+    - price: Double
+    - lineItems: List<LineItem>
+    + getProductId(): String
+    + getName(): String
+    + getDescription(): String
+    + getPrice(): Double
+    + getLineItems(): List<LineItem>
+}
+
+class OrderStatus {
+    - statusId: String
+    - statusName: String
+    + getStatusId(): String
+    + getStatusName(): String
+}
+
+Customer --> Account : association
+Customer o-- WebUser : association
+Account *-- ShoppingCart : aggregation
+Account *-- Order : aggregation
+ShoppingCart *-- LineItem : composition
+Order *-- LineItem : composition
+Order *-- Payment : aggregation
+Order --> OrderStatus : association
+Payment --> Account : association
+WebUser --> ShoppingCart : association
+LineItem --> Product : association
+
+@enduml
+

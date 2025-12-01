@@ -1,0 +1,111 @@
+@startuml
+class User {
+    +userID: String
+    +username: String
+    +openDocument(doc: Document): void
+    +saveDocument(doc: Document): void
+    +printDocument(doc: Document): void
+}
+
+class Document {
+    +documentID: String
+    +title: String
+    +creationDate: Date
+    +lastModified: Date
+    +addPage(page: Page): void
+    +removePage(page: Page): void
+    +getPages(): List<Page>
+    +insertPicture(picture: Picture): void
+    +insertTable(table: Table): void
+}
+
+class Page {
+    +pageNumber: int
+    +header: Header
+    +body: Body
+    +footer: Footer
+    +setHeader(header: Header): void
+    +setFooter(footer: Footer): void
+}
+
+class Header {
+    +date: Date
+    +time: Time
+    +pageNumber: int
+    +setDate(date: Date): void
+    +setTime(time: Time): void
+    +setPageNumber(pageNumber: int): void
+}
+
+class Footer {
+    +date: Date
+    +time: Time
+    +pageNumber: int
+    +setDate(date: Date): void
+    +setTime(time: Time): void
+    +setPageNumber(pageNumber: int): void
+}
+
+class Body {
+    +sentences: List<Sentence>
+    +addSentence(sentence: Sentence): void
+    +removeSentence(sentence: Sentence): void
+}
+
+class Sentence {
+    +text: String
+    +words: List<Word>
+    +addWord(word: Word): void
+    +removeWord(word: Word): void
+}
+
+class Word {
+    +content: String
+    +getContent(): String
+}
+
+class Picture {
+    +imagePath: String
+    +getImagePath(): String
+}
+
+class Table {
+    +rows: List<Row>
+    +columns: List<Column>
+    +addRow(row: Row): void
+    +removeRow(row: Row): void
+    +addColumn(column: Column): void
+    +removeColumn(column: Column): void
+}
+
+class Row {
+    +cells: List<Cell>
+    +addCell(cell: Cell): void
+    +removeCell(cell: Cell): void
+}
+
+class Column {
+    +header: String
+    +getHeader(): String
+}
+
+class Cell {
+    +content: String
+    +picture: Picture
+    +setContent(content: String): void
+    +setPicture(picture: Picture): void
+}
+
+User "1" -- "0..*" Document
+Document "1" -- "1..*" Page
+Page "1" -- "1" Header
+Page "1" -- "1" Footer
+Page "1" -- "1" Body
+Body "1" -- "0..*" Sentence
+Sentence "1" -- "0..*" Word
+Document "1" -- "0..*" Picture
+Document "1" -- "0..*" Table
+Table "1" -- "1..*" Row
+Row "1" -- "1..*" Cell
+Cell "1" -- "0..1" Picture
+@enduml

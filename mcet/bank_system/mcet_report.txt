@@ -1,0 +1,23 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] A bank system contains data on customers.
+[OK] Customers are identified by name and address.
+[OK] The bank system contains data on customer accounts.
+[OK] Each account has a balance.
+[OK] There are two types of accounts: savings and investments.
+[OK] Savings accounts offer an interest rate.
+[OK] Investment accounts are used to buy stocks.
+[OK] Stocks are bought at a certain quantity.
+[OK] Stocks are bought at a certain price (ticker).
+[OK] The bank applies a commission on stock orders.
+
+--- 2. MISSING REQUIREMENTS ---
+None detected.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not specify how the commission is applied to stock transactions in the InvestmentAccount class.
+[ISSUE] Holistic Issue: The design lacks a method to retrieve the balance of the InvestmentAccount after stock transactions and commission application.
+[ISSUE] Holistic Issue: The Account class does not differentiate between savings and investment accounts in its attributes or methods.
+[ISSUE] Holistic Issue: The design does not include any validation for stock transactions (e.g., checking if the quantity is available before buying/selling).
+[ISSUE] Holistic Issue: The Stock class attributes do not include a unique identifier for stocks, which may be necessary for tracking.

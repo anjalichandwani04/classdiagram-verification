@@ -1,0 +1,102 @@
+@startuml
+class Factory {
+    - factoryId: int
+    - name: String
+    - location: String
+    - machines: List<Machine>
+    - workers: List<Worker>
+    - products: List<Product>
+    - clients: List<Client>
+    + addMachine(machine: Machine): void
+    + removeMachine(machineId: int): void
+    + addWorker(worker: Worker): void
+    + removeWorker(workerId: int): void
+    + addProduct(product: Product): void
+    + addClient(client: Client): void
+    + createPurchaseOrder(order: PurchaseOrder): void
+}
+
+class Machine {
+    - serialNumber: String
+    - make: String
+    - model: String
+    - purchaseDate: Date
+    - products: List<Product>
+    - workers: List<Worker>
+    + addProduct(product: Product): void
+    + removeProduct(productId: int): void
+    + assignWorker(worker: Worker): void
+    + removeWorker(workerId: int): void
+}
+
+class Worker {
+    - workerId: int
+    - firstName: String
+    - lastName: String
+    - birthDate: Date
+    - address: String
+    - skills: List<Skill>
+    - machines: List<Machine>
+    + addSkill(skill: Skill): void
+    + removeSkill(skillId: int): void
+    + assignMachine(machine: Machine): void
+    + removeMachine(machineId: int): void
+}
+
+class Product {
+    - productId: int
+    - name: String
+    - weight: double
+    - material: Material
+    - machine: Machine
+    + getProductDetails(): String
+    + updateWeight(newWeight: double): void
+}
+
+class Material {
+    - materialId: int
+    - name: String
+    - quantityAvailable: double
+    + updateQuantity(amount: double): void
+    + getMaterialDetails(): String
+}
+
+class Client {
+    - clientId: int
+    - name: String
+    - address: String
+    - phoneNumber: String
+    - contactPerson: String
+    + getClientDetails(): String
+    + updateContactPerson(newContact: String): void
+}
+
+class PurchaseOrder {
+    - orderNumber: int
+    - orderDate: Date
+    - expectedDeliveryDate: Date
+    - actualDeliveryDate: Date
+    - products: List<ProductQuantity>
+    + addProduct(product: Product, quantity: int): void
+    + removeProduct(productId: int): void
+    + getOrderSummary(): String
+}
+
+class Skill {
+    - skillId: int
+    - name: String
+    - description: String
+    + getSkillDetails(): String
+}
+
+Factory "1" o-- "*" Machine
+Factory "1" o-- "*" Worker
+Factory "1" o-- "*" Product
+Factory "1" o-- "*" Client
+Machine "1" *-- "*" Product
+Machine "1" -- "*" Worker
+Product "1" -- "1" Material
+Client "1" o-- "*" PurchaseOrder
+PurchaseOrder "*" -- "*" Product
+Worker "*" -- "*" Skill
+@enduml

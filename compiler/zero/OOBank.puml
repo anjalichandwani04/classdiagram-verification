@@ -1,0 +1,71 @@
+```plantuml
+@startuml
+class OOBank {
+    - name: String
+}
+
+class Branch {
+    - branchNumber: String
+    - address: String
+}
+
+class Account <<abstract>> {
+    - accountNumber: String
+    - balance: Double
+    - creditLimit: Double
+    - interestRate: Double
+    - monthlyFee: Double
+    + deposit(amount: Double): void
+    + withdraw(amount: Double): void
+    + getBalance(): Double
+}
+
+class MortgageAccount {
+    - collateralProperty: String
+}
+
+class CheckingAccount {
+    - privileges: List<String>
+}
+
+class CreditCardAccount {
+    - expiryDate: Date
+}
+
+class SecondaryCard {
+    - cardNumber: String
+    - cardHolderName: String
+}
+
+class Client {
+    - clientId: String
+    - name: String
+}
+
+class Employee {
+    - employeeId: String
+    - name: String
+}
+
+class Division {
+    - divisionName: String
+}
+
+OOBank "1" -- "0..*" Branch : has >
+Branch "0..*" -- "1" OOBank : belongs to >
+Branch "1" -- "0..*" Account : has >
+Branch "1" -- "0..*" Employee : has >
+Branch "0..*" -- "1" Division : belongs to >
+Account "0..*" -- "0..*" Client : can have >
+CreditCardAccount "0..*" -- "0..*" SecondaryCard : can have >
+MortgageAccount --|> Account
+CheckingAccount --|> Account
+CreditCardAccount --|> Account
+Client "0..*" -- "1" Employee : has >
+Employee "0..*" -- "1" Branch : works at >
+Employee "1" -- "1" Division : manages >
+Division "1" -- "0..*" Branch : has >
+Division "1" -- "1" Employee : has >
+Division "0..*" -- "0..*" Employee : has >
+@enduml
+```

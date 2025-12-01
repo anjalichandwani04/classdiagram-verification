@@ -1,0 +1,62 @@
+@startuml
+
+class FurnitureLine {
+    - name: String
+    - furniturePieces: List<FurniturePiece>
+    + addFurniturePiece(piece: FurniturePiece): void
+    + removeFurniturePiece(piece: FurniturePiece): void
+    + getFurniturePieces(): List<FurniturePiece>
+}
+
+class FurniturePiece {
+    - type: String
+    - reference: String
+    - sellingPrice: double
+    - components: List<Component>
+    + addComponent(component: Component): void
+    + removeComponent(component: Component): void
+    + getComponents(): List<Component>
+}
+
+class Component {
+    - code: int
+    - manufacturingPrice: double
+    - type: String
+    + getCode(): int
+    + getManufacturingPrice(): double
+    + getType(): String
+}
+
+class Store {
+    - address: String
+    - faxNumber: String
+    + getAddress(): String
+    + getFaxNumber(): String
+    + updateAddress(newAddress: String): void
+}
+
+class Order {
+    - orderNumber: String
+    - date: Date
+    - store: Store
+    - orderItems: List<OrderItem>
+    + addOrderItem(item: OrderItem): void
+    + removeOrderItem(item: OrderItem): void
+    + getOrderItems(): List<OrderItem>
+}
+
+class OrderItem {
+    - furniturePiece: FurniturePiece
+    - quantity: int
+    + getFurniturePiece(): FurniturePiece
+    + getQuantity(): int
+    + setQuantity(newQuantity: int): void
+}
+
+FurnitureLine *-- "1..*" FurniturePiece
+FurniturePiece o-- "0..*" Component
+Store --> "1..*" Order
+Order *-- "1..*" OrderItem
+OrderItem --> "1" FurniturePiece
+
+@enduml

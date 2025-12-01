@@ -1,0 +1,39 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] A user can open a new document.
+[OK] A user can open an existing document.
+[OK] A document is made up of several pages.
+[OK] Each page is made up of a header.
+[OK] Each page is made up of a body.
+[OK] Each page is made up of a footer.
+[OK] Date may be added to the header.
+[OK] Time may be added to the header.
+[OK] Page number may be added to the header.
+[OK] Date may be added to the footer.
+[OK] Time may be added to the footer.
+[OK] Page number may be added to the footer.
+[OK] The document body is made up of sentences.
+[OK] Sentences are made up of words.
+[OK] Sentences are made up of punctuation characters.
+[OK] Words are made up of letters.
+[OK] Words are made up of digits.
+[OK] Words are made up of special characters.
+[OK] Pictures may be inserted into the document body.
+[OK] Tables may be inserted into the document body.
+[OK] Tables are made up of rows.
+[OK] Tables are made up of columns.
+[OK] Every cell in a table can contain text.
+[OK] Every cell in a table can contain pictures.
+[OK] Users can save documents.
+[OK] Users can print documents.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] Text is entered through a keyboard.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not explicitly mention the ability to create a new document with a title, which is part of the requirements.
+[ISSUE] Holistic Issue: The design lacks a method for editing existing documents, which is implied by the requirement to open existing documents.
+[ISSUE] Holistic Issue: The design does not mention the ability to insert tables and pictures into the document body in a clear manner, despite these being requirements.
+[ISSUE] Holistic Issue: The relationship between User and Action is not clearly defined in terms of how actions are associated with specific documents.
+[ISSUE] Holistic Issue: The design does not include a mechanism for handling document versions or history, which could be inferred from the ability to save and modify documents.

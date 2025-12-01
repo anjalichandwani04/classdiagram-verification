@@ -1,0 +1,37 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] Each ingredient has a name.
+[OK] Each ingredient has a measuring unit.
+[OK] Each ingredient has a quantity in stock.
+[OK] Each dish is composed of several ingredients.
+[OK] An ingredient can be used in different dishes.
+[OK] A dish has a numeric identifier.
+[OK] Each table at the restaurant has a unique numeric identifier.
+[OK] Each table has a maximum amount of people that can be seated.
+[OK] In each meal, several dishes are consumed at a certain table.
+[OK] The same dish can be eaten more than once in the same meal.
+[OK] A meal takes place on a certain date.
+[OK] A meal has a start time.
+[OK] A meal has an end time.
+[OK] Each meal has a responsible waiter.
+[OK] A waiter has a unique numerical identifier.
+[OK] A waiter has a name.
+[OK] A waiter has an address.
+[OK] A waiter has a phone number.
+[OK] A client has a tax identification number.
+[OK] A client has a name.
+[OK] A client has an address.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] There are no two ingredients with the same name.
+[MISSING] A dish has a unique name.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not specify that ingredient names must be unique, which is a requirement.
+[ISSUE] Holistic Issue: The design does not include a mechanism to track the quantity of each ingredient used in a dish, which is implied by the requirement that a dish is composed of several ingredients in a certain quantity.
+[ISSUE] Holistic Issue: The relationship between Ingredient and Dish is incorrectly described as 'Composition' instead of 'Association', as ingredients can be used in multiple dishes.
+[ISSUE] Holistic Issue: The design does not include a method to update the quantity of ingredients used in a meal, which is necessary for inventory management.
+[ISSUE] Holistic Issue: The design does not specify how to handle multiple instances of the same dish being consumed in a meal, which is a requirement.
+[ISSUE] Holistic Issue: The design lacks a clear representation of the maximum number of people that can be seated at a table, which is specified in the requirements.
+[ISSUE] Holistic Issue: The design does not include a way to associate a meal with a specific date and time, which is a requirement.

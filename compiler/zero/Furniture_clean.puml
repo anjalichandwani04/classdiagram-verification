@@ -1,0 +1,51 @@
+@startuml
+class FurnitureLine {
+    +name: String
+    +addFurniture(furniture: Furniture): void
+    +removeFurniture(furniture: Furniture): void
+    +getFurnitureList(): List<Furniture>
+}
+
+class Furniture {
+    +type: String
+    +reference: String
+    +sellingPrice: Decimal
+    +addComponent(component: Component, quantity: int): void
+    +removeComponent(component: Component): void
+    +getComponents(): List<Component>
+}
+
+class Component {
+    +code: Integer
+    +manufacturingPrice: Decimal
+    +type: String
+    +getDetails(): String
+}
+
+class Store {
+    +address: String
+    +faxNumber: String
+    +placeOrder(order: Order): void
+    +getOrders(): List<Order>
+}
+
+class Order {
+    +orderNumber: String
+    +date: Date
+    +store: Store
+    +addFurniture(furniture: Furniture, quantity: int): void
+    +removeFurniture(furniture: Furniture): void
+    +getOrderedFurniture(): List<FurnitureQuantity>
+}
+
+class FurnitureQuantity {
+    +furniture: Furniture
+    +quantity: int
+    +getTotalPrice(): Decimal
+}
+
+FurnitureLine "1" -- "0..*" Furniture
+Furniture "0..*" -- "0..*" Component
+Store "1" -- "0..*" Order
+Order "1" -- "0..*" FurnitureQuantity
+@enduml

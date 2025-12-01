@@ -1,0 +1,36 @@
+@startuml
+class Customer {
+    - vatNumber: String
+    - name: String
+    - phoneNumber: String
+    - address: String
+    + sendPackage(toCustomer: Customer, weight: double, deliveryType: String): String
+}
+
+class Package {
+    - packageId: String
+    - weight: double
+    - deliveryType: String
+    - status: String
+    + assignCourier(courier: Courier): void
+    + updateStatus(newStatus: String): void
+}
+
+class DeliveryCenter {
+    - name: String
+    - address: String
+    + getClosestCustomer(customer: Customer): Customer
+}
+
+class Courier {
+    - vatNumber: String
+    - name: String
+    - phoneNumber: String
+    + deliverPackage(package: Package): void
+}
+
+Customer "1" -- "1" DeliveryCenter
+Customer "1..*" -- "*" Package
+Package "*" -- "1" Courier
+Courier "*" -- "1" DeliveryCenter
+@enduml

@@ -1,0 +1,152 @@
+@startuml
+
+class Bank {
+    - name: String
+    - branches: List<Branch>
+    - divisions: List<Division>
+    + addBranch(branch: Branch): void
+    + removeBranch(branch: Branch): void
+    + getBranches(): List<Branch>
+    + addDivision(division: Division): void
+    + getDivisions(): List<Division>
+}
+
+class Branch {
+    - address: String
+    - branchNumber: String
+    - accounts: List<Account>
+    - employees: List<Employee>
+    + addAccount(account: Account): void
+    + removeAccount(account: Account): void
+    + getAccounts(): List<Account>
+    + addEmployee(employee: Employee): void
+    + getEmployees(): List<Employee>
+}
+
+class Client {
+    - name: String
+    - clientId: String
+    - accounts: List<Account>
+    - personalBanker: PersonalBanker
+    + openAccount(account: Account): void
+    + closeAccount(account: Account): void
+    + getAccounts(): List<Account>
+    + setPersonalBanker(banker: PersonalBanker): void
+}
+
+class Account {
+    - accountNumber: String
+    - balance: double
+    - creditLimit: double
+    - accountType: AccountType
+    + deposit(amount: double): void
+    + withdraw(amount: double): void
+    + getBalance(): double
+    + getAccountType(): AccountType
+}
+
+class MortgageAccount {
+    - propertyCollateral: String
+    - interestRate: double
+    - monthlyFee: double
+    + calculateMonthlyPayment(): double
+    + getPropertyCollateral(): String
+}
+
+class CheckingAccount {
+    - overdraftLimit: double
+    - interestRate: double
+    - monthlyFee: double
+    + writeCheck(amount: double): void
+    + getOverdraftLimit(): double
+}
+
+class CreditCardAccount {
+    - expiryDate: Date
+    - secondaryCards: List<String>
+    - interestRate: double
+    - monthlyFee: double
+    + addSecondaryCard(cardHolderName: String): void
+    + removeSecondaryCard(cardHolderName: String): void
+    + isExpired(): boolean
+}
+
+class JointAccount {
+    - accountHolders: List<Client>
+    - interestRate: double
+    - monthlyFee: double
+    + addAccountHolder(client: Client): void
+    + removeAccountHolder(client: Client): void
+    + getAccountHolders(): List<Client>
+}
+
+class Division {
+    - name: String
+    - branches: List<Branch>
+    - manager: Manager
+    + addBranch(branch: Branch): void
+    + removeBranch(branch: Branch): void
+    + getBranches(): List<Branch>
+}
+
+class Subdivision {
+    - name: String
+    - branches: List<Branch>
+    + addBranch(branch: Branch): void
+    + removeBranch(branch: Branch): void
+    + getBranches(): List<Branch>
+}
+
+class Employee {
+    - name: String
+    - employeeId: String
+    - position: String
+    - branch: Branch
+    + getPosition(): String
+    + setBranch(branch: Branch): void
+}
+
+class Manager {
+    - division: Division
+    + getDivision(): Division
+}
+
+class PersonalBanker {
+    - clients: List<Client>
+    + addClient(client: Client): void
+    + removeClient(client: Client): void
+    + getClients(): List<Client>
+}
+
+class AccountType {
+    - typeName: String
+    - interestRate: double
+    - monthlyFee: double
+    - privileges: List<Privilege>
+    + getPrivileges(): List<Privilege>
+}
+
+class Privilege {
+    - privilegeName: String
+    - description: String
+    + getDescription(): String
+}
+
+Bank *-- "1..*" Branch
+Bank *-- "1..*" Division
+Branch *-- "0..*" Account
+Branch *-- "0..*" Employee
+Division *-- "1..*" Branch
+Client --> "0..*" Account
+Client --> "0..1" PersonalBanker
+Account <|-- MortgageAccount
+Account <|-- CheckingAccount
+Account <|-- CreditCardAccount
+Account <|-- JointAccount
+AccountType --> "1..*" Account
+Manager <|-- Employee
+PersonalBanker <|-- Employee
+AccountType *-- "0..*" Privilege
+Division *-- "1..1" Manager
+
+@enduml

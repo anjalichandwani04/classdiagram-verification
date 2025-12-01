@@ -1,0 +1,218 @@
+```
+CLASS: User
+Description: Represents individuals who interact with the system to create, open, save, or print documents.
+ATTRIBUTES:
+- username: String
+- email: String
+- password: String
+- documents: List<Document>
+METHODS:
+- openDocument(docId: String): Document
+- saveDocument(doc: Document): void
+- printDocument(doc: Document): void
+- createDocument(): Document
+
+RELATIONSHIPS:
+- User Association Document 1..*
+- User Association Action 0..*
+
+CLASS: Document
+Description: Represents the main entity that users work with, which can be new or existing and contains multiple pages.
+ATTRIBUTES:
+- title: String
+- pages: List<Page>
+- createdDate: Date
+- modifiedDate: Date
+METHODS:
+- addPage(page: Page): void
+- removePage(pageIndex: int): void
+- getPage(pageIndex: int): Page
+- save(): void
+- print(): void
+
+RELATIONSHIPS:
+- Document Composition Page 1..*
+
+CLASS: Page
+Description: Represents individual pages within a document, which contain structured content like headers, bodies, and footers.
+ATTRIBUTES:
+- header: Header
+- body: Body
+- footer: Footer
+- pageNumber: int
+METHODS:
+- setHeader(header: Header): void
+- setFooter(footer: Footer): void
+- getContent(): String
+
+RELATIONSHIPS:
+- Page Composition Header 1..1
+- Page Composition Body 1..1
+- Page Composition Footer 1..1
+
+CLASS: Header
+Description: Represents the top section of a page, which may include metadata such as date, time, and page number.
+ATTRIBUTES:
+- date: Date
+- time: Time
+- pageNumber: int
+METHODS:
+- setDate(date: Date): void
+- setTime(time: Time): void
+- setPageNumber(pageNumber: int): void
+- getHeaderInfo(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Body
+Description: Represents the main content area of a page where text, images, and tables are placed.
+ATTRIBUTES:
+- sentences: List<Sentence>
+- pictures: List<Picture>
+- tables: List<Table>
+METHODS:
+- addSentence(sentence: Sentence): void
+- addPicture(picture: Picture): void
+- addTable(table: Table): void
+- getContent(): String
+
+RELATIONSHIPS:
+- Body Composition Sentence 0..*
+- Body Composition Picture 0..*
+- Body Composition Table 0..*
+
+CLASS: Footer
+Description: Represents the bottom section of a page, which may also include metadata similar to the header.
+ATTRIBUTES:
+- date: Date
+- time: Time
+- pageNumber: int
+METHODS:
+- setDate(date: Date): void
+- setTime(time: Time): void
+- setPageNumber(pageNumber: int): void
+- getFooterInfo(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Sentence
+Description: Represents a unit of text within the body, composed of words and punctuation characters.
+ATTRIBUTES:
+- words: List<Word>
+- punctuation: List<PunctuationCharacter>
+METHODS:
+- addWord(word: Word): void
+- addPunctuation(punctuation: PunctuationCharacter): void
+- getSentence(): String
+
+RELATIONSHIPS:
+- Sentence Composition Word 0..*
+- Sentence Composition PunctuationCharacter 0..*
+
+CLASS: Word
+Description: Represents individual units of text that make up sentences, consisting of letters, digits, and/or special characters.
+ATTRIBUTES:
+- characters: List<Character>
+METHODS:
+- addCharacter(character: Character): void
+- getWord(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: PunctuationCharacter
+Description: Represents symbols used in sentences to structure and clarify meaning.
+ATTRIBUTES:
+- symbol: String
+METHODS:
+- getSymbol(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Picture
+Description: Represents visual elements that can be inserted into the document body.
+ATTRIBUTES:
+- imagePath: String
+- altText: String
+METHODS:
+- getImagePath(): String
+- getAltText(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Table
+Description: Represents structured data within the document body, consisting of rows and columns.
+ATTRIBUTES:
+- rows: List<Row>
+- columns: List<Column>
+METHODS:
+- addRow(row: Row): void
+- addColumn(column: Column): void
+- getTableData(): List<List<Cell>>
+
+RELATIONSHIPS:
+- Table Composition Row 1..*
+- Table Composition Column 1..*
+
+CLASS: Row
+Description: Represents a horizontal grouping of cells within a table.
+ATTRIBUTES:
+- cells: List<Cell>
+METHODS:
+- addCell(cell: Cell): void
+- getRowData(): List<Cell>
+
+RELATIONSHIPS:
+- None
+
+CLASS: Column
+Description: Represents a vertical grouping of cells within a table.
+ATTRIBUTES:
+- cells: List<Cell>
+METHODS:
+- addCell(cell: Cell): void
+- getColumnData(): List<Cell>
+
+RELATIONSHIPS:
+- None
+
+CLASS: Cell
+Description: Represents an individual unit within a table that can contain text and pictures.
+ATTRIBUTES:
+- content: String
+- picture: Picture
+METHODS:
+- setContent(content: String): void
+- setPicture(picture: Picture): void
+- getContent(): String
+
+RELATIONSHIPS:
+- Cell Association Picture 0..1
+- Cell Association Character 0..*
+
+CLASS: Character
+Description: Represents the basic building blocks of words, which can include letters, digits, and special characters.
+ATTRIBUTES:
+- value: char
+METHODS:
+- getValue(): char
+
+RELATIONSHIPS:
+- None
+
+CLASS: Action
+Description: Represents user actions such as opening, saving, or printing documents.
+ATTRIBUTES:
+- actionType: String
+- timestamp: Date
+METHODS:
+- execute(): void
+- getActionDetails(): String
+
+RELATIONSHIPS:
+- None
+```

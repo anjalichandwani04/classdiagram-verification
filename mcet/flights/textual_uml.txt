@@ -1,0 +1,117 @@
+CLASS: Airline
+Description: Represents the organization that operates flights. It has a unique identifier (ID) and owns a set of aircraft.
+ATTRIBUTES:
+- id: String
+- name: String
+- aircrafts: List<Aircraft>
+- pilots: List<Pilot>
+METHODS:
+- addAircraft(aircraft: Aircraft): void
+- removeAircraft(aircraftId: String): void
+- addPilot(pilot: Pilot): void
+- removePilot(pilotId: String): void
+- getAircrafts(): List<Aircraft>
+- getPilots(): List<Pilot>
+
+RELATIONSHIPS:
+- Airline Aggregation Aircraft 1..*
+- Airline Aggregation Pilot 1..*
+
+CLASS: Flight
+Description: Represents a specific journey operated by an airline. It has unique attributes such as an ID, departure and arrival airports, departure and arrival times, and is associated with a pilot and co-pilot.
+ATTRIBUTES:
+- id: String
+- departureAirport: Airport
+- arrivalAirport: Airport
+- departureTime: DateTime
+- arrivalTime: DateTime
+- pilot: Pilot
+- coPilot: CoPilot
+- aircraft: Aircraft
+METHODS:
+- scheduleFlight(departure: DateTime, arrival: DateTime): void
+- getFlightDetails(): String
+- updateFlightTimes(departure: DateTime, arrival: DateTime): void
+
+RELATIONSHIPS:
+- Flight Association Airport 2
+- Flight Association Pilot 1
+- Flight Association Co-Pilot 1
+- Flight Association Aircraft 1
+
+CLASS: Airport
+Description: Represents the locations where flights depart from and arrive at. Each airport has a unique identifier.
+ATTRIBUTES:
+- id: String
+- name: String
+- location: String
+METHODS:
+- getAirportDetails(): String
+- updateAirportInfo(name: String, location: String): void
+
+RELATIONSHIPS:
+- None
+
+CLASS: Pilot
+Description: Represents individuals who operate the flights. Each pilot has an experience level and can have different roles (e.g., captain, co-pilot).
+ATTRIBUTES:
+- id: String
+- name: String
+- experienceLevel: ExperienceLevel
+METHODS:
+- getPilotDetails(): String
+- updateExperienceLevel(level: ExperienceLevel): void
+
+RELATIONSHIPS:
+- Pilot Association Experience Level 1
+
+CLASS: Co-Pilot
+Description: A specific role of a pilot who assists the captain during the flight. This role is distinct but still falls under the broader category of Pilot.
+ATTRIBUTES:
+- id: String (inherited)
+- name: String (inherited)
+- experienceLevel: ExperienceLevel (inherited)
+METHODS:
+- getCoPilotDetails(): String (inherited)
+- updateExperienceLevel(level: ExperienceLevel): void (inherited)
+
+RELATIONSHIPS:
+- Pilot Inheritance Co-Pilot 1
+
+CLASS: Aircraft
+Description: Represents the physical planes used for flights. Each aircraft has a type and can be in different states (working or under repair) and statuses (landed or airborne).
+ATTRIBUTES:
+- id: String
+- type: AeroplaneType
+- state: String (e.g., "working", "under repair")
+- status: String (e.g., "landed", "airborne")
+METHODS:
+- getAircraftDetails(): String
+- updateState(state: String): void
+- updateStatus(status: String): void
+
+RELATIONSHIPS:
+- Aircraft Association Aeroplane Type 1
+
+CLASS: Experience Level
+Description: Represents the proficiency of pilots, which is categorized into levels (1 to 3).
+ATTRIBUTES:
+- level: int (1 to 3)
+METHODS:
+- getLevelDescription(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Aeroplane Type
+Description: Represents the classification of aircraft that may require a specific number of pilots with different roles.
+ATTRIBUTES:
+- id: String
+- name: String
+- requiredPilots: int (number of pilots required for this type)
+METHODS:
+- getAeroplaneTypeDetails(): String
+- updateRequiredPilots(count: int): void
+
+RELATIONSHIPS:
+- Aeroplane Type Association Pilot 1..*

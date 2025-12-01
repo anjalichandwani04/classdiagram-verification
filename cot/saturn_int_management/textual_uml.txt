@@ -1,0 +1,103 @@
+```plaintext
+CLASS: Employee
+Description: Represents the staff members of Saturn Int. who are issued identity cards for access to the car park.
+ATTRIBUTES:
+- name: String
+- department: String
+- employeeNumber: String
+- identityCard: IdentityCard
+METHODS:
+- getName(): String
+- getDepartment(): String
+- getEmployeeNumber(): String
+- getIdentityCard(): IdentityCard
+
+CLASS: IdentityCard
+Description: Represents the cards issued to employees and guests, containing identification information.
+ATTRIBUTES:
+- cardNumber: String
+- type: String
+- dateOfIssuance: Date
+METHODS:
+- getCardNumber(): String
+- getType(): String
+- getDateOfIssuance(): Date
+
+CLASS: CarPark
+Description: Represents the physical location where cars are parked, managing occupancy and access.
+ATTRIBUTES:
+- capacity: int
+- currentOccupancy: int
+- isFull: boolean
+METHODS:
+- isCarParkFull(): boolean
+- addCar(): void
+- removeCar(): void
+- getCurrentOccupancy(): int
+- getCapacity(): int
+
+CLASS: Barrier
+Description: Represents the barriers at the entrance and exit of the car park, controlling access based on identity card verification.
+ATTRIBUTES:
+- isRaised: boolean
+- location: String
+METHODS:
+- raise(): void
+- lower(): void
+- isBarrierRaised(): boolean
+
+CLASS: CardReader
+Description: Represents the device that reads identity cards and verifies their validity for access control.
+ATTRIBUTES:
+- readerID: String
+- isOperational: boolean
+METHODS:
+- readCard(card: IdentityCard): boolean
+- verifyCard(cardNumber: String): boolean
+- sendSignalToBarrier(barrier: Barrier): void
+
+CLASS: Guest
+Description: Represents visitors to Saturn Int. who are issued guest cards for temporary access to the car park.
+ATTRIBUTES:
+- name: String
+- visitDuration: int
+- identityCard: IdentityCard
+METHODS:
+- getName(): String
+- getVisitDuration(): int
+- getIdentityCard(): IdentityCard
+
+CLASS: Reception
+Description: Represents the location responsible for issuing guest cards and collecting them upon the guest's departure.
+ATTRIBUTES:
+- location: String
+- guestCardsIssued: List<IdentityCard>
+METHODS:
+- issueGuestCard(guest: Guest): IdentityCard
+- collectGuestCard(card: IdentityCard): void
+- getIssuedGuestCards(): List<IdentityCard>
+
+CLASS: Sign
+Description: Represents the display sign at the entrance of the car park indicating its occupancy status.
+ATTRIBUTES:
+- message: String
+- isDisplayed: boolean
+METHODS:
+- displayMessage(message: String): void
+- turnOff(): void
+- turnOn(): void
+- getMessage(): String
+
+RELATIONSHIPS:
+- Employee Association IdentityCard 1..1
+- Guest Association IdentityCard 1..1
+- CarPark Aggregation Barrier 1..*
+- CarPark Aggregation CardReader 1..1
+- CardReader Association Barrier 1..*
+- CarPark Composition Sign 1..1
+- Reception Aggregation IdentityCard 0..*
+- Reception Association Guest 0..*
+- Guest Association Reception 0..1
+- CarPark Association Employee 0..*
+- CarPark Association Guest 0..*
+```

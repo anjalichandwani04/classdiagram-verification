@@ -1,0 +1,73 @@
+@startuml
+class Scene {
+    - code: String
+    - description: String
+    - setupList: List<Setup>
+    + addSetup(setup: Setup): void
+    + removeSetup(setup: Setup): void
+    + getSetups(): List<Setup>
+    + getDescription(): String
+    + getCode(): String
+}
+
+class Setup {
+    - code: String
+    - photographicParameters: String
+    - scene: Scene
+    - takeList: List<Take>
+    + addTake(take: Take): void
+    + removeTake(take: Take): void
+    + getTakes(): List<Take>
+    + getPhotographicParameters(): String
+    + getCode(): String
+}
+
+class Take {
+    - number: int
+    - filmLength: double
+    - reelCode: String
+    - setup: Setup
+    + getFilmLength(): double
+    + getReelCode(): String
+    + getNumber(): int
+}
+
+class Location {
+    - code: String
+    - address: String
+    - description: String
+    + getAddress(): String
+    + getDescription(): String
+    + getCode(): String
+}
+
+class Internal {
+    - scene: Scene
+    + getScene(): Scene
+}
+
+class External {
+    - scene: Scene
+    - location: Location
+    + getScene(): Scene
+    + getLocation(): Location
+}
+
+class DayScene {
+    - external: External
+    + getExternal(): External
+}
+
+class NightScene {
+    - external: External
+    + getExternal(): External
+}
+
+Scene "1" o-- "*" Setup
+Scene "0..1" <|-- Internal
+Scene "0..1" <|-- External
+Setup "1" o-- "*" Take
+External "1" --> "1" Location
+External "0..1" <|-- DayScene
+External "0..1" <|-- NightScene
+@enduml

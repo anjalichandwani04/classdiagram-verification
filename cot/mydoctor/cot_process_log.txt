@@ -1,0 +1,408 @@
+PROJECT: MyDoctor
+REQ:
+The MyDoctor application aims to be a management tool for the appointments of a doctor. A hospital has multiple offices. The users of the application can be doctors and patients. The doctors can apply to practice in offices and create a schedule for an office. The schedules in different offices can’t overlay. 📝 Example: Doctor Ana is available in Office 4 on the 4th of September during 1 PM - 5PM. Doctor Ana can’t practice in Office 5 on the 4th of September during 3PM - 8 PM, but she can practice in Office 5 on the 4th of September during 5:30PM - 8 PM. The patients can see the existing doctors in the system, the schedule of the offices and can book appointments for specific doctors and for specific schedules. The appointments can be of 3 types: ● Blood Test - 15 mins ● Consultation - 30 mins ● Surgery - 60 mins The booking of an appointment will not be possible if another appointment is already booked at the same time frame. An email is sent to the patient with the confirmation of the appointment. 📝 Example: Action 1: User Mike will create a blood test booking for Doctor Ana for the 4th of September starting with 15:30 PM → Possible Action 2: User Mike will create an intervention booking for Doctor Ana for the 4th of September starting with 15:00 PM → Not Possible Action 3: User Mike will create an intervention booking for Doctor Ana for the 4th of September starting with 16:00 PM → Possible
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description of the MyDoctor application, the following main classes/entities can be identified:
+
+1. **Hospital**
+   - Justification: Represents the overarching entity that contains multiple offices where doctors practice.
+
+2. **Office**
+   - Justification: Represents individual locations within a hospital where doctors can see patients and manage their schedules.
+
+3. **Doctor**
+   - Justification: Represents the medical professionals who can create schedules, practice in offices, and have appointments with patients.
+
+4. **Patient**
+   - Justification: Represents the users of the application who can view doctors, schedules, and book appointments.
+
+5. **Schedule**
+   - Justification: Represents the time slots available for doctors in specific offices, indicating when they are available for appointments.
+
+6. **Appointment**
+   - Justification: Represents the actual bookings made by patients with doctors, which can be of different types (Blood Test, Consultation, Surgery).
+
+7. **Email**
+   - Justification: Represents the communication sent to patients for appointment confirmations, indicating a notification mechanism within the application.
+
+8. **Appointment Type**
+   - Justification: Represents the different categories of appointments (Blood Test, Consultation, Surgery) that have specific durations and characteristics.
+
+These classes encapsulate the key entities and relationships described in the MyDoctor application, focusing on the real-world aspects of the system without delving into implementation details.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes for the MyDoctor application, here are the attributes and methods for each class:
+
+### 1. **Hospital**
+- **Attributes:**
+  - `name: String`
+  - `location: String`
+  - `offices: List<Office>`
+
+- **Methods:**
+  - `addOffice(office: Office): void`
+  - `removeOffice(office: Office): void`
+  - `getOffices(): List<Office>`
+
+### 2. **Office**
+- **Attributes:**
+  - `name: String`
+  - `location: String`
+  - `hospital: Hospital`
+  - `doctors: List<Doctor>`
+  - `schedules: List<Schedule>`
+
+- **Methods:**
+  - `addDoctor(doctor: Doctor): void`
+  - `removeDoctor(doctor: Doctor): void`
+  - `createSchedule(schedule: Schedule): void`
+  - `getSchedules(): List<Schedule>`
+
+### 3. **Doctor**
+- **Attributes:**
+  - `name: String`
+  - `specialization: String`
+  - `offices: List<Office>`
+  - `schedules: List<Schedule>`
+
+- **Methods:**
+  - `addOffice(office: Office): void`
+  - `removeOffice(office: Office): void`
+  - `createSchedule(schedule: Schedule): void`
+  - `getAvailableSchedules(): List<Schedule>`
+
+### 4. **Patient**
+- **Attributes:**
+  - `name: String`
+  - `email: String`
+  - `appointments: List<Appointment>`
+
+- **Methods:**
+  - `bookAppointment(appointment: Appointment): void`
+  - `cancelAppointment(appointment: Appointment): void`
+  - `getAppointments(): List<Appointment>`
+
+### 5. **Schedule**
+- **Attributes:**
+  - `date: Date`
+  - `startTime: Time`
+  - `endTime: Time`
+  - `doctor: Doctor`
+  - `office: Office`
+  - `appointments: List<Appointment>`
+
+- **Methods:**
+  - `addAppointment(appointment: Appointment): void`
+  - `removeAppointment(appointment: Appointment): void`
+  - `isAvailable(time: Time, duration: int): boolean`
+
+### 6. **Appointment**
+- **Attributes:**
+  - `patient: Patient`
+  - `doctor: Doctor`
+  - `schedule: Schedule`
+  - `appointmentType: AppointmentType`
+  - `dateTime: DateTime`
+
+- **Methods:**
+  - `confirm(): void`
+  - `cancel(): void`
+  - `getDetails(): String`
+
+### 7. **Email**
+- **Attributes:**
+  - `recipient: String`
+  - `subject: String`
+  - `body: String`
+  - `sentDate: DateTime`
+
+- **Methods:**
+  - `send(): void`
+  - `getDetails(): String`
+
+### 8. **Appointment Type**
+- **Attributes:**
+  - `name: String`
+  - `duration: int`  // Duration in minutes
+
+- **Methods:**
+  - `getDuration(): int`
+  - `getName(): String`
+
+This structure provides a clear representation of the attributes and methods for each class in the MyDoctor application, encapsulating the necessary properties and behaviors for managing doctors, patients, appointments, and schedules.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided description of the MyDoctor application and the identified classes, here are the relationships along with their types and cardinalities:
+
+1. **Hospital** -- Aggregation -- **Office** : 1..*  
+   (A hospital can have multiple offices, but an office belongs to one hospital.)
+
+2. **Office** -- Aggregation -- **Doctor** : 0..*  
+   (An office can have multiple doctors, but a doctor may not be associated with any office.)
+
+3. **Office** -- Aggregation -- **Schedule** : 0..*  
+   (An office can have multiple schedules, but a schedule is associated with one office.)
+
+4. **Doctor** -- Association -- **Schedule** : 0..*  
+   (A doctor can create multiple schedules, but a schedule is associated with one doctor.)
+
+5. **Doctor** -- Association -- **Office** : 0..*  
+   (A doctor can practice in multiple offices, and an office can have multiple doctors.)
+
+6. **Patient** -- Association -- **Appointment** : 0..*  
+   (A patient can have multiple appointments, but an appointment is associated with one patient.)
+
+7. **Appointment** -- Association -- **Doctor** : 1  
+   (An appointment is made with one doctor.)
+
+8. **Appointment** -- Association -- **Schedule** : 1  
+   (An appointment is linked to one specific schedule.)
+
+9. **Appointment** -- Association -- **Appointment Type** : 1  
+   (An appointment must have one type, which defines its characteristics.)
+
+10. **Appointment** -- Association -- **Email** : 0..1  
+    (An appointment may trigger an email notification, but it is not mandatory for every appointment.)
+
+11. **Schedule** -- Association -- **Appointment** : 0..*  
+    (A schedule can have multiple appointments, but an appointment is linked to one schedule.)
+
+This structure captures the relationships and cardinalities between the classes in the MyDoctor application, reflecting how they interact with each other in the context of managing appointments, doctors, patients, and schedules.
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Hospital
+Description: Represents the overarching entity that contains multiple offices where doctors practice.
+ATTRIBUTES:
+- name: String
+- location: String
+- offices: List<Office>
+METHODS:
+- addOffice(office: Office): void
+- removeOffice(office: Office): void
+- getOffices(): List<Office>
+
+RELATIONSHIPS:
+- Hospital aggregation Office 1..*
+
+CLASS: Office
+Description: Represents individual locations within a hospital where doctors can see patients and manage their schedules.
+ATTRIBUTES:
+- name: String
+- location: String
+- hospital: Hospital
+- doctors: List<Doctor>
+- schedules: List<Schedule>
+METHODS:
+- addDoctor(doctor: Doctor): void
+- removeDoctor(doctor: Doctor): void
+- createSchedule(schedule: Schedule): void
+- getSchedules(): List<Schedule>
+
+RELATIONSHIPS:
+- Office aggregation Doctor 0..*
+- Office aggregation Schedule 0..*
+- Office association Doctor 0..*
+
+CLASS: Doctor
+Description: Represents the medical professionals who can create schedules, practice in offices, and have appointments with patients.
+ATTRIBUTES:
+- name: String
+- specialization: String
+- offices: List<Office>
+- schedules: List<Schedule>
+METHODS:
+- addOffice(office: Office): void
+- removeOffice(office: Office): void
+- createSchedule(schedule: Schedule): void
+- getAvailableSchedules(): List<Schedule>
+
+RELATIONSHIPS:
+- Doctor association Schedule 0..*
+- Doctor association Office 0..*
+
+CLASS: Patient
+Description: Represents the users of the application who can view doctors, schedules, and book appointments.
+ATTRIBUTES:
+- name: String
+- email: String
+- appointments: List<Appointment>
+METHODS:
+- bookAppointment(appointment: Appointment): void
+- cancelAppointment(appointment: Appointment): void
+- getAppointments(): List<Appointment>
+
+RELATIONSHIPS:
+- Patient association Appointment 0..*
+
+CLASS: Schedule
+Description: Represents the time slots available for doctors in specific offices, indicating when they are available for appointments.
+ATTRIBUTES:
+- date: Date
+- startTime: Time
+- endTime: Time
+- doctor: Doctor
+- office: Office
+- appointments: List<Appointment>
+METHODS:
+- addAppointment(appointment: Appointment): void
+- removeAppointment(appointment: Appointment): void
+- isAvailable(time: Time, duration: int): boolean
+
+RELATIONSHIPS:
+- Schedule association Appointment 0..*
+- Schedule association Doctor 0..*
+- Schedule aggregation Office 0..*
+
+CLASS: Appointment
+Description: Represents the actual bookings made by patients with doctors, which can be of different types (Blood Test, Consultation, Surgery).
+ATTRIBUTES:
+- patient: Patient
+- doctor: Doctor
+- schedule: Schedule
+- appointmentType: AppointmentType
+- dateTime: DateTime
+METHODS:
+- confirm(): void
+- cancel(): void
+- getDetails(): String
+
+RELATIONSHIPS:
+- Appointment association Doctor 1
+- Appointment association Schedule 1
+- Appointment association Appointment Type 1
+- Appointment association Email 0..*
+
+CLASS: Email
+Description: Represents the communication sent to patients for appointment confirmations, indicating a notification mechanism within the application.
+ATTRIBUTES:
+- recipient: String
+- subject: String
+- body: String
+- sentDate: DateTime
+METHODS:
+- send(): void
+- getDetails(): String
+
+RELATIONSHIPS:
+- Email association Appointment 0..1
+
+CLASS: Appointment Type
+Description: Represents the different categories of appointments (Blood Test, Consultation, Surgery) that have specific durations and characteristics.
+ATTRIBUTES:
+- name: String
+- duration: int
+METHODS:
+- getDuration(): int
+- getName(): String
+
+RELATIONSHIPS:
+- Appointment Type association Appointment 1
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+class Hospital {
+    - name: String
+    - location: String
+    - offices: List<Office>
+    + addOffice(office: Office): void
+    + removeOffice(office: Office): void
+    + getOffices(): List<Office>
+}
+
+class Office {
+    - name: String
+    - location: String
+    - hospital: Hospital
+    - doctors: List<Doctor>
+    - schedules: List<Schedule>
+    + addDoctor(doctor: Doctor): void
+    + removeDoctor(doctor: Doctor): void
+    + createSchedule(schedule: Schedule): void
+    + getSchedules(): List<Schedule>
+}
+
+class Doctor {
+    - name: String
+    - specialization: String
+    - offices: List<Office>
+    - schedules: List<Schedule>
+    + addOffice(office: Office): void
+    + removeOffice(office: Office): void
+    + createSchedule(schedule: Schedule): void
+    + getAvailableSchedules(): List<Schedule>
+}
+
+class Patient {
+    - name: String
+    - email: String
+    - appointments: List<Appointment>
+    + bookAppointment(appointment: Appointment): void
+    + cancelAppointment(appointment: Appointment): void
+    + getAppointments(): List<Appointment>
+}
+
+class Schedule {
+    - date: Date
+    - startTime: Time
+    - endTime: Time
+    - doctor: Doctor
+    - office: Office
+    - appointments: List<Appointment>
+    + addAppointment(appointment: Appointment): void
+    + removeAppointment(appointment: Appointment): void
+    + isAvailable(time: Time, duration: int): boolean
+}
+
+class Appointment {
+    - patient: Patient
+    - doctor: Doctor
+    - schedule: Schedule
+    - appointmentType: AppointmentType
+    - dateTime: DateTime
+    + confirm(): void
+    + cancel(): void
+    + getDetails(): String
+}
+
+class Email {
+    - recipient: String
+    - subject: String
+    - body: String
+    - sentDate: DateTime
+    + send(): void
+    + getDetails(): String
+}
+
+class AppointmentType {
+    - name: String
+    - duration: int
+    + getDuration(): int
+    + getName(): String
+}
+
+Hospital *-- Office : "1..*"
+Office *-- Doctor : "0..*"
+Office *-- Schedule : "0..*"
+Office --> Doctor : "0..*"
+Doctor --> Schedule : "0..*"
+Doctor --> Office : "0..*"
+Patient --> Appointment : "0..*"
+Schedule --> Appointment : "0..*"
+Schedule --> Doctor : "0..*"
+Schedule *-- Office : "0..*"
+Appointment --> Doctor : "1"
+Appointment --> Schedule : "1"
+Appointment --> AppointmentType : "1"
+Appointment --> Email : "0..*"
+Email --> Appointment : "0..1"
+AppointmentType --> Appointment : "1"
+@enduml
+

@@ -1,0 +1,53 @@
+@startuml
+class EmployeeCard {
+    +cardNumber: String
+    +name: String
+    +department: String
+    +employeeNumber: String
+}
+
+class GuestCard {
+    +cardNumber: String
+    +issueDate: Date
+}
+
+class Employee {
+    +employeeId: String
+    +name: String
+    +department: String
+}
+
+class Guest {
+    +guestId: String
+    +name: String
+}
+
+class CarPark {
+    +totalSpaces: Integer
+    +availableSpaces: Integer
+    +checkAvailability(): Boolean
+    +updateAvailability(): Void
+}
+
+class Barrier {
+    +barrierId: String
+    +status: Boolean
+    +raise(): Void
+    +lower(): Void
+}
+
+class CardReader {
+    +readerId: String
+    +verifyCard(cardNumber: String): Boolean
+    +sendSignalToBarrier(barrier: Barrier): Void
+}
+
+EmployeeCard "1" -- "1" Employee
+GuestCard "1" -- "1" Guest
+Employee "1" -- "0..*" CarPark
+Guest "1" -- "0..*" CarPark
+CarPark "0..*" -- "0..*" EmployeeCard
+CarPark "0..*" -- "0..*" GuestCard
+CarPark "1" -- "2" Barrier
+CardReader "1" -- "1" CarPark
+@enduml

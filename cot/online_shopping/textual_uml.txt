@@ -1,0 +1,143 @@
+```plaintext
+CLASS: Customer
+Description: Represents individuals who make purchases. Each customer has a unique ID and is linked to an account.
+ATTRIBUTES:
+- customerId: String
+- account: Account
+- webUser: WebUser
+METHODS:
+- getCustomerId(): String
+- getAccount(): Account
+- registerWebUser(webUser: WebUser): void
+
+RELATIONSHIPS:
+- Customer association Account 1
+- Customer association WebUser 0..1
+
+CLASS: Account
+Description: Represents a financial or transactional entity that owns a shopping cart and customer orders. It links customers to their purchases.
+ATTRIBUTES:
+- accountId: String
+- customer: Customer
+- shoppingCart: ShoppingCart
+- orders: List<Order>
+METHODS:
+- getAccountId(): String
+- getCustomer(): Customer
+- getShoppingCart(): ShoppingCart
+- getOrders(): List<Order>
+- addOrder(order: Order): void
+
+RELATIONSHIPS:
+- Account aggregation ShoppingCart 1
+- Account aggregation Order 0..*
+
+CLASS: ShoppingCart
+Description: Represents a temporary storage for items that a customer intends to purchase. It is linked to an account and contains line items.
+ATTRIBUTES:
+- cartId: String
+- account: Account
+- lineItems: List<LineItem>
+METHODS:
+- getCartId(): String
+- getAccount(): Account
+- getLineItems(): List<LineItem>
+- addLineItem(lineItem: LineItem): void
+- removeLineItem(lineItem: LineItem): void
+
+RELATIONSHIPS:
+- ShoppingCart composition LineItem 0..*
+
+CLASS: Order
+Description: Represents a completed transaction that may consist of multiple payments. Each order is linked to an account and has a current status.
+ATTRIBUTES:
+- orderId: String
+- account: Account
+- lineItems: List<LineItem>
+- status: OrderStatus
+- payments: List<Payment>
+METHODS:
+- getOrderId(): String
+- getAccount(): Account
+- getLineItems(): List<LineItem>
+- getStatus(): OrderStatus
+- addPayment(payment: Payment): void
+
+RELATIONSHIPS:
+- Order composition LineItem 0..*
+- Order aggregation Payment 0..*
+- Order association OrderStatus 1
+
+CLASS: Payment
+Description: Represents a financial transaction related to an order. Each payment has a unique ID and is associated with an account.
+ATTRIBUTES:
+- paymentId: String
+- order: Order
+- account: Account
+- amount: Double
+- paymentDate: Date
+METHODS:
+- getPaymentId(): String
+- getOrder(): Order
+- getAccount(): Account
+- getAmount(): Double
+- getPaymentDate(): Date
+
+RELATIONSHIPS:
+- Payment association Account 1
+
+CLASS: WebUser
+Description: Represents customers who register to buy items online. It has a unique login name and can have various states (new, active, etc.).
+ATTRIBUTES:
+- loginName: String
+- customer: Customer
+- state: String
+METHODS:
+- getLoginName(): String
+- getCustomer(): Customer
+- getState(): String
+- setState(state: String): void
+
+RELATIONSHIPS:
+- WebUser association ShoppingCart 0..1
+
+CLASS: LineItem
+Description: Represents individual items within a shopping cart or order. Each line item is linked to a specific product.
+ATTRIBUTES:
+- lineItemId: String
+- product: Product
+- quantity: Integer
+- price: Double
+METHODS:
+- getLineItemId(): String
+- getProduct(): Product
+- getQuantity(): Integer
+- getPrice(): Double
+
+RELATIONSHIPS:
+- LineItem association Product 1
+
+CLASS: Product
+Description: Represents items available for purchase. A product can be associated with multiple line items or none at all.
+ATTRIBUTES:
+- productId: String
+- name: String
+- description: String
+- price: Double
+- lineItems: List<LineItem>
+METHODS:
+- getProductId(): String
+- getName(): String
+- getDescription(): String
+- getPrice(): Double
+- getLineItems(): List<LineItem>
+
+CLASS: OrderStatus
+Description: Represents the current state of an order (e.g., pending, completed, canceled). This is important for tracking the order's progress.
+ATTRIBUTES:
+- statusId: String
+- statusName: String
+METHODS:
+- getStatusId(): String
+- getStatusName(): String
+```

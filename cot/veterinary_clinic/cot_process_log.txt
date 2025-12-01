@@ -1,0 +1,389 @@
+PROJECT: Veterinary Clinic
+REQ:
+The owner of a veterinary clinic wants to create a database to store information about all veterinary services performed. After some research he came up with the following requirements: ● For each admitted animal, its name, breed (if any) and owner must be stored. Each animal should be given an unique numeric identifier. ● For each owner, its name, address and phone number should be stored. An unique numeric identifier should also be generated for each one of them. ● An animal might be owner-less. This happens frequently as the clinic often rescues abandoned dogs from the streets in order to treat them and get them new owners. ● It should be possible to store information about a specific breed even if no animals of that breed have been treated at the clinic. ● Each appointement always has a responsible physician. All appointements start at a certain date and time; and are attended by an animal (and of course its owner). ● For each physician, his name, address and phone number should be stored. An unique numeric identifier should also be generated for each one of them. ● In an appointement, several medical conditions might be detected. Each condition has a common name and a scientific name. No two conditions have the same scientific name. ● It should be possible to store information about the most common conditions for each different breed in the database.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with justifications for each:
+
+1. **Animal**
+   - Justification: Represents the animals admitted to the veterinary clinic. Each animal has attributes like name, breed, and a unique identifier.
+
+2. **Owner**
+   - Justification: Represents the owners of the animals. Each owner has attributes such as name, address, phone number, and a unique identifier. The owner can also be absent for certain animals.
+
+3. **Breed**
+   - Justification: Represents the different breeds of animals. This class is necessary to store information about breeds, even if no animals of that breed are currently treated at the clinic.
+
+4. **Appointment**
+   - Justification: Represents the scheduled visits to the clinic. Each appointment is associated with a specific animal, its owner, and a responsible physician, along with a date and time.
+
+5. **Physician**
+   - Justification: Represents the veterinarians or doctors responsible for treating the animals. Each physician has attributes like name, address, phone number, and a unique identifier.
+
+6. **MedicalCondition**
+   - Justification: Represents the various medical conditions that can be detected during an appointment. Each condition has a common name and a scientific name, with the requirement that no two conditions share the same scientific name.
+
+7. **CommonCondition**
+   - Justification: Represents the common medical conditions associated with specific breeds. This class is necessary to link breeds with their common medical conditions.
+
+These classes encapsulate the key entities and relationships described in the requirements for the veterinary clinic's database.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes for the veterinary clinic's database, here are the attributes and methods for each class:
+
+### 1. **Animal**
+- **Attributes:**
+  - `name: String`
+  - `breed: Breed`
+  - `owner: Owner`
+  - `identifier: int` (unique numeric identifier)
+
+- **Methods:**
+  - `getName(): String`
+  - `getBreed(): Breed`
+  - `getOwner(): Owner`
+  - `getIdentifier(): int`
+  - `setName(name: String): void`
+  - `setBreed(breed: Breed): void`
+  - `setOwner(owner: Owner): void`
+
+### 2. **Owner**
+- **Attributes:**
+  - `name: String`
+  - `address: String`
+  - `phoneNumber: String`
+  - `identifier: int` (unique numeric identifier)
+
+- **Methods:**
+  - `getName(): String`
+  - `getAddress(): String`
+  - `getPhoneNumber(): String`
+  - `getIdentifier(): int`
+  - `setName(name: String): void`
+  - `setAddress(address: String): void`
+  - `setPhoneNumber(phoneNumber: String): void`
+
+### 3. **Breed**
+- **Attributes:**
+  - `name: String`
+  - `identifier: int` (unique numeric identifier)
+
+- **Methods:**
+  - `getName(): String`
+  - `getIdentifier(): int`
+  - `setName(name: String): void`
+
+### 4. **Appointment**
+- **Attributes:**
+  - `animal: Animal`
+  - `owner: Owner`
+  - `physician: Physician`
+  - `dateTime: DateTime`
+
+- **Methods:**
+  - `getAnimal(): Animal`
+  - `getOwner(): Owner`
+  - `getPhysician(): Physician`
+  - `getDateTime(): DateTime`
+  - `setAnimal(animal: Animal): void`
+  - `setOwner(owner: Owner): void`
+  - `setPhysician(physician: Physician): void`
+  - `setDateTime(dateTime: DateTime): void`
+
+### 5. **Physician**
+- **Attributes:**
+  - `name: String`
+  - `address: String`
+  - `phoneNumber: String`
+  - `identifier: int` (unique numeric identifier)
+
+- **Methods:**
+  - `getName(): String`
+  - `getAddress(): String`
+  - `getPhoneNumber(): String`
+  - `getIdentifier(): int`
+  - `setName(name: String): void`
+  - `setAddress(address: String): void`
+  - `setPhoneNumber(phoneNumber: String): void`
+
+### 6. **MedicalCondition**
+- **Attributes:**
+  - `commonName: String`
+  - `scientificName: String` (unique)
+
+- **Methods:**
+  - `getCommonName(): String`
+  - `getScientificName(): String`
+  - `setCommonName(commonName: String): void`
+  - `setScientificName(scientificName: String): void`
+
+### 7. **CommonCondition**
+- **Attributes:**
+  - `breed: Breed`
+  - `medicalCondition: MedicalCondition`
+
+- **Methods:**
+  - `getBreed(): Breed`
+  - `getMedicalCondition(): MedicalCondition`
+  - `setBreed(breed: Breed): void`
+  - `setMedicalCondition(medicalCondition: MedicalCondition): void`
+
+This structure provides a clear representation of the attributes and methods for each class, allowing for effective management of the veterinary clinic's database.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided classes and their descriptions, here are the identified relationships along with their types and cardinalities:
+
+1. **Animal** -- **Association** -- **Owner** : 0..1
+   - Justification: An animal can have an owner, but it can also be owner-less (e.g., abandoned animals).
+
+2. **Animal** -- **Association** -- **Breed** : 0..1
+   - Justification: An animal may have a breed, but it is not mandatory (e.g., mixed-breed or unknown).
+
+3. **Owner** -- **Aggregation** -- **Animal** : 1..*
+   - Justification: An owner can have multiple animals, but each animal can only have one owner (if it has one).
+
+4. **Appointment** -- **Association** -- **Animal** : 1
+   - Justification: Each appointment is associated with exactly one animal.
+
+5. **Appointment** -- **Association** -- **Owner** : 1
+   - Justification: Each appointment is associated with the owner of the animal, which is mandatory for the appointment.
+
+6. **Appointment** -- **Association** -- **Physician** : 1
+   - Justification: Each appointment must have one responsible physician.
+
+7. **Appointment** -- **Aggregation** -- **MedicalCondition** : 0..*
+   - Justification: An appointment can have multiple medical conditions detected, but it can also have none.
+
+8. **Breed** -- **Aggregation** -- **CommonCondition** : 1..*
+   - Justification: Each breed can have multiple common medical conditions associated with it, but each common condition is linked to one breed.
+
+9. **CommonCondition** -- **Association** -- **MedicalCondition** : 1
+   - Justification: Each common condition is associated with exactly one medical condition.
+
+### Summary of Relationships:
+- **Animal** -- **Association** -- **Owner** : 0..1
+- **Animal** -- **Association** -- **Breed** : 0..1
+- **Owner** -- **Aggregation** -- **Animal** : 1..*
+- **Appointment** -- **Association** -- **Animal** : 1
+- **Appointment** -- **Association** -- **Owner** : 1
+- **Appointment** -- **Association** -- **Physician** : 1
+- **Appointment** -- **Aggregation** -- **MedicalCondition** : 0..*
+- **Breed** -- **Aggregation** -- **CommonCondition** : 1..*
+- **CommonCondition** -- **Association** -- **MedicalCondition** : 1
+
+This structure captures the relationships and cardinalities effectively, reflecting the requirements of the veterinary clinic's database.
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Animal
+Description: Represents the animals admitted to the veterinary clinic. Each animal has attributes like name, breed, and a unique identifier.
+ATTRIBUTES:
+- name: String
+- breed: Breed
+- owner: Owner
+- identifier: int
+METHODS:
+- getName(): String
+- getBreed(): Breed
+- getOwner(): Owner
+- getIdentifier(): int
+- setName(name: String): void
+- setBreed(breed: Breed): void
+- setOwner(owner: Owner): void
+
+CLASS: Owner
+Description: Represents the owners of the animals. Each owner has attributes such as name, address, phone number, and a unique identifier. The owner can also be absent for certain animals.
+ATTRIBUTES:
+- name: String
+- address: String
+- phoneNumber: String
+- identifier: int
+METHODS:
+- getName(): String
+- getAddress(): String
+- getPhoneNumber(): String
+- getIdentifier(): int
+- setName(name: String): void
+- setAddress(address: String): void
+- setPhoneNumber(phoneNumber: String): void
+
+CLASS: Breed
+Description: Represents the different breeds of animals. This class is necessary to store information about breeds, even if no animals of that breed are currently treated at the clinic.
+ATTRIBUTES:
+- name: String
+- identifier: int
+METHODS:
+- getName(): String
+- getIdentifier(): int
+- setName(name: String): void
+
+CLASS: Appointment
+Description: Represents the scheduled visits to the clinic. Each appointment is associated with a specific animal, its owner, and a responsible physician, along with a date and time.
+ATTRIBUTES:
+- animal: Animal
+- owner: Owner
+- physician: Physician
+- dateTime: DateTime
+METHODS:
+- getAnimal(): Animal
+- getOwner(): Owner
+- getPhysician(): Physician
+- getDateTime(): DateTime
+- setAnimal(animal: Animal): void
+- setOwner(owner: Owner): void
+- setPhysician(physician: Physician): void
+- setDateTime(dateTime: DateTime): void
+
+CLASS: Physician
+Description: Represents the veterinarians or doctors responsible for treating the animals. Each physician has attributes like name, address, phone number, and a unique identifier.
+ATTRIBUTES:
+- name: String
+- address: String
+- phoneNumber: String
+- identifier: int
+METHODS:
+- getName(): String
+- getAddress(): String
+- getPhoneNumber(): String
+- getIdentifier(): int
+- setName(name: String): void
+- setAddress(address: String): void
+- setPhoneNumber(phoneNumber: String): void
+
+CLASS: MedicalCondition
+Description: Represents the various medical conditions that can be detected during an appointment. Each condition has a common name and a scientific name, with the requirement that no two conditions share the same scientific name.
+ATTRIBUTES:
+- commonName: String
+- scientificName: String
+METHODS:
+- getCommonName(): String
+- getScientificName(): String
+- setCommonName(commonName: String): void
+- setScientificName(scientificName: String): void
+
+CLASS: CommonCondition
+Description: Represents the common medical conditions associated with specific breeds. This class is necessary to link breeds with their common medical conditions.
+ATTRIBUTES:
+- breed: Breed
+- medicalCondition: MedicalCondition
+METHODS:
+- getBreed(): Breed
+- getMedicalCondition(): MedicalCondition
+- setBreed(breed: Breed): void
+- setMedicalCondition(medicalCondition: MedicalCondition): void
+
+RELATIONSHIPS:
+- Animal Association Owner 0..1
+- Animal Association Breed 0..1
+- Owner Aggregation Animal 1..*
+- Appointment Association Animal 1
+- Appointment Association Owner 1
+- Appointment Association Physician 1
+- Appointment Aggregation MedicalCondition 0..*
+- Breed Aggregation CommonCondition 1..*
+- CommonCondition Association MedicalCondition 1
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Animal {
+    - name: String
+    - breed: Breed
+    - owner: Owner
+    - identifier: int
+    + getName(): String
+    + getBreed(): Breed
+    + getOwner(): Owner
+    + getIdentifier(): int
+    + setName(name: String): void
+    + setBreed(breed: Breed): void
+    + setOwner(owner: Owner): void
+}
+
+class Owner {
+    - name: String
+    - address: String
+    - phoneNumber: String
+    - identifier: int
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+    + getIdentifier(): int
+    + setName(name: String): void
+    + setAddress(address: String): void
+    + setPhoneNumber(phoneNumber: String): void
+}
+
+class Breed {
+    - name: String
+    - identifier: int
+    + getName(): String
+    + getIdentifier(): int
+    + setName(name: String): void
+}
+
+class Appointment {
+    - animal: Animal
+    - owner: Owner
+    - physician: Physician
+    - dateTime: DateTime
+    + getAnimal(): Animal
+    + getOwner(): Owner
+    + getPhysician(): Physician
+    + getDateTime(): DateTime
+    + setAnimal(animal: Animal): void
+    + setOwner(owner: Owner): void
+    + setPhysician(physician: Physician): void
+    + setDateTime(dateTime: DateTime): void
+}
+
+class Physician {
+    - name: String
+    - address: String
+    - phoneNumber: String
+    - identifier: int
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+    + getIdentifier(): int
+    + setName(name: String): void
+    + setAddress(address: String): void
+    + setPhoneNumber(phoneNumber: String): void
+}
+
+class MedicalCondition {
+    - commonName: String
+    - scientificName: String
+    + getCommonName(): String
+    + getScientificName(): String
+    + setCommonName(commonName: String): void
+    + setScientificName(scientificName: String): void
+}
+
+class CommonCondition {
+    - breed: Breed
+    - medicalCondition: MedicalCondition
+    + getBreed(): Breed
+    + getMedicalCondition(): MedicalCondition
+    + setBreed(breed: Breed): void
+    + setMedicalCondition(medicalCondition: MedicalCondition): void
+}
+
+Animal o-- Owner : association
+Animal o-- Breed : association
+Owner *-- Animal : aggregation
+Appointment o-- Animal : association
+Appointment o-- Owner : association
+Appointment o-- Physician : association
+Appointment *-- MedicalCondition : aggregation
+Breed *-- CommonCondition : aggregation
+CommonCondition o-- MedicalCondition : association
+
+@enduml
+

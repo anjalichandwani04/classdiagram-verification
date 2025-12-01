@@ -1,0 +1,77 @@
+@startuml
+class Document {
+    +documentId
+    +title
+    +creationDate
+    +lastModifiedDate
+    +open()
+    +save()
+    +print()
+}
+
+class Page {
+    +pageNumber
+    +header
+    +footer
+    +addHeader(content)
+    +addFooter(content)
+}
+
+class Body {
+    +content
+    +addSentence(sentence)
+    +addTable(table)
+    +addPicture(picture)
+}
+
+class Sentence {
+    +sentenceId
+    +text
+    +addWord(word)
+}
+
+class Word {
+    +wordId
+    +text
+    +addCharacter(character)
+}
+
+class Character {
+    +characterId
+    +value
+}
+
+class Picture {
+    +pictureId
+    +filePath
+}
+
+class Table {
+    +tableId
+    +numberOfRows
+    +numberOfColumns
+    +addRow(row)
+}
+
+class Row {
+    +rowId
+    +addCell(cell)
+}
+
+class Cell {
+    +cellId
+    +content
+}
+
+Document "1" -- "1..*" Page : contains
+Page "1" -- "1" Body : has
+Body "1" -- "1..*" Sentence : composed of
+Body "1" -- "0..*" Table : can contain
+Body "1" -- "0..*" Picture : can contain
+Sentence "1" -- "1..*" Word : composed of
+Word "1" -- "1..*" Character : composed of
+Table "1" -- "1..*" Row : composed of
+Row "1" -- "1..*" Cell : composed of
+Cell "0..1" -- "0..1" Picture : can contain
+Cell "0..1" -- "0..1" Sentence : can contain
+@enduml

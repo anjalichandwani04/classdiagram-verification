@@ -1,0 +1,50 @@
+@startuml
+class Patient {
+    +patientId: String
+    +name: String
+    +dateOfBirth: Date
+    +contactInfo: String
+    +addVisit(visit: Visit)
+    +getVisitHistory(): List<Visit>
+}
+
+class Family {
+    +familyId: String
+    +address: String
+    +addMember(patient: Patient)
+    +getMembers(): List<Patient>
+}
+
+class Doctor {
+    +doctorId: String
+    +name: String
+    +specialty: String
+    +viewPatientHistory(patient: Patient): List<Visit>
+    +prescribeMedication(patient: Patient, medication: Medication)
+}
+
+class Visit {
+    +visitId: String
+    +visitDate: Date
+    +diagnosis: String
+    +treatment: String
+    +addMedication(medication: Medication)
+    +getMedications(): List<Medication>
+}
+
+class Medication {
+    +medicationId: String
+    +name: String
+    +dosage: String
+    +frequency: String
+    +getDetails(): String
+}
+
+Patient "1" -- "1" Family : belongs to >
+Family "1" -- "0..*" Doctor : has >
+Family "1" -- "1..*" Patient : has >
+Patient "1" -- "1..*" Visit : has >
+Visit "1" -- "0..1" Doctor : handled by >
+Visit "1" -- "0..*" Medication : has >
+Medication "0..*" -- "0..*" Visit : prescribed in >
+@enduml

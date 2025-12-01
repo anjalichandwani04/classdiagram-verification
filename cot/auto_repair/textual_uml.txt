@@ -1,0 +1,153 @@
+```plaintext
+CLASS: Employee
+Description: Represents an employee in the auto repair shop responsible for executing assembly services.
+ATTRIBUTES:
+- employeeID: int
+- name: String
+- address: String
+METHODS:
+- getEmployeeID(): int
+- getName(): String
+- getAddress(): String
+- setName(name: String): void
+- setAddress(address: String): void
+
+RELATIONSHIPS:
+- Employee Association Service 1..*
+
+CLASS: Client
+Description: Represents a car owner who has one or more vehicles serviced at the auto repair shop.
+ATTRIBUTES:
+- clientID: int
+- name: String
+- address: String
+- phoneNumber: String
+METHODS:
+- getClientID(): int
+- getName(): String
+- getAddress(): String
+- getPhoneNumber(): String
+- setName(name: String): void
+- setAddress(address: String): void
+- setPhoneNumber(phoneNumber: String): void
+
+RELATIONSHIPS:
+- Client Association Car 1..*
+
+CLASS: Car
+Description: Represents a vehicle that receives services at the auto repair shop.
+ATTRIBUTES:
+- licensePlate: String
+- make: String
+- model: String
+- color: String
+- owner: Client
+METHODS:
+- getLicensePlate(): String
+- getMake(): String
+- getModel(): String
+- getColor(): String
+- getOwner(): Client
+- setMake(make: String): void
+- setModel(model: String): void
+- setColor(color: String): void
+
+RELATIONSHIPS:
+- Car Association Service 1..*
+
+CLASS: Service
+Description: Represents an assembly service performed on a car, including details about the car, employee, and parts/accessories used.
+ATTRIBUTES:
+- car: Car
+- kilometersAtService: int
+- responsibleEmployee: Employee
+- fittedParts: List<Part>
+- fittedAccessories: List<Accessory>
+- workHours: float
+- admissionDate: Date
+- finishDate: Date
+METHODS:
+- getCar(): Car
+- getKilometersAtService(): int
+- getResponsibleEmployee(): Employee
+- getFittedParts(): List<Part>
+- getFittedAccessories(): List<Accessory>
+- getWorkHours(): float
+- getAdmissionDate(): Date
+- getFinishDate(): Date
+- addPart(part: Part): void
+- addAccessory(accessory: Accessory): void
+
+RELATIONSHIPS:
+- Service Composition Part 0..*
+- Service Composition Accessory 0..*
+
+CLASS: Part
+Description: Represents a component that can be sold and installed in vehicles, with specific attributes for categorization and compatibility.
+ATTRIBUTES:
+- category: Category
+- serialNumber: String
+- price: float
+- compatibleModels: List<Model>
+METHODS:
+- getCategory(): Category
+- getSerialNumber(): String
+- getPrice(): float
+- getCompatibleModels(): List<Model>
+- setPrice(price: float): void
+
+RELATIONSHIPS:
+- Part Association Category 1
+- Part Association Model 0..*
+
+CLASS: Accessory
+Description: Represents an accessory that can be sold and installed in vehicles, similar to parts but serving different purposes.
+ATTRIBUTES:
+- category: Category
+- serialNumber: String
+- price: float
+- compatibleModels: List<Model>
+METHODS:
+- getCategory(): Category
+- getSerialNumber(): String
+- getPrice(): float
+- getCompatibleModels(): List<Model>
+- setPrice(price: float): void
+
+RELATIONSHIPS:
+- Accessory Association Category 1
+- Accessory Association Model 0..*
+
+CLASS: Category
+Description: Represents a classification for parts and accessories, helping to organize inventory.
+ATTRIBUTES:
+- categoryID: int
+- name: String
+METHODS:
+- getCategoryID(): int
+- getName(): String
+- setName(name: String): void
+
+RELATIONSHIPS:
+- Category Association Part 0..*
+- Category Association Accessory 0..*
+- Category Association Model 0..*
+
+CLASS: Model
+Description: Represents a car model, which is important for determining compatibility with parts and accessories.
+ATTRIBUTES:
+- modelID: int
+- name: String
+- make: String
+METHODS:
+- getModelID(): int
+- getName(): String
+- getMake(): String
+- setName(name: String): void
+- setMake(make: String): void
+
+RELATIONSHIPS:
+- Model Association Part 0..*
+- Model Association Accessory 0..*
+- Model Association Category 0..*
+```

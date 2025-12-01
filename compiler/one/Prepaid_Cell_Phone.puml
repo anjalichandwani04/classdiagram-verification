@@ -1,0 +1,42 @@
+@startuml
+class Contract {
+    - contractNumber: int
+    - balance: double
+    + getCharges(): double
+    + getBalance(): double
+    + setBalance(double balance): void
+}
+
+abstract class ContractDecorator {
+    - contract: Contract
+    + getCharges(): double
+    + getBalance(): double
+    + setBalance(double balance): void
+}
+
+class DataOption {
+    - monthlyCharge: double
+    + getCharges(): double
+}
+
+class SmsOption {
+    - monthlyCharge: double
+    + getCharges(): double
+}
+
+class MinutesOption {
+    - monthlyCharge: double
+    + getCharges(): double
+}
+
+class DoubleTransferRateOption {
+    - monthlyCharge: double
+    + getCharges(): double
+}
+
+Contract "1" *-- "*" ContractDecorator
+ContractDecorator <|-- DataOption
+ContractDecorator <|-- SmsOption
+ContractDecorator <|-- MinutesOption
+ContractDecorator <|-- DoubleTransferRateOption
+@enduml

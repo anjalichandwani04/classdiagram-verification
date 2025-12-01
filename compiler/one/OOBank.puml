@@ -1,0 +1,76 @@
+@startuml
+
+class Bank {
+    +bankId
+    +name
+}
+
+class Branch {
+    +branchNumber
+    +address
+}
+
+class Account <<abstract>> {
+    +accountNumber
+    +balance
+    +creditLimit
+    +interestRate
+    +monthlyFee
+    +privileges
+    +deposit(amount)
+    +withdraw(amount)
+    +getBalance()
+}
+
+class MortgageAccount {
+    +collateralProperty
+}
+
+class CheckingAccount {
+}
+
+class CreditCardAccount {
+    +expiryDate
+    +secondaryCards
+}
+
+class Client {
+    +clientId
+    +name
+    +contactInfo
+}
+
+class Employee {
+    +employeeId
+    +name
+    +position
+}
+
+class Division {
+    +divisionId
+    +name
+}
+
+class Manager <<inherits>> {
+    +managerId
+}
+
+Bank "1" -- "0..*" Branch : has >
+Branch "1" -- "0..*" Account : has >
+Branch "1" -- "0..*" Employee : has >
+Branch "1" -- "0..*" Client : has >
+Branch "0..1" -- "1" Division : belongs to >
+Account "1" -- "1" Branch : opened at >
+Account "1" -- "1" Client : belongs to >
+Account "1" -- "1" Employee : managed by >
+Client "1" -- "0..*" Account : can have >
+Client "1" -- "1" Branch : opens at >
+Client "1" -- "1" Employee : assigned to >
+Employee "1" -- "0..*" Account : manages >
+Employee "1" -- "1" Branch : works at >
+Employee "1" -- "1" Division : belongs to >
+Division "1" -- "0..*" Branch : has >
+Division "1" -- "0..*" Employee : has >
+Division "1" -- "1" Manager : has >
+
+@enduml

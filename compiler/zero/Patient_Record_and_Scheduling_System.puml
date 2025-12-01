@@ -1,0 +1,71 @@
+```plantuml
+@startuml
+class Patient {
+    +patientID: String
+    +firstName: String
+    +lastName: String
+    +dateOfBirth: Date
+    +gender: String
+    +familyID: String
+    +updatePersonalInfo()
+    +getPatientHistory()
+}
+
+class Family {
+    +familyID: String
+    +headOfFamily: String
+    +primaryCarePhysicianID: String
+    +addMember()
+    +removeMember()
+    +getFamilyMembers()
+}
+
+class Doctor {
+    +doctorID: String
+    +firstName: String
+    +lastName: String
+    +specialization: String
+    +viewPatientHistory(patientID: String)
+    +enterTreatmentInfo(visitID: String, treatmentInfo: String)
+}
+
+class Visit {
+    +visitID: String
+    +patientID: String
+    +doctorID: String
+    +visitDate: Date
+    +diagnosis: String
+    +treatment: String
+    +addDiagnosis(diagnosis: String)
+    +addTreatment(treatment: String)
+    +addMedication(medication: String)
+}
+
+class Medication {
+    +medicationID: String
+    +name: String
+    +dosage: String
+    +frequency: String
+    +getMedicationDetails()
+}
+
+class Appointment {
+    +appointmentID: String
+    +patientID: String
+    +doctorID: String
+    +appointmentDate: Date
+    +status: String
+    +scheduleAppointment()
+    +cancelAppointment()
+    +rescheduleAppointment(newDate: Date)
+}
+
+Patient "1" -- "1..*" Family
+Family "1" -- "0..*" Doctor
+Patient "1" -- "0..*" Visit
+Visit "1" -- "0..*" Medication
+Visit "1" -- "1" Doctor
+Patient "0..*" -- "0..*" Appointment
+Doctor "0..*" -- "0..*" Appointment
+@enduml
+```

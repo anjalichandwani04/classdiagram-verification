@@ -1,0 +1,50 @@
+@startuml
+class Project {
+    +projectId
+    +name
+    +startDate
+    +endDate
+    +status
+    +initiateProject()
+    +terminateProject()
+}
+
+class ProjectManager {
+    +managerId
+    +name
+    +contactInfo
+    +assignTeam()
+    +monitorProgress()
+}
+
+class WorkProduct {
+    +productId
+    +description
+    +percentComplete
+    +validationStatus
+    +updateDescription()
+    +updatePercentComplete()
+    +validate()
+}
+
+class Validation {
+    +validationId
+    +validationDate
+    +validationType
+    +conductValidation()
+}
+
+class TeamMember {
+    +memberId
+    +name
+    +role
+    +reportProgress()
+}
+
+Project "1" -- "1..*" WorkProduct : produces >
+ProjectManager "1" -- "0..*" Project : manages >
+ProjectManager "1" -- "0..*" TeamMember : leads >
+WorkProduct "1" -- "0..*" Validation : has >
+WorkProduct "0..*" -- "0..*" TeamMember : works on >
+TeamMember "1" -- "0..*" ProjectManager : assigned to >
+@enduml

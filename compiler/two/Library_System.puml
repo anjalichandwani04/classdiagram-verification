@@ -1,0 +1,39 @@
+@startuml
+abstract class LibraryUser {
+    - fullName: String
+    - borrowedBooks: List<Book>
+    - borrowHistory: List<BorrowingRecord>
+    + borrowBook(Book book)
+    + returnBook(Book book)
+    + getBorrowedBooks()
+    + getBorrowHistory()
+}
+
+class UnderagedUser {
+    - studentCard: String
+}
+
+class AdultUser {
+    - idCard: String
+}
+
+class Book {
+    - bookId: String
+    - title: String
+    - author: String
+    - status: String
+    + updateStatus(String newStatus)
+}
+
+class BorrowingRecord {
+    - recordId: String
+    - borrowDate: Date
+    - returnDate: Date
+}
+
+LibraryUser <|-- UnderagedUser
+LibraryUser <|-- AdultUser
+LibraryUser "1" -- "1..*" BorrowingRecord
+Book "1" -- "1..*" BorrowingRecord
+LibraryUser "1" -- "0..4" Book
+@enduml

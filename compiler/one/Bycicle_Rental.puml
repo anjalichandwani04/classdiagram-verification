@@ -1,0 +1,40 @@
+@startuml
+class Client {
+    +clientId
+    +NIN
+    +TIN
+    +name
+    +address
+}
+
+class BicycleModel {
+    +modelId
+    +name
+    +type
+    +numberOfGears
+}
+
+class Bicycle {
+    +bicycleId
+}
+
+class Store {
+    +storeId
+    +name
+    +address
+}
+
+class Reservation {
+    +reservationId
+    +pickupDate
+    +returnDate
+}
+
+Client "1" -- "0..*" Reservation : makes >
+BicycleModel "1" -- "0..*" Bicycle : produces >
+Bicycle "1" -- "0..1" Reservation : reserved in >
+Store "1" -- "0..*" Reservation : has >
+Reservation "0..1" -- "1" Client : made by >
+Reservation "1" -- "1" Bicycle : for >
+Reservation "1" -- "1" Store : associated with >
+@enduml

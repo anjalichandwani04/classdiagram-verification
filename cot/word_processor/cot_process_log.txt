@@ -1,0 +1,656 @@
+PROJECT: Word Processor
+REQ:
+A user can open a new or existing document. Text is entered through a keyboard. A document is made up of several pages and each page is made up of a header, body and footer. Date, time and page number may be added to header or footer. Document body is made up of sentences, which are themselves made up of words and punctuation characters. Words are made up of letters, digits and/or special characters. Pictures and tables may be inserted into the document body. Tables are made up of rows and columns and every cell in a table can contain both text and pictures. Users can save or print documents.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified, along with justifications for each:
+
+1. **User**
+   - Justification: Represents individuals who interact with the system to create, open, save, or print documents.
+
+2. **Document**
+   - Justification: Represents the main entity that users work with, which can be new or existing and contains multiple pages.
+
+3. **Page**
+   - Justification: Represents individual pages within a document, which contain structured content like headers, bodies, and footers.
+
+4. **Header**
+   - Justification: Represents the top section of a page, which may include metadata such as date, time, and page number.
+
+5. **Body**
+   - Justification: Represents the main content area of a page where text, images, and tables are placed.
+
+6. **Footer**
+   - Justification: Represents the bottom section of a page, which may also include metadata similar to the header.
+
+7. **Sentence**
+   - Justification: Represents a unit of text within the body, composed of words and punctuation characters.
+
+8. **Word**
+   - Justification: Represents individual units of text that make up sentences, consisting of letters, digits, and/or special characters.
+
+9. **PunctuationCharacter**
+   - Justification: Represents symbols used in sentences to structure and clarify meaning.
+
+10. **Picture**
+    - Justification: Represents visual elements that can be inserted into the document body.
+
+11. **Table**
+    - Justification: Represents structured data within the document body, consisting of rows and columns.
+
+12. **Row**
+    - Justification: Represents a horizontal grouping of cells within a table.
+
+13. **Column**
+    - Justification: Represents a vertical grouping of cells within a table.
+
+14. **Cell**
+    - Justification: Represents an individual unit within a table that can contain text and pictures.
+
+15. **Character**
+    - Justification: Represents the basic building blocks of words, which can include letters, digits, and special characters.
+
+16. **Action**
+    - Justification: Represents user actions such as opening, saving, or printing documents.
+
+These classes encapsulate the key entities and concepts described in the text, forming a foundation for a UML model that reflects the structure and relationships within the document editing system.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and their justifications, here are the attributes and methods for each class:
+
+### 1. **User**
+- **Attributes:**
+  - `username: String`
+  - `email: String`
+  - `password: String`
+  - `documents: List<Document>`
+
+- **Methods:**
+  - `openDocument(docId: String): Document`
+  - `saveDocument(doc: Document): void`
+  - `printDocument(doc: Document): void`
+  - `createDocument(): Document`
+
+### 2. **Document**
+- **Attributes:**
+  - `title: String`
+  - `pages: List<Page>`
+  - `createdDate: Date`
+  - `modifiedDate: Date`
+
+- **Methods:**
+  - `addPage(page: Page): void`
+  - `removePage(pageIndex: int): void`
+  - `getPage(pageIndex: int): Page`
+  - `save(): void`
+  - `print(): void`
+
+### 3. **Page**
+- **Attributes:**
+  - `header: Header`
+  - `body: Body`
+  - `footer: Footer`
+  - `pageNumber: int`
+
+- **Methods:**
+  - `setHeader(header: Header): void`
+  - `setFooter(footer: Footer): void`
+  - `getContent(): String`
+
+### 4. **Header**
+- **Attributes:**
+  - `date: Date`
+  - `time: Time`
+  - `pageNumber: int`
+
+- **Methods:**
+  - `setDate(date: Date): void`
+  - `setTime(time: Time): void`
+  - `setPageNumber(pageNumber: int): void`
+  - `getHeaderInfo(): String`
+
+### 5. **Body**
+- **Attributes:**
+  - `sentences: List<Sentence>`
+  - `pictures: List<Picture>`
+  - `tables: List<Table>`
+
+- **Methods:**
+  - `addSentence(sentence: Sentence): void`
+  - `addPicture(picture: Picture): void`
+  - `addTable(table: Table): void`
+  - `getContent(): String`
+
+### 6. **Footer**
+- **Attributes:**
+  - `date: Date`
+  - `time: Time`
+  - `pageNumber: int`
+
+- **Methods:**
+  - `setDate(date: Date): void`
+  - `setTime(time: Time): void`
+  - `setPageNumber(pageNumber: int): void`
+  - `getFooterInfo(): String`
+
+### 7. **Sentence**
+- **Attributes:**
+  - `words: List<Word>`
+  - `punctuation: List<PunctuationCharacter>`
+
+- **Methods:**
+  - `addWord(word: Word): void`
+  - `addPunctuation(punctuation: PunctuationCharacter): void`
+  - `getSentence(): String`
+
+### 8. **Word**
+- **Attributes:**
+  - `characters: List<Character>`
+
+- **Methods:**
+  - `addCharacter(character: Character): void`
+  - `getWord(): String`
+
+### 9. **PunctuationCharacter**
+- **Attributes:**
+  - `symbol: String`
+
+- **Methods:**
+  - `getSymbol(): String`
+
+### 10. **Picture**
+- **Attributes:**
+  - `imagePath: String`
+  - `altText: String`
+
+- **Methods:**
+  - `getImagePath(): String`
+  - `getAltText(): String`
+
+### 11. **Table**
+- **Attributes:**
+  - `rows: List<Row>`
+  - `columns: List<Column>`
+
+- **Methods:**
+  - `addRow(row: Row): void`
+  - `addColumn(column: Column): void`
+  - `getTableData(): List<List<Cell>>`
+
+### 12. **Row**
+- **Attributes:**
+  - `cells: List<Cell>`
+
+- **Methods:**
+  - `addCell(cell: Cell): void`
+  - `getRowData(): List<Cell>`
+
+### 13. **Column**
+- **Attributes:**
+  - `cells: List<Cell>`
+
+- **Methods:**
+  - `addCell(cell: Cell): void`
+  - `getColumnData(): List<Cell>`
+
+### 14. **Cell**
+- **Attributes:**
+  - `content: String`
+  - `picture: Picture`
+
+- **Methods:**
+  - `setContent(content: String): void`
+  - `setPicture(picture: Picture): void`
+  - `getContent(): String`
+
+### 15. **Character**
+- **Attributes:**
+  - `value: char`
+
+- **Methods:**
+  - `getValue(): char`
+
+### 16. **Action**
+- **Attributes:**
+  - `actionType: String`
+  - `timestamp: Date`
+
+- **Methods:**
+  - `execute(): void`
+  - `getActionDetails(): String`
+
+This structure provides a comprehensive overview of the attributes and methods for each class, reflecting the functionalities and relationships within the document editing system.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided description and the identified classes, here are the relationships between the classes, their types, and cardinalities:
+
+1. **User** -- **Association** -- **Document** : 1..*  
+   (A user can have multiple documents, but each document is associated with one user.)
+
+2. **Document** -- **Composition** -- **Page** : 1..*  
+   (A document is composed of multiple pages, and if the document is deleted, its pages are also deleted.)
+
+3. **Page** -- **Composition** -- **Header** : 1..1  
+   (Each page has exactly one header, and if the page is deleted, the header is also deleted.)
+
+4. **Page** -- **Composition** -- **Body** : 1..1  
+   (Each page has exactly one body, and if the page is deleted, the body is also deleted.)
+
+5. **Page** -- **Composition** -- **Footer** : 1..1  
+   (Each page has exactly one footer, and if the page is deleted, the footer is also deleted.)
+
+6. **Body** -- **Composition** -- **Sentence** : 0..*  
+   (A body can contain zero or more sentences, but a sentence must belong to a body.)
+
+7. **Sentence** -- **Composition** -- **Word** : 0..*  
+   (A sentence can contain zero or more words, but a word must belong to a sentence.)
+
+8. **Sentence** -- **Composition** -- **PunctuationCharacter** : 0..*  
+   (A sentence can contain zero or more punctuation characters, but a punctuation character must belong to a sentence.)
+
+9. **Body** -- **Composition** -- **Picture** : 0..*  
+   (A body can contain zero or more pictures, but a picture must belong to a body.)
+
+10. **Body** -- **Composition** -- **Table** : 0..*  
+    (A body can contain zero or more tables, but a table must belong to a body.)
+
+11. **Table** -- **Composition** -- **Row** : 1..*  
+    (A table is composed of one or more rows, and if the table is deleted, its rows are also deleted.)
+
+12. **Table** -- **Composition** -- **Column** : 1..*  
+    (A table is composed of one or more columns, and if the table is deleted, its columns are also deleted.)
+
+13. **Row** -- **Composition** -- **Cell** : 1..*  
+    (A row is composed of one or more cells, and if the row is deleted, its cells are also deleted.)
+
+14. **Column** -- **Composition** -- **Cell** : 1..*  
+    (A column is composed of one or more cells, and if the column is deleted, its cells are also deleted.)
+
+15. **Cell** -- **Association** -- **Picture** : 0..1  
+    (A cell can optionally contain one picture, but a picture can exist independently of a cell.)
+
+16. **Cell** -- **Association** -- **Character** : 0..*  
+    (A cell can contain zero or more characters, but a character must belong to a cell.)
+
+17. **User** -- **Association** -- **Action** : 0..*  
+    (A user can perform zero or more actions, but an action is associated with one user.)
+
+This structure captures the relationships and cardinalities between the classes in the document editing system.
+
+
+==================== Step 4: Textual UML ====================
+```
+CLASS: User
+Description: Represents individuals who interact with the system to create, open, save, or print documents.
+ATTRIBUTES:
+- username: String
+- email: String
+- password: String
+- documents: List<Document>
+METHODS:
+- openDocument(docId: String): Document
+- saveDocument(doc: Document): void
+- printDocument(doc: Document): void
+- createDocument(): Document
+
+RELATIONSHIPS:
+- User Association Document 1..*
+- User Association Action 0..*
+
+CLASS: Document
+Description: Represents the main entity that users work with, which can be new or existing and contains multiple pages.
+ATTRIBUTES:
+- title: String
+- pages: List<Page>
+- createdDate: Date
+- modifiedDate: Date
+METHODS:
+- addPage(page: Page): void
+- removePage(pageIndex: int): void
+- getPage(pageIndex: int): Page
+- save(): void
+- print(): void
+
+RELATIONSHIPS:
+- Document Composition Page 1..*
+
+CLASS: Page
+Description: Represents individual pages within a document, which contain structured content like headers, bodies, and footers.
+ATTRIBUTES:
+- header: Header
+- body: Body
+- footer: Footer
+- pageNumber: int
+METHODS:
+- setHeader(header: Header): void
+- setFooter(footer: Footer): void
+- getContent(): String
+
+RELATIONSHIPS:
+- Page Composition Header 1..1
+- Page Composition Body 1..1
+- Page Composition Footer 1..1
+
+CLASS: Header
+Description: Represents the top section of a page, which may include metadata such as date, time, and page number.
+ATTRIBUTES:
+- date: Date
+- time: Time
+- pageNumber: int
+METHODS:
+- setDate(date: Date): void
+- setTime(time: Time): void
+- setPageNumber(pageNumber: int): void
+- getHeaderInfo(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Body
+Description: Represents the main content area of a page where text, images, and tables are placed.
+ATTRIBUTES:
+- sentences: List<Sentence>
+- pictures: List<Picture>
+- tables: List<Table>
+METHODS:
+- addSentence(sentence: Sentence): void
+- addPicture(picture: Picture): void
+- addTable(table: Table): void
+- getContent(): String
+
+RELATIONSHIPS:
+- Body Composition Sentence 0..*
+- Body Composition Picture 0..*
+- Body Composition Table 0..*
+
+CLASS: Footer
+Description: Represents the bottom section of a page, which may also include metadata similar to the header.
+ATTRIBUTES:
+- date: Date
+- time: Time
+- pageNumber: int
+METHODS:
+- setDate(date: Date): void
+- setTime(time: Time): void
+- setPageNumber(pageNumber: int): void
+- getFooterInfo(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Sentence
+Description: Represents a unit of text within the body, composed of words and punctuation characters.
+ATTRIBUTES:
+- words: List<Word>
+- punctuation: List<PunctuationCharacter>
+METHODS:
+- addWord(word: Word): void
+- addPunctuation(punctuation: PunctuationCharacter): void
+- getSentence(): String
+
+RELATIONSHIPS:
+- Sentence Composition Word 0..*
+- Sentence Composition PunctuationCharacter 0..*
+
+CLASS: Word
+Description: Represents individual units of text that make up sentences, consisting of letters, digits, and/or special characters.
+ATTRIBUTES:
+- characters: List<Character>
+METHODS:
+- addCharacter(character: Character): void
+- getWord(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: PunctuationCharacter
+Description: Represents symbols used in sentences to structure and clarify meaning.
+ATTRIBUTES:
+- symbol: String
+METHODS:
+- getSymbol(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Picture
+Description: Represents visual elements that can be inserted into the document body.
+ATTRIBUTES:
+- imagePath: String
+- altText: String
+METHODS:
+- getImagePath(): String
+- getAltText(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Table
+Description: Represents structured data within the document body, consisting of rows and columns.
+ATTRIBUTES:
+- rows: List<Row>
+- columns: List<Column>
+METHODS:
+- addRow(row: Row): void
+- addColumn(column: Column): void
+- getTableData(): List<List<Cell>>
+
+RELATIONSHIPS:
+- Table Composition Row 1..*
+- Table Composition Column 1..*
+
+CLASS: Row
+Description: Represents a horizontal grouping of cells within a table.
+ATTRIBUTES:
+- cells: List<Cell>
+METHODS:
+- addCell(cell: Cell): void
+- getRowData(): List<Cell>
+
+RELATIONSHIPS:
+- None
+
+CLASS: Column
+Description: Represents a vertical grouping of cells within a table.
+ATTRIBUTES:
+- cells: List<Cell>
+METHODS:
+- addCell(cell: Cell): void
+- getColumnData(): List<Cell>
+
+RELATIONSHIPS:
+- None
+
+CLASS: Cell
+Description: Represents an individual unit within a table that can contain text and pictures.
+ATTRIBUTES:
+- content: String
+- picture: Picture
+METHODS:
+- setContent(content: String): void
+- setPicture(picture: Picture): void
+- getContent(): String
+
+RELATIONSHIPS:
+- Cell Association Picture 0..1
+- Cell Association Character 0..*
+
+CLASS: Character
+Description: Represents the basic building blocks of words, which can include letters, digits, and special characters.
+ATTRIBUTES:
+- value: char
+METHODS:
+- getValue(): char
+
+RELATIONSHIPS:
+- None
+
+CLASS: Action
+Description: Represents user actions such as opening, saving, or printing documents.
+ATTRIBUTES:
+- actionType: String
+- timestamp: Date
+METHODS:
+- execute(): void
+- getActionDetails(): String
+
+RELATIONSHIPS:
+- None
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class User {
+    - username: String
+    - email: String
+    - password: String
+    - documents: List<Document>
+    + openDocument(docId: String): Document
+    + saveDocument(doc: Document): void
+    + printDocument(doc: Document): void
+    + createDocument(): Document
+}
+
+class Document {
+    - title: String
+    - pages: List<Page>
+    - createdDate: Date
+    - modifiedDate: Date
+    + addPage(page: Page): void
+    + removePage(pageIndex: int): void
+    + getPage(pageIndex: int): Page
+    + save(): void
+    + print(): void
+}
+
+class Page {
+    - header: Header
+    - body: Body
+    - footer: Footer
+    - pageNumber: int
+    + setHeader(header: Header): void
+    + setFooter(footer: Footer): void
+    + getContent(): String
+}
+
+class Header {
+    - date: Date
+    - time: Time
+    - pageNumber: int
+    + setDate(date: Date): void
+    + setTime(time: Time): void
+    + setPageNumber(pageNumber: int): void
+    + getHeaderInfo(): String
+}
+
+class Body {
+    - sentences: List<Sentence>
+    - pictures: List<Picture>
+    - tables: List<Table>
+    + addSentence(sentence: Sentence): void
+    + addPicture(picture: Picture): void
+    + addTable(table: Table): void
+    + getContent(): String
+}
+
+class Footer {
+    - date: Date
+    - time: Time
+    - pageNumber: int
+    + setDate(date: Date): void
+    + setTime(time: Time): void
+    + setPageNumber(pageNumber: int): void
+    + getFooterInfo(): String
+}
+
+class Sentence {
+    - words: List<Word>
+    - punctuation: List<PunctuationCharacter>
+    + addWord(word: Word): void
+    + addPunctuation(punctuation: PunctuationCharacter): void
+    + getSentence(): String
+}
+
+class Word {
+    - characters: List<Character>
+    + addCharacter(character: Character): void
+    + getWord(): String
+}
+
+class PunctuationCharacter {
+    - symbol: String
+    + getSymbol(): String
+}
+
+class Picture {
+    - imagePath: String
+    - altText: String
+    + getImagePath(): String
+    + getAltText(): String
+}
+
+class Table {
+    - rows: List<Row>
+    - columns: List<Column>
+    + addRow(row: Row): void
+    + addColumn(column: Column): void
+    + getTableData(): List<List<Cell>>
+}
+
+class Row {
+    - cells: List<Cell>
+    + addCell(cell: Cell): void
+    + getRowData(): List<Cell>
+}
+
+class Column {
+    - cells: List<Cell>
+    + addCell(cell: Cell): void
+    + getColumnData(): List<Cell>
+}
+
+class Cell {
+    - content: String
+    - picture: Picture
+    + setContent(content: String): void
+    + setPicture(picture: Picture): void
+    + getContent(): String
+}
+
+class Character {
+    - value: char
+    + getValue(): char
+}
+
+class Action {
+    - actionType: String
+    - timestamp: Date
+    + execute(): void
+    + getActionDetails(): String
+}
+
+User "1" o-- "*" Document
+User "0..*" o-- "*" Action
+Document "1" *-- "*" Page
+Page "1" *-- "1" Header
+Page "1" *-- "1" Body
+Page "1" *-- "1" Footer
+Body "0..*" *-- "1" Sentence
+Body "0..*" *-- "1" Picture
+Body "0..*" *-- "1" Table
+Table "1" *-- "*" Row
+Table "1" *-- "*" Column
+Row "1" *-- "*" Cell
+Column "1" *-- "*" Cell
+Sentence "0..*" *-- "*" Word
+Sentence "0..*" *-- "*" PunctuationCharacter
+Cell "0..1" o-- "1" Picture
+Cell "0..*" o-- "1" Character
+
+@enduml
+

@@ -1,0 +1,94 @@
+@startuml
+class Animal {
+    - name: String
+    - breed: Breed
+    - owner: Owner
+    - identifier: int
+    + getName(): String
+    + getBreed(): Breed
+    + getOwner(): Owner
+    + getIdentifier(): int
+    + setName(name: String): void
+    + setBreed(breed: Breed): void
+    + setOwner(owner: Owner): void
+}
+
+class Owner {
+    - name: String
+    - address: String
+    - phoneNumber: String
+    - identifier: int
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+    + getIdentifier(): int
+    + setName(name: String): void
+    + setAddress(address: String): void
+    + setPhoneNumber(phoneNumber: String): void
+}
+
+class Breed {
+    - name: String
+    - identifier: int
+    + getName(): String
+    + getIdentifier(): int
+    + setName(name: String): void
+}
+
+class Appointment {
+    - animal: Animal
+    - owner: Owner
+    - physician: Physician
+    - dateTime: DateTime
+    + getAnimal(): Animal
+    + getOwner(): Owner
+    + getPhysician(): Physician
+    + getDateTime(): DateTime
+    + setAnimal(animal: Animal): void
+    + setOwner(owner: Owner): void
+    + setPhysician(physician: Physician): void
+    + setDateTime(dateTime: DateTime): void
+}
+
+class Physician {
+    - name: String
+    - address: String
+    - phoneNumber: String
+    - identifier: int
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+    + getIdentifier(): int
+    + setName(name: String): void
+    + setAddress(address: String): void
+    + setPhoneNumber(phoneNumber: String): void
+}
+
+class MedicalCondition {
+    - commonName: String
+    - scientificName: String
+    + getCommonName(): String
+    + getScientificName(): String
+    + setCommonName(commonName: String): void
+    + setScientificName(scientificName: String): void
+}
+
+class CommonCondition {
+    - breed: Breed
+    - medicalCondition: MedicalCondition
+    + getBreed(): Breed
+    + getMedicalCondition(): MedicalCondition
+    + setBreed(breed: Breed): void
+    + setMedicalCondition(medicalCondition: MedicalCondition): void
+}
+
+Animal "0..1" -- "1" Owner : Association
+Animal "0..1" -- "1" Breed : Association
+Owner "1..*" -- "0..1" Animal : Aggregation
+Appointment "1" -- "1" Animal : Association
+Appointment "1" -- "1" Owner : Association
+Appointment "1" -- "1" Physician : Association
+Appointment "0..*" -- "0..*" MedicalCondition : Aggregation
+Breed "1..*" -- "1" CommonCondition : Aggregation
+CommonCondition "1" -- "1" MedicalCondition : Association
+@enduml

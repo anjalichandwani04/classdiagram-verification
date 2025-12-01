@@ -1,0 +1,82 @@
+@startuml
+class Movie {
+    - title: String
+    - genre: String
+    - releaseYear: Integer
+    - duration: Integer
+    - price: Double
+    - availability: Availability
+    + getDetails(): String
+    + isAvailable(): Boolean
+    + orderMovie(): void
+}
+
+class User {
+    - userId: String
+    - name: String
+    - email: String
+    - isSubscriber: Boolean
+    + browseCatalogue(catalogue: Catalogue): List<Movie>
+    + purchaseMovie(movie: Movie): Order
+}
+
+class Subscriber {
+    - subscriptionId: String
+    - card: Card
+    + rentMovie(movie: Movie): Rental
+    + rechargeCard(amount: Double): void
+}
+
+class Order {
+    - orderId: String
+    - user: User
+    - movie: Movie
+    - orderDate: Date
+    - orderType: String
+    + getOrderDetails(): String
+    + getTotalPrice(): Double
+}
+
+class Card {
+    - cardNumber: String
+    - balance: Double
+    + updateBalance(amount: Double): void
+    + getBalance(): Double
+}
+
+class Catalogue {
+    - movies: List<Movie>
+    + addMovie(movie: Movie): void
+    + removeMovie(movie: Movie): void
+    + searchMovie(title: String): Movie
+}
+
+class Rental {
+    - rentalId: String
+    - subscriber: Subscriber
+    - movie: Movie
+    - rentalDate: Date
+    - returnDate: Date
+    + getRentalDetails(): String
+    + calculateRentalFee(): Double
+}
+
+class Availability {
+    - isAvailable: Boolean
+    - quantityAvailable: Integer
+    + checkAvailability(): Boolean
+    + updateAvailability(quantity: Integer): void
+}
+
+Movie "1" -- "1" Availability
+User "1" -- "*" Order
+Subscriber --|> User
+Subscriber "1" -- "1" Card
+Order "1" -- "1" Movie
+Order "1" -- "1" User
+Catalogue "0..*" -- "1" Movie
+Rental "1" -- "1" Subscriber
+Rental "1" -- "1" Movie
+Rental "0..1" -- "1" Order
+Availability "1" -- "1" Movie
+@enduml

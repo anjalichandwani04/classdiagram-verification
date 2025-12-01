@@ -1,0 +1,55 @@
+```plantuml
+@startuml
+class Client {
+    +NIN: String
+    +TIN: String
+    +name: String
+    +address: String
+    +getClientDetails(): String
+}
+
+class BicycleModel {
+    +modelName: String
+    +type: String
+    +numberOfGears: Integer
+    +getModelDetails(): String
+}
+
+class Bicycle {
+    +identifyingNumber: String
+    +model: BicycleModel
+    +getBicycleDetails(): String
+}
+
+class Store {
+    +storeName: String
+    +address: String
+    +getStoreDetails(): String
+}
+
+class Reservation {
+    +reservationDate: Date
+    +pickupDate: Date
+    +client: Client
+    +bicycleModel: BicycleModel
+    +store: Store
+    +getReservationDetails(): String
+}
+
+class Rental {
+    +pickupDate: Date
+    +returnDate: Date
+    +bicycle: Bicycle
+    +client: Client
+    +store: Store
+    +getRentalDetails(): String
+}
+
+Client "1" -- "0..*" Reservation
+BicycleModel "1" -- "0..*" Bicycle
+Store "1" -- "0..*" Reservation
+Store "1" -- "0..*" Rental
+Client "1" -- "0..*" Rental
+Bicycle "1" -- "0..*" Rental
+@enduml
+```

@@ -1,0 +1,73 @@
+@startuml
+
+class Ingredient {
+    - name: String
+    - measuringUnit: String
+    - quantityInStock: Float
+    + getName(): String
+    + getMeasuringUnit(): String
+    + getQuantityInStock(): Float
+    + updateQuantity(amount: Float): void
+}
+
+class Dish {
+    - name: String
+    - id: Integer
+    - ingredients: List<Ingredient>
+    + getName(): String
+    + getId(): Integer
+    + getIngredients(): List<Ingredient>
+    + addIngredient(ingredient: Ingredient, quantity: Float): void
+}
+
+class Table {
+    - id: Integer
+    - maxCapacity: Integer
+    + getId(): Integer
+    + getMaxCapacity(): Integer
+    + isAvailable(): Boolean
+}
+
+class Meal {
+    - date: Date
+    - startTime: Time
+    - endTime: Time
+    - table: Table
+    - waiter: Waiter
+    - dishes: List<Dish>
+    + getDate(): Date
+    + getStartTime(): Time
+    + getEndTime(): Time
+    + getTable(): Table
+    + getWaiter(): Waiter
+    + getDishes(): List<Dish>
+    + addDish(dish: Dish): void
+}
+
+class Waiter {
+    - id: Integer
+    - name: String
+    - address: String
+    - phoneNumber: String
+    + getId(): Integer
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+}
+
+class Client {
+    - taxId: String
+    - name: String
+    - address: String
+    + getTaxId(): String
+    + getName(): String
+    + getAddress(): String
+}
+
+Ingredient *-- Dish : Composition
+Meal o-- Table : Association
+Meal o-- Waiter : Association
+Meal o-- Client : Association
+Dish o-- Ingredient : Composition
+
+@enduml

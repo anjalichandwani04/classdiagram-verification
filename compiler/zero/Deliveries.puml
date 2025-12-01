@@ -1,0 +1,39 @@
+```plantuml
+@startuml
+class Customer {
+    +vatNumber: String
+    +name: String
+    +phoneNumber: String
+    +address: String
+    +sendPackage(recipient: Customer, weight: Double, deliveryType: String): String
+}
+
+class Package {
+    +identifierCode: String
+    +weight: Double
+    +deliveryType: String
+    +status: String
+    +assignCourier(courier: Courier): void
+    +updateStatus(newStatus: String): void
+}
+
+class DeliveryCenter {
+    +name: String
+    +address: String
+    +getClosestCustomer(customer: Customer): Customer
+}
+
+class Courier {
+    +vatNumber: String
+    +name: String
+    +phoneNumber: String
+    +deliverPackage(package: Package): void
+}
+
+Customer "1..1" -- "1..1" DeliveryCenter
+Package "1..1" -- "1..1" Customer : sender
+Package "1..1" -- "1..1" Customer : recipient
+Package "1..1" -- "1..1" Courier
+Courier "1..1" -- "1..1" DeliveryCenter
+@enduml
+```

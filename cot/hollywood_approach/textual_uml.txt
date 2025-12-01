@@ -1,0 +1,109 @@
+```
+CLASS: Scene
+Description: Represents a filmed scene in the movie, identified by a unique code and described in natural language.
+ATTRIBUTES:
+- code: String
+- description: String
+- setupList: List<Setup>
+METHODS:
+- addSetup(setup: Setup): void
+- removeSetup(setup: Setup): void
+- getSetups(): List<Setup>
+- getDescription(): String
+- getCode(): String
+
+RELATIONSHIPS:
+- Scene Aggregation Setup 1..*
+- Scene Inheritance Internal 0..1
+- Scene Inheritance External 0..1
+
+CLASS: Setup
+Description: Represents the different filming positions for a scene, characterized by a unique code and photographic parameters.
+ATTRIBUTES:
+- code: String
+- photographicParameters: String
+- scene: Scene
+- takeList: List<Take>
+METHODS:
+- addTake(take: Take): void
+- removeTake(take: Take): void
+- getTakes(): List<Take>
+- getPhotographicParameters(): String
+- getCode(): String
+
+RELATIONSHIPS:
+- Setup Aggregation Take 1..*
+
+CLASS: Take
+Description: Represents individual recordings made during a setup, characterized by a number, film length, and reel code.
+ATTRIBUTES:
+- number: int
+- filmLength: double
+- reelCode: String
+- setup: Setup
+METHODS:
+- getFilmLength(): double
+- getReelCode(): String
+- getNumber(): int
+
+RELATIONSHIPS:
+- None
+
+CLASS: Location
+Description: Represents the physical place where externals are filmed, characterized by a unique code, address, and description.
+ATTRIBUTES:
+- code: String
+- address: String
+- description: String
+METHODS:
+- getAddress(): String
+- getDescription(): String
+- getCode(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Internal
+Description: Represents a specific type of scene filmed in a theater, distinguishing it from externals.
+ATTRIBUTES:
+- scene: Scene
+METHODS:
+- getScene(): Scene
+
+RELATIONSHIPS:
+- None
+
+CLASS: External
+Description: Represents a specific type of scene filmed in a location, which can be further classified into "day scene" or "night scene".
+ATTRIBUTES:
+- scene: Scene
+- location: Location
+METHODS:
+- getScene(): Scene
+- getLocation(): Location
+
+RELATIONSHIPS:
+- External Association Location 1
+- External Inheritance Day Scene 0..1
+- External Inheritance Night Scene 0..1
+
+CLASS: Day Scene
+Description: A specific subtype of external scenes that are filmed during the day.
+ATTRIBUTES:
+- external: External
+METHODS:
+- getExternal(): External
+
+RELATIONSHIPS:
+- None
+
+CLASS: Night Scene
+Description: A specific subtype of external scenes that are filmed at night.
+ATTRIBUTES:
+- external: External
+METHODS:
+- getExternal(): External
+
+RELATIONSHIPS:
+- None
+```

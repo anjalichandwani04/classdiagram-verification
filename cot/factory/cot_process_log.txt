@@ -1,0 +1,453 @@
+PROJECT: Factory
+REQ:
+Create a database for a factory with the following requirements. Don’t forget to add unique identifiers for each one of the entities if needed. ● A factory has several machines. Each one of them is operated by several workers. ● A worker might work in more than one machine. ● In this factory, several products of different types, are produced. Each different type of product is produced in a single machine. But, the same machine can produce more than one type of product. ● Products from the same type are all produced from the same single material and have the same weigth. ● Clients can issue purchase orders. Each order has a list of the desired products and their quantity. ● For each worker, the following data should be stored in the database: name (first and last), birth date, address and a list of his skills. ● For each machine, the following data should be stored: serial number, make, model and purchase date. ● For each client, the followig data should be stored: name, address, phone number and name of the contact person (if any). ● For each purchase order, the following date should be stored: order number, date it has been made, expected and actual delivery date.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, here are the main classes/entities identified along with justifications for each:
+
+1. **Factory**
+   - Justification: Represents the overall entity that encompasses machines, workers, products, and clients. It serves as the central point of operations.
+
+2. **Machine**
+   - Justification: Represents the physical machines in the factory that produce products. Each machine has specific attributes like serial number, make, model, and purchase date.
+
+3. **Worker**
+   - Justification: Represents the individuals who operate the machines. Workers have attributes such as name, birth date, address, and a list of skills, indicating their qualifications and personal information.
+
+4. **Product**
+   - Justification: Represents the items produced in the factory. Each product type is associated with a specific material and weight, and can be produced by multiple machines.
+
+5. **Material**
+   - Justification: Represents the raw materials used to produce products. Each product type is produced from a single material, which may need to be tracked for inventory and production purposes.
+
+6. **Client**
+   - Justification: Represents the customers who place purchase orders. Clients have attributes such as name, address, phone number, and contact person, which are essential for managing orders and communications.
+
+7. **PurchaseOrder**
+   - Justification: Represents the orders placed by clients for products. Each order contains details like order number, order date, expected delivery date, actual delivery date, and a list of products with their quantities.
+
+8. **Skill**
+   - Justification: Represents the various skills that workers may possess. This class can be used to categorize and manage the capabilities of workers in relation to the machines they operate.
+
+These classes encapsulate the key entities and relationships described in the factory scenario, allowing for a structured approach to modeling the system.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and the provided description, here are the attributes and methods for each class:
+
+### 1. **Factory**
+- **Attributes:**
+  - `factoryId: int` (Unique identifier for the factory)
+  - `name: String`
+  - `location: String`
+  - `machines: List<Machine>`
+  - `workers: List<Worker>`
+  - `products: List<Product>`
+  - `clients: List<Client>`
+  
+- **Methods:**
+  - `addMachine(machine: Machine): void`
+  - `removeMachine(machineId: int): void`
+  - `addWorker(worker: Worker): void`
+  - `removeWorker(workerId: int): void`
+  - `addProduct(product: Product): void`
+  - `addClient(client: Client): void`
+  - `createPurchaseOrder(order: PurchaseOrder): void`
+
+### 2. **Machine**
+- **Attributes:**
+  - `serialNumber: String` (Unique identifier)
+  - `make: String`
+  - `model: String`
+  - `purchaseDate: Date`
+  - `products: List<Product>`
+  - `workers: List<Worker>`
+  
+- **Methods:**
+  - `addProduct(product: Product): void`
+  - `removeProduct(productId: int): void`
+  - `assignWorker(worker: Worker): void`
+  - `removeWorker(workerId: int): void`
+
+### 3. **Worker**
+- **Attributes:**
+  - `workerId: int` (Unique identifier)
+  - `firstName: String`
+  - `lastName: String`
+  - `birthDate: Date`
+  - `address: String`
+  - `skills: List<Skill>`
+  - `machines: List<Machine>`
+  
+- **Methods:**
+  - `addSkill(skill: Skill): void`
+  - `removeSkill(skillId: int): void`
+  - `assignMachine(machine: Machine): void`
+  - `removeMachine(machineId: int): void`
+
+### 4. **Product**
+- **Attributes:**
+  - `productId: int` (Unique identifier)
+  - `name: String`
+  - `weight: double`
+  - `material: Material`
+  - `machine: Machine`
+  
+- **Methods:**
+  - `getProductDetails(): String`
+  - `updateWeight(newWeight: double): void`
+
+### 5. **Material**
+- **Attributes:**
+  - `materialId: int` (Unique identifier)
+  - `name: String`
+  - `quantityAvailable: double`
+  
+- **Methods:**
+  - `updateQuantity(amount: double): void`
+  - `getMaterialDetails(): String`
+
+### 6. **Client**
+- **Attributes:**
+  - `clientId: int` (Unique identifier)
+  - `name: String`
+  - `address: String`
+  - `phoneNumber: String`
+  - `contactPerson: String`
+  
+- **Methods:**
+  - `getClientDetails(): String`
+  - `updateContactPerson(newContact: String): void`
+
+### 7. **PurchaseOrder**
+- **Attributes:**
+  - `orderNumber: int` (Unique identifier)
+  - `orderDate: Date`
+  - `expectedDeliveryDate: Date`
+  - `actualDeliveryDate: Date`
+  - `products: List<ProductQuantity>` (A class that holds Product and its quantity)
+  
+- **Methods:**
+  - `addProduct(product: Product, quantity: int): void`
+  - `removeProduct(productId: int): void`
+  - `getOrderSummary(): String`
+
+### 8. **Skill**
+- **Attributes:**
+  - `skillId: int` (Unique identifier)
+  - `name: String`
+  - `description: String`
+  
+- **Methods:**
+  - `getSkillDetails(): String`
+
+### Summary
+This structure provides a comprehensive overview of the classes, their attributes, and methods necessary to model the factory system effectively. Each class encapsulates relevant data and behaviors, allowing for efficient management of the factory's operations.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided description and the identified classes, here are the relationships between the classes, their types, and cardinalities:
+
+1. **Factory** -- **Aggregation** -- **Machine** : 1 -- *
+   - A factory can have multiple machines, but a machine can exist independently of a factory.
+
+2. **Factory** -- **Aggregation** -- **Worker** : 1 -- *
+   - A factory employs multiple workers, but a worker can exist independently of a factory.
+
+3. **Factory** -- **Aggregation** -- **Product** : 1 -- *
+   - A factory produces multiple products, but a product can exist independently of a factory.
+
+4. **Factory** -- **Aggregation** -- **Client** : 1 -- *
+   - A factory can have multiple clients, but a client can exist independently of a factory.
+
+5. **Machine** -- **Composition** -- **Product** : 1 -- *
+   - Each product is produced by a single machine, but a machine can produce multiple products. The relationship is composition because the product cannot exist without being produced by a machine.
+
+6. **Machine** -- **Association** -- **Worker** : * -- *
+   - A machine can be operated by multiple workers, and a worker can operate multiple machines.
+
+7. **Product** -- **Association** -- **Material** : 1 -- 1
+   - Each product is produced from a single material, and each material can be used for one specific product type.
+
+8. **Client** -- **Aggregation** -- **PurchaseOrder** : 1 -- *
+   - A client can issue multiple purchase orders, but a purchase order is associated with a single client.
+
+9. **PurchaseOrder** -- **Association** -- **Product** : * -- *
+   - A purchase order can include multiple products, and a product can be included in multiple purchase orders.
+
+10. **Worker** -- **Association** -- **Skill** : * -- *
+    - A worker can possess multiple skills, and a skill can be associated with multiple workers.
+
+### Summary of Relationships
+- **Factory** -- **Aggregation** -- **Machine** : 1 -- *
+- **Factory** -- **Aggregation** -- **Worker** : 1 -- *
+- **Factory** -- **Aggregation** -- **Product** : 1 -- *
+- **Factory** -- **Aggregation** -- **Client** : 1 -- *
+- **Machine** -- **Composition** -- **Product** : 1 -- *
+- **Machine** -- **Association** -- **Worker** : * -- *
+- **Product** -- **Association** -- **Material** : 1 -- 1
+- **Client** -- **Aggregation** -- **PurchaseOrder** : 1 -- *
+- **PurchaseOrder** -- **Association** -- **Product** : * -- *
+- **Worker** -- **Association** -- **Skill** : * -- *
+
+This structure captures the relationships and cardinalities necessary to model the factory system effectively.
+
+
+==================== Step 4: Textual UML ====================
+```plaintext
+CLASS: Factory
+Description: Represents the overall entity that encompasses machines, workers, products, and clients. It serves as the central point of operations.
+ATTRIBUTES:
+- factoryId: int
+- name: String
+- location: String
+- machines: List<Machine>
+- workers: List<Worker>
+- products: List<Product>
+- clients: List<Client>
+METHODS:
+- addMachine(machine: Machine): void
+- removeMachine(machineId: int): void
+- addWorker(worker: Worker): void
+- removeWorker(workerId: int): void
+- addProduct(product: Product): void
+- addClient(client: Client): void
+- createPurchaseOrder(order: PurchaseOrder): void
+
+RELATIONSHIPS:
+- Factory Aggregation Machine 1 -- *
+- Factory Aggregation Worker 1 -- *
+- Factory Aggregation Product 1 -- *
+- Factory Aggregation Client 1 -- *
+
+CLASS: Machine
+Description: Represents the physical machines in the factory that produce products. Each machine has specific attributes like serial number, make, model, and purchase date.
+ATTRIBUTES:
+- serialNumber: String
+- make: String
+- model: String
+- purchaseDate: Date
+- products: List<Product>
+- workers: List<Worker>
+METHODS:
+- addProduct(product: Product): void
+- removeProduct(productId: int): void
+- assignWorker(worker: Worker): void
+- removeWorker(workerId: int): void
+
+RELATIONSHIPS:
+- Machine Composition Product 1 -- *
+- Machine Association Worker * -- *
+
+CLASS: Worker
+Description: Represents the individuals who operate the machines. Workers have attributes such as name, birth date, address, and a list of skills, indicating their qualifications and personal information.
+ATTRIBUTES:
+- workerId: int
+- firstName: String
+- lastName: String
+- birthDate: Date
+- address: String
+- skills: List<Skill>
+- machines: List<Machine>
+METHODS:
+- addSkill(skill: Skill): void
+- removeSkill(skillId: int): void
+- assignMachine(machine: Machine): void
+- removeMachine(machineId: int): void
+
+RELATIONSHIPS:
+- Worker Association Skill * -- *
+
+CLASS: Product
+Description: Represents the items produced in the factory. Each product type is associated with a specific material and weight, and can be produced by multiple machines.
+ATTRIBUTES:
+- productId: int
+- name: String
+- weight: double
+- material: Material
+- machine: Machine
+METHODS:
+- getProductDetails(): String
+- updateWeight(newWeight: double): void
+
+RELATIONSHIPS:
+- Product Association Material 1 -- 1
+
+CLASS: Material
+Description: Represents the raw materials used to produce products. Each product type is produced from a single material, which may need to be tracked for inventory and production purposes.
+ATTRIBUTES:
+- materialId: int
+- name: String
+- quantityAvailable: double
+METHODS:
+- updateQuantity(amount: double): void
+- getMaterialDetails(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Client
+Description: Represents the customers who place purchase orders. Clients have attributes such as name, address, phone number, and contact person, which are essential for managing orders and communications.
+ATTRIBUTES:
+- clientId: int
+- name: String
+- address: String
+- phoneNumber: String
+- contactPerson: String
+METHODS:
+- getClientDetails(): String
+- updateContactPerson(newContact: String): void
+
+RELATIONSHIPS:
+- Client Aggregation PurchaseOrder 1 -- *
+
+CLASS: PurchaseOrder
+Description: Represents the orders placed by clients for products. Each order contains details like order number, order date, expected delivery date, actual delivery date, and a list of products with their quantities.
+ATTRIBUTES:
+- orderNumber: int
+- orderDate: Date
+- expectedDeliveryDate: Date
+- actualDeliveryDate: Date
+- products: List<ProductQuantity>
+METHODS:
+- addProduct(product: Product, quantity: int): void
+- removeProduct(productId: int): void
+- getOrderSummary(): String
+
+RELATIONSHIPS:
+- PurchaseOrder Association Product * -- *
+
+CLASS: Skill
+Description: Represents the various skills that workers may possess. This class can be used to categorize and manage the capabilities of workers in relation to the machines they operate.
+ATTRIBUTES:
+- skillId: int
+- name: String
+- description: String
+METHODS:
+- getSkillDetails(): String
+
+RELATIONSHIPS:
+- None
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Factory {
+    - factoryId: int
+    - name: String
+    - location: String
+    - machines: List<Machine>
+    - workers: List<Worker>
+    - products: List<Product>
+    - clients: List<Client>
+    
+    + addMachine(machine: Machine): void
+    + removeMachine(machineId: int): void
+    + addWorker(worker: Worker): void
+    + removeWorker(workerId: int): void
+    + addProduct(product: Product): void
+    + addClient(client: Client): void
+    + createPurchaseOrder(order: PurchaseOrder): void
+}
+
+class Machine {
+    - serialNumber: String
+    - make: String
+    - model: String
+    - purchaseDate: Date
+    - products: List<Product>
+    - workers: List<Worker>
+    
+    + addProduct(product: Product): void
+    + removeProduct(productId: int): void
+    + assignWorker(worker: Worker): void
+    + removeWorker(workerId: int): void
+}
+
+class Worker {
+    - workerId: int
+    - firstName: String
+    - lastName: String
+    - birthDate: Date
+    - address: String
+    - skills: List<Skill>
+    - machines: List<Machine>
+    
+    + addSkill(skill: Skill): void
+    + removeSkill(skillId: int): void
+    + assignMachine(machine: Machine): void
+    + removeMachine(machineId: int): void
+}
+
+class Product {
+    - productId: int
+    - name: String
+    - weight: double
+    - material: Material
+    - machine: Machine
+    
+    + getProductDetails(): String
+    + updateWeight(newWeight: double): void
+}
+
+class Material {
+    - materialId: int
+    - name: String
+    - quantityAvailable: double
+    
+    + updateQuantity(amount: double): void
+    + getMaterialDetails(): String
+}
+
+class Client {
+    - clientId: int
+    - name: String
+    - address: String
+    - phoneNumber: String
+    - contactPerson: String
+    
+    + getClientDetails(): String
+    + updateContactPerson(newContact: String): void
+}
+
+class PurchaseOrder {
+    - orderNumber: int
+    - orderDate: Date
+    - expectedDeliveryDate: Date
+    - actualDeliveryDate: Date
+    - products: List<ProductQuantity>
+    
+    + addProduct(product: Product, quantity: int): void
+    + removeProduct(productId: int): void
+    + getOrderSummary(): String
+}
+
+class Skill {
+    - skillId: int
+    - name: String
+    - description: String
+    
+    + getSkillDetails(): String
+}
+
+Factory "1" o-- "*" Machine
+Factory "1" o-- "*" Worker
+Factory "1" o-- "*" Product
+Factory "1" o-- "*" Client
+
+Machine "1" *-- "*" Product
+Machine "1" --> "*" Worker
+
+Worker "*" --> "*" Skill
+
+Product "1" --> "1" Material
+
+Client "1" o-- "*" PurchaseOrder
+
+PurchaseOrder "*" --> "*" Product
+
+@enduml
+

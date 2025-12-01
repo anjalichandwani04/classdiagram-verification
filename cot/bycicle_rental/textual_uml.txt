@@ -1,0 +1,107 @@
+```plaintext
+CLASS: Client
+Description: Represents individuals who rent bicycles. Contains attributes such as national id number (NIN), tax identification number (TIN), name, and address.
+ATTRIBUTES:
+- nationalIdNumber: String
+- taxIdentificationNumber: String
+- name: String
+- address: String
+METHODS:
+- getNationalIdNumber(): String
+- getTaxIdentificationNumber(): String
+- getName(): String
+- getAddress(): String
+- setNationalIdNumber(nin: String): void
+- setTaxIdentificationNumber(tin: String): void
+- setName(name: String): void
+- setAddress(address: String): void
+
+RELATIONSHIPS:
+- Client Association Reservation 1..*
+- Client Association Rental 1..* (indirectly through Reservation)
+
+CLASS: BicycleModel
+Description: Represents the different models of bicycles available for rent. Contains attributes such as unique name, type (road, mountain, bmx, hybrid), and number of gears.
+ATTRIBUTES:
+- uniqueName: String
+- type: String
+- numberOfGears: int
+METHODS:
+- getUniqueName(): String
+- getType(): String
+- getNumberOfGears(): int
+- setUniqueName(name: String): void
+- setType(type: String): void
+- setNumberOfGears(gears: int): void
+
+RELATIONSHIPS:
+- BicycleModel Association Bicycle 1..*
+- BicycleModel Association Reservation 1..*
+
+CLASS: Bicycle
+Description: Represents the actual bicycles that can be rented. Each bicycle has a unique identifying number and is associated with a specific BicycleModel.
+ATTRIBUTES:
+- uniqueId: String
+- model: BicycleModel
+METHODS:
+- getUniqueId(): String
+- getModel(): BicycleModel
+- setUniqueId(id: String): void
+- setModel(model: BicycleModel): void
+
+RELATIONSHIPS:
+- Bicycle Association Rental 1..1
+
+CLASS: Store
+Description: Represents the physical locations where bicycles can be picked up and returned. Each store has a unique name and an address.
+ATTRIBUTES:
+- uniqueName: String
+- address: String
+METHODS:
+- getUniqueName(): String
+- getAddress(): String
+- setUniqueName(name: String): void
+- setAddress(address: String): void
+
+RELATIONSHIPS:
+- Store Association Reservation 1..*
+- Store Association Rental 1..1
+
+CLASS: Reservation
+Description: Represents the action of reserving a bicycle. Contains information about the client making the reservation, the date of pickup, the desired bicycle model, and the store where the bike will be picked up.
+ATTRIBUTES:
+- client: Client
+- pickupDate: Date
+- bicycleModel: BicycleModel
+- store: Store
+METHODS:
+- getClient(): Client
+- getPickupDate(): Date
+- getBicycleModel(): BicycleModel
+- getStore(): Store
+- setClient(client: Client): void
+- setPickupDate(date: Date): void
+- setBicycleModel(model: BicycleModel): void
+- setStore(store: Store): void
+
+RELATIONSHIPS:
+- Reservation Composition Rental 1..1
+
+CLASS: Rental
+Description: Represents the actual transaction of renting a bicycle. It includes details about which specific Bicycle was picked up and the return date when the bicycle is returned.
+ATTRIBUTES:
+- bicycle: Bicycle
+- pickupDate: Date
+- returnDate: Date
+METHODS:
+- getBicycle(): Bicycle
+- getPickupDate(): Date
+- getReturnDate(): Date
+- setBicycle(bicycle: Bicycle): void
+- setPickupDate(date: Date): void
+- setReturnDate(date: Date): void
+
+RELATIONSHIPS:
+- Rental Association Bicycle 1..1
+- Rental Association Store 1..1
+```

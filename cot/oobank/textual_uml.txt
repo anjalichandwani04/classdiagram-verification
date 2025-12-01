@@ -1,0 +1,196 @@
+```
+CLASS: Bank
+Description: Represents the overall organization (OOBank) that manages branches and accounts.
+ATTRIBUTES:
+- name: String
+- branches: List<Branch>
+- divisions: List<Division>
+METHODS:
+- addBranch(branch: Branch): void
+- removeBranch(branch: Branch): void
+- getBranches(): List<Branch>
+- addDivision(division: Division): void
+- getDivisions(): List<Division>
+
+RELATIONSHIPS:
+- Bank Aggregation Branch 1..*
+- Bank Aggregation Division 1..*
+
+CLASS: Branch
+Description: Represents the physical locations of the bank, each with its own address and branch number.
+ATTRIBUTES:
+- address: String
+- branchNumber: String
+- accounts: List<Account>
+- employees: List<Employee>
+METHODS:
+- addAccount(account: Account): void
+- removeAccount(account: Account): void
+- getAccounts(): List<Account>
+- addEmployee(employee: Employee): void
+- getEmployees(): List<Employee>
+
+RELATIONSHIPS:
+- Branch Aggregation Account 0..*
+- Branch Aggregation Employee 0..*
+- Division Aggregation Branch 1..*
+
+CLASS: Client
+Description: Represents individuals who open and manage accounts at the bank.
+ATTRIBUTES:
+- name: String
+- clientId: String
+- accounts: List<Account>
+- personalBanker: PersonalBanker
+METHODS:
+- openAccount(account: Account): void
+- closeAccount(account: Account): void
+- getAccounts(): List<Account>
+- setPersonalBanker(banker: PersonalBanker): void
+
+RELATIONSHIPS:
+- Client Association Account 0..*
+- Client Association PersonalBanker 0..1
+
+CLASS: Account
+Description: Represents the financial accounts held by clients, which can be of various types and have unique identifiers.
+ATTRIBUTES:
+- accountNumber: String
+- balance: double
+- creditLimit: double
+- accountType: AccountType
+METHODS:
+- deposit(amount: double): void
+- withdraw(amount: double): void
+- getBalance(): double
+- getAccountType(): AccountType
+
+RELATIONSHIPS:
+- Account Inheritance MortgageAccount 0..*
+- Account Inheritance CheckingAccount 0..*
+- Account Inheritance CreditCardAccount 0..*
+- Account Inheritance JointAccount 0..*
+- AccountType Association Account 1..*
+
+CLASS: MortgageAccount
+Description: A specific type of account that includes a property as collateral, representing a common financial product.
+ATTRIBUTES:
+- propertyCollateral: String
+- interestRate: double
+- monthlyFee: double
+METHODS:
+- calculateMonthlyPayment(): double
+- getPropertyCollateral(): String
+
+CLASS: CheckingAccount
+Description: Another specific type of account that allows clients to manage day-to-day transactions.
+ATTRIBUTES:
+- overdraftLimit: double
+- interestRate: double
+- monthlyFee: double
+METHODS:
+- writeCheck(amount: double): void
+- getOverdraftLimit(): double
+
+CLASS: CreditCardAccount
+Description: A type of account that involves credit and has specific features like an expiry date and secondary cards.
+ATTRIBUTES:
+- expiryDate: Date
+- secondaryCards: List<String>
+- interestRate: double
+- monthlyFee: double
+METHODS:
+- addSecondaryCard(cardHolderName: String): void
+- removeSecondaryCard(cardHolderName: String): void
+- isExpired(): boolean
+
+CLASS: JointAccount
+Description: Represents accounts that are shared between multiple clients, such as couples.
+ATTRIBUTES:
+- accountHolders: List<Client>
+- interestRate: double
+- monthlyFee: double
+METHODS:
+- addAccountHolder(client: Client): void
+- removeAccountHolder(client: Client): void
+- getAccountHolders(): List<Client>
+
+CLASS: Division
+Description: Represents the organizational structure of the bank, categorizing branches into divisions like Planning, Investments, and Consumer.
+ATTRIBUTES:
+- name: String
+- branches: List<Branch>
+- manager: Manager
+METHODS:
+- addBranch(branch: Branch): void
+- removeBranch(branch: Branch): void
+- getBranches(): List<Branch>
+
+RELATIONSHIPS:
+- Division Aggregation Branch 1..*
+- Division Association Manager 1..1
+
+CLASS: Subdivision
+Description: Represents a more granular level within divisions, specifically referring to branches as subdivisions of the Consumer Division.
+ATTRIBUTES:
+- name: String
+- branches: List<Branch>
+METHODS:
+- addBranch(branch: Branch): void
+- removeBranch(branch: Branch): void
+- getBranches(): List<Branch>
+
+CLASS: Employee
+Description: Represents individuals who work at the bank, including managers and personal bankers.
+ATTRIBUTES:
+- name: String
+- employeeId: String
+- position: String
+- branch: Branch
+METHODS:
+- getPosition(): String
+- setBranch(branch: Branch): void
+
+CLASS: Manager
+Description: A specific type of employee responsible for overseeing a division.
+ATTRIBUTES:
+- division: Division
+METHODS:
+- getDivision(): Division
+
+RELATIONSHIPS:
+- Manager Inheritance Employee 1..1
+
+CLASS: PersonalBanker
+Description: A specific role of an employee assigned to assist individual clients with their banking needs.
+ATTRIBUTES:
+- clients: List<Client>
+METHODS:
+- addClient(client: Client): void
+- removeClient(client: Client): void
+- getClients(): List<Client>
+
+RELATIONSHIPS:
+- PersonalBanker Inheritance Employee 1..1
+
+CLASS: AccountType
+Description: Represents the various types of accounts (e.g., mortgage, checking, credit card) that have distinct features like interest rates and fees.
+ATTRIBUTES:
+- typeName: String
+- interestRate: double
+- monthlyFee: double
+- privileges: List<Privilege>
+METHODS:
+- getPrivileges(): List<Privilege>
+
+CLASS: Privilege
+Description: Represents the specific benefits or features associated with different account types, such as the ability to write checks or insurance for purchases.
+ATTRIBUTES:
+- privilegeName: String
+- description: String
+METHODS:
+- getDescription(): String
+
+RELATIONSHIPS:
+- AccountType Aggregation Privilege 0..*
+```

@@ -1,0 +1,96 @@
+@startuml
+class Hospital {
+    - name: String
+    - location: String
+    - offices: List<Office>
+    + addOffice(office: Office): void
+    + removeOffice(office: Office): void
+    + getOffices(): List<Office>
+}
+
+class Office {
+    - name: String
+    - location: String
+    - hospital: Hospital
+    - doctors: List<Doctor>
+    - schedules: List<Schedule>
+    + addDoctor(doctor: Doctor): void
+    + removeDoctor(doctor: Doctor): void
+    + createSchedule(schedule: Schedule): void
+    + getSchedules(): List<Schedule>
+}
+
+class Doctor {
+    - name: String
+    - specialization: String
+    - offices: List<Office>
+    - schedules: List<Schedule>
+    + addOffice(office: Office): void
+    + removeOffice(office: Office): void
+    + createSchedule(schedule: Schedule): void
+    + getAvailableSchedules(): List<Schedule>
+}
+
+class Patient {
+    - name: String
+    - email: String
+    - appointments: List<Appointment>
+    + bookAppointment(appointment: Appointment): void
+    + cancelAppointment(appointment: Appointment): void
+    + getAppointments(): List<Appointment>
+}
+
+class Schedule {
+    - date: Date
+    - startTime: Time
+    - endTime: Time
+    - doctor: Doctor
+    - office: Office
+    - appointments: List<Appointment>
+    + addAppointment(appointment: Appointment): void
+    + removeAppointment(appointment: Appointment): void
+    + isAvailable(time: Time, duration: int): boolean
+}
+
+class Appointment {
+    - patient: Patient
+    - doctor: Doctor
+    - schedule: Schedule
+    - appointmentType: AppointmentType
+    - dateTime: DateTime
+    + confirm(): void
+    + cancel(): void
+    + getDetails(): String
+}
+
+class Email {
+    - recipient: String
+    - subject: String
+    - body: String
+    - sentDate: DateTime
+    + send(): void
+    + getDetails(): String
+}
+
+class AppointmentType {
+    - name: String
+    - duration: int
+    + getDuration(): int
+    + getName(): String
+}
+
+Hospital "1" o-- "0..*" Office
+Office "0..*" o-- "0..*" Doctor
+Office "0..*" o-- "0..*" Schedule
+Doctor "0..*" -- "0..*" Schedule
+Doctor "0..*" -- "0..*" Office
+Patient "0..*" -- "0..*" Appointment
+Schedule "0..*" -- "0..*" Appointment
+Schedule "0..*" -- "0..*" Doctor
+Schedule "0..*" o-- "0..*" Office
+Appointment "1" -- "1" Doctor
+Appointment "1" -- "1" Schedule
+Appointment "1" -- "1" AppointmentType
+Appointment "0..*" -- "0..1" Email
+AppointmentType "1" -- "1" Appointment
+@enduml

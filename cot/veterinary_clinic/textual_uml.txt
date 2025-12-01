@@ -1,0 +1,109 @@
+```plaintext
+CLASS: Animal
+Description: Represents the animals admitted to the veterinary clinic. Each animal has attributes like name, breed, and a unique identifier.
+ATTRIBUTES:
+- name: String
+- breed: Breed
+- owner: Owner
+- identifier: int
+METHODS:
+- getName(): String
+- getBreed(): Breed
+- getOwner(): Owner
+- getIdentifier(): int
+- setName(name: String): void
+- setBreed(breed: Breed): void
+- setOwner(owner: Owner): void
+
+CLASS: Owner
+Description: Represents the owners of the animals. Each owner has attributes such as name, address, phone number, and a unique identifier. The owner can also be absent for certain animals.
+ATTRIBUTES:
+- name: String
+- address: String
+- phoneNumber: String
+- identifier: int
+METHODS:
+- getName(): String
+- getAddress(): String
+- getPhoneNumber(): String
+- getIdentifier(): int
+- setName(name: String): void
+- setAddress(address: String): void
+- setPhoneNumber(phoneNumber: String): void
+
+CLASS: Breed
+Description: Represents the different breeds of animals. This class is necessary to store information about breeds, even if no animals of that breed are currently treated at the clinic.
+ATTRIBUTES:
+- name: String
+- identifier: int
+METHODS:
+- getName(): String
+- getIdentifier(): int
+- setName(name: String): void
+
+CLASS: Appointment
+Description: Represents the scheduled visits to the clinic. Each appointment is associated with a specific animal, its owner, and a responsible physician, along with a date and time.
+ATTRIBUTES:
+- animal: Animal
+- owner: Owner
+- physician: Physician
+- dateTime: DateTime
+METHODS:
+- getAnimal(): Animal
+- getOwner(): Owner
+- getPhysician(): Physician
+- getDateTime(): DateTime
+- setAnimal(animal: Animal): void
+- setOwner(owner: Owner): void
+- setPhysician(physician: Physician): void
+- setDateTime(dateTime: DateTime): void
+
+CLASS: Physician
+Description: Represents the veterinarians or doctors responsible for treating the animals. Each physician has attributes like name, address, phone number, and a unique identifier.
+ATTRIBUTES:
+- name: String
+- address: String
+- phoneNumber: String
+- identifier: int
+METHODS:
+- getName(): String
+- getAddress(): String
+- getPhoneNumber(): String
+- getIdentifier(): int
+- setName(name: String): void
+- setAddress(address: String): void
+- setPhoneNumber(phoneNumber: String): void
+
+CLASS: MedicalCondition
+Description: Represents the various medical conditions that can be detected during an appointment. Each condition has a common name and a scientific name, with the requirement that no two conditions share the same scientific name.
+ATTRIBUTES:
+- commonName: String
+- scientificName: String
+METHODS:
+- getCommonName(): String
+- getScientificName(): String
+- setCommonName(commonName: String): void
+- setScientificName(scientificName: String): void
+
+CLASS: CommonCondition
+Description: Represents the common medical conditions associated with specific breeds. This class is necessary to link breeds with their common medical conditions.
+ATTRIBUTES:
+- breed: Breed
+- medicalCondition: MedicalCondition
+METHODS:
+- getBreed(): Breed
+- getMedicalCondition(): MedicalCondition
+- setBreed(breed: Breed): void
+- setMedicalCondition(medicalCondition: MedicalCondition): void
+
+RELATIONSHIPS:
+- Animal Association Owner 0..1
+- Animal Association Breed 0..1
+- Owner Aggregation Animal 1..*
+- Appointment Association Animal 1
+- Appointment Association Owner 1
+- Appointment Association Physician 1
+- Appointment Aggregation MedicalCondition 0..*
+- Breed Aggregation CommonCondition 1..*
+- CommonCondition Association MedicalCondition 1
+```

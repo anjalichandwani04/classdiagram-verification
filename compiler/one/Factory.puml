@@ -1,0 +1,59 @@
+@startuml
+class Factory {
+    +factoryId : String
+    +name : String
+    +location : String
+}
+
+class Machine {
+    +machineId : String
+    +serialNumber : String
+    +make : String
+    +model : String
+    +purchaseDate : Date
+}
+
+class Product {
+    +productId : String
+    +productType : String
+    +weight : Double
+    +material : String
+}
+
+class Worker {
+    +workerId : String
+    +firstName : String
+    +lastName : String
+    +birthDate : Date
+    +address : String
+    +skills : List<String>
+}
+
+class Client {
+    +clientId : String
+    +name : String
+    +address : String
+    +phoneNumber : String
+    +contactPerson : String
+}
+
+class PurchaseOrder {
+    +orderNumber : String
+    +orderDate : Date
+    +expectedDeliveryDate : Date
+    +actualDeliveryDate : Date
+}
+
+class PurchaseOrderItem {
+    +itemId : String
+    +quantity : Integer
+}
+
+Factory "1" -- "0..*" Machine : has
+Machine "1" -- "0..*" Product : produces
+Machine "0..*" -- "0..*" Worker : operates
+Worker "0..*" -- "0..*" Machine : operates
+Client "1" -- "0..*" PurchaseOrder : issues
+PurchaseOrder "1" -- "0..*" PurchaseOrderItem : contains
+PurchaseOrderItem "1" -- "1" Product : corresponds to
+@enduml

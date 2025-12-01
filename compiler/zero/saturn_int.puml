@@ -1,0 +1,64 @@
+```plantuml
+@startuml
+
+class Employee {
+    - name: String
+    - department: String
+    - employeeNumber: String
+    + getAccessCard(): AccessCard
+    + wearCard()
+}
+
+class Guest {
+    - guestNumber: String
+    - issueDate: Date
+    + getAccessCard(): GuestCard
+    + returnCard()
+}
+
+class AccessCard {
+    - cardNumber: String
+    - owner: Employee
+    + validateCard(): Boolean
+}
+
+class GuestCard {
+    - cardNumber: String
+    - issueDate: Date
+    - owner: Guest
+    + validateCard(): Boolean
+}
+
+class CardReader {
+    - location: String
+    + readCard(card: AccessCard): Boolean
+    + readCard(card: GuestCard): Boolean
+    + triggerBarrier()
+}
+
+class Barrier {
+    - location: String
+    - isRaised: Boolean
+    + raise()
+    + lower()
+}
+
+class CarPark {
+    - totalSpaces: Integer
+    - occupiedSpaces: Integer
+    - isFull: Boolean
+    + checkAvailability(): Boolean
+    + updateStatus()
+}
+
+Employee "1" -- "1" AccessCard
+Guest "1" -- "1" GuestCard
+AccessCard "1" -- "1" CardReader
+GuestCard "1" -- "1" CardReader
+CardReader "1" -- "1" Barrier
+CarPark "1" -- "1" Barrier : entrance
+CarPark "1" -- "1" Barrier : exit
+CarPark "1" -- "1" CardReader
+
+@enduml
+```

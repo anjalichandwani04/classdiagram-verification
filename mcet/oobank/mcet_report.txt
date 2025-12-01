@@ -1,0 +1,36 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The system provides basic services to manage bank accounts at OOBank.
+[OK] OOBank has many branches.
+[OK] Each branch has an address.
+[OK] Each branch has a branch number.
+[OK] A client opens accounts at a branch.
+[OK] Each account is uniquely identified by an account number.
+[OK] Each account has a balance.
+[OK] Each account has a credit limit or overdraft limit.
+[OK] There are many types of accounts.
+[OK] One type of account is a mortgage account.
+[OK] A mortgage account has a property as collateral.
+[OK] One type of account is a checking account.
+[OK] One type of account is a credit card account.
+[OK] A credit card account has an expiry date.
+[OK] A credit card account can have secondary cards attached to it.
+[OK] It is possible to have a joint account.
+[OK] Each type of account has a particular interest rate.
+[OK] Each type of account has a monthly fee.
+[OK] Each type of account has a specific set of privileges.
+[OK] Privileges may include the ability to write checks.
+[OK] Privileges may include insurance for purchases.
+[OK] OOBank is divided into divisions and subdivisions.
+[OK] Branches are considered subdivisions of the Consumer Division.
+[OK] Each division has a manager.
+[OK] Each division has a set of other employees.
+[OK] Each customer is assigned a particular employee as their personal banker.
+
+--- 2. MISSING REQUIREMENTS ---
+None detected.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The relationship between Branch and Division is incorrectly stated as 'Aggregation' instead of 'Composition', as branches are part of divisions.
+[ISSUE] Holistic Issue: The design does not specify the relationship between the Client and Employee classes, particularly how a client is assigned a personal banker.

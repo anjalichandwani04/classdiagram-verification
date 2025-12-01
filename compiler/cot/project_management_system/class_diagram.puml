@@ -1,0 +1,118 @@
+@startuml
+
+class ProjectManager {
+    - name: String
+    - email: String
+    - phone: String
+    - projects: List<Project>
+    + createProject(): Project
+    + initiateProject(project: Project): void
+    + terminateProject(project: Project): void
+    + assignTeam(team: Team): void
+}
+
+class Project {
+    - startDate: Date
+    - endDate: Date
+    - status: String
+    - requirements: List<Requirements>
+    - system: System
+    - team: Team
+    + addRequirement(requirement: Requirements): void
+    + removeRequirement(requirement: Requirements): void
+    + updateStatus(newStatus: String): void
+    + produceSystem(): System
+}
+
+class Team {
+    - members: List<String>
+    - project: Project
+    + addMember(member: String): void
+    + removeMember(member: String): void
+    + getTeamMembers(): List<String>
+}
+
+class Requirements {
+    - description: String
+    - percentComplete: Double
+    - validationStatus: String
+    - media: List<Media>
+    + validate(): void
+    + updateDescription(newDescription: String): void
+    + updatePercentComplete(newPercent: Double): void
+    + publish(media: Media): void
+}
+
+class System {
+    - description: String
+    - percentComplete: Double
+    - validationStatus: String
+    - platform: Platform
+    + validate(): void
+    + updateDescription(newDescription: String): void
+    + updatePercentComplete(newPercent: Double): void
+    + deploy(platform: Platform): void
+}
+
+class WorkProduct {
+    - description: String
+    - percentComplete: Double
+    - validationStatus: String
+    + updateDescription(newDescription: String): void
+    + updatePercentComplete(newPercent: Double): void
+    + validate(): void
+}
+
+class Description {
+    - text: String
+    + getText(): String
+    + setText(newText: String): void
+}
+
+class PercentComplete {
+    - value: Double
+    + getValue(): Double
+    + setValue(newValue: Double): void
+}
+
+class Validation {
+    - status: String
+    - date: Date
+    - validatedBy: String
+    + performValidation(): void
+    + getValidationStatus(): String
+}
+
+class Media {
+    - type: String
+    - content: String
+    + publish(): void
+    + getContent(): String
+}
+
+class Platform {
+    - name: String
+    - version: String
+    + getDetails(): String
+    + isCompatible(system: System): Boolean
+}
+
+ProjectManager --> "1..*" Project : manages
+Project *-- "1..1" Team : contains
+Project o-- "0..*" Requirements : uses
+Project o-- "0..1" System : produces
+Team --> "1..1" Project : is part of
+Requirements *-- "1..1" WorkProduct : is a
+Requirements o-- "0..*" Media : published via
+System *-- "1..1" WorkProduct : is a
+System o-- "0..*" Platform : deployed on
+WorkProduct *-- "1..1" Description : has
+WorkProduct *-- "1..1" PercentComplete : has
+WorkProduct o-- "0..*" Validation : undergoes
+Description --> "1..1" WorkProduct : is associated with
+PercentComplete --> "1..1" WorkProduct : is associated with
+Validation o-- "0..*" WorkProduct : is associated with
+Media o-- "0..*" Requirements : is used by
+Platform o-- "0..*" System : hosts
+
+@enduml

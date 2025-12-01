@@ -1,0 +1,54 @@
+@startuml
+
+class Project {
+    +projectId
+    +name
+    +startDate
+    +endDate
+    +status
+    +initiateProject()
+    +terminateProject()
+}
+
+class ProjectManager {
+    +managerId
+    +name
+    +contactInfo
+    +assignTeam()
+}
+
+class WorkProduct {
+    +productId
+    +description
+    +percentComplete
+    +isValidated
+    +validate()
+}
+
+class Requirement {
+    +requirementId
+    +validationMethod
+    +publish()
+}
+
+class System {
+    +systemId
+    +deploymentPlatform
+    +deploy()
+}
+
+class User {
+    +userId
+    +name
+    +role
+    +participateInValidation()
+}
+
+Project "1" -- "1" ProjectManager : manages >
+Project "1" -- "0..*" WorkProduct : produces >
+WorkProduct <|-- Requirement
+WorkProduct <|-- System
+Requirement "0..*" -- "0..*" User : validates >
+System "0..*" -- "1" Requirement : validated against >
+
+@enduml

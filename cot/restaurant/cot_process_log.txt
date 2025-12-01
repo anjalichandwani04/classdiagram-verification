@@ -1,0 +1,312 @@
+PROJECT: Restaurant
+REQ:
+The owner of a small restaurant wants a new information system to store data for all meals consumed there and also to keep a record of ingredients kept in stock. After some research he reached the following requirements list: ● Each ingredient has a name, a measuring unit (e.g. olive oil is measured in liters, while eggs are unit based) and a quantity in stock. There are no two ingredients with the same name. ● Each dish is composed of several ingredients in a certain quantity. An ingredient can, of course, be used in different dishes. ● A dish has an unique name and a numeric identifier. ● There are several tables at the restaurant. Each one of them has an unique numeric identifier and a maximum ammount of people that can be seated there. ● In each meal, several dishes are consumed at a certain table. The same dish can be eaten more than once in the same meal. ● A meal takes place in a certain date and has a start and end time. Each meal has a responsible waiter. ● A waiter has an unique numerical identifier, a name, an address and a phone number. ● In some cases it is important to store information about the client that consumed the meal. A client has a tax identification number, a name and an address.
+
+
+==================== Step 1: Identify Classes ====================
+Based on the provided description, the following main classes/entities can be identified:
+
+1. **Ingredient**
+   - Justification: Represents the individual components used to prepare dishes. Each ingredient has attributes such as name, measuring unit, and quantity in stock.
+
+2. **Dish**
+   - Justification: Represents a specific meal item that is composed of multiple ingredients. Each dish has a unique name and a numeric identifier.
+
+3. **Table**
+   - Justification: Represents the physical seating arrangements in the restaurant. Each table has a unique numeric identifier and a maximum capacity for guests.
+
+4. **Meal**
+   - Justification: Represents an event where dishes are consumed at a table. Each meal has a specific date, start and end times, and is associated with a waiter.
+
+5. **Waiter**
+   - Justification: Represents the staff member responsible for serving meals. Each waiter has a unique identifier, name, address, and phone number.
+
+6. **Client**
+   - Justification: Represents the customers who consume meals at the restaurant. Each client has a tax identification number, name, and address.
+
+These classes encapsulate the key entities involved in the restaurant's information system, focusing on the nouns that represent real-world objects and their relationships.
+
+
+==================== Step 2: Attributes & Methods ====================
+Based on the identified classes and the provided description, here are the attributes and methods for each class:
+
+### 1. **Ingredient**
+- **Attributes:**
+  - `name: String` (Unique name of the ingredient)
+  - `measuringUnit: String` (Unit of measurement for the ingredient)
+  - `quantityInStock: Float` (Current quantity of the ingredient in stock)
+
+- **Methods:**
+  - `getName(): String` (Returns the name of the ingredient)
+  - `getMeasuringUnit(): String` (Returns the measuring unit of the ingredient)
+  - `getQuantityInStock(): Float` (Returns the quantity in stock)
+  - `updateQuantity(amount: Float): void` (Updates the quantity in stock by a specified amount)
+
+### 2. **Dish**
+- **Attributes:**
+  - `name: String` (Unique name of the dish)
+  - `id: Integer` (Unique numeric identifier for the dish)
+  - `ingredients: List<Ingredient>` (List of ingredients used in the dish with their quantities)
+
+- **Methods:**
+  - `getName(): String` (Returns the name of the dish)
+  - `getId(): Integer` (Returns the unique identifier of the dish)
+  - `getIngredients(): List<Ingredient>` (Returns the list of ingredients for the dish)
+  - `addIngredient(ingredient: Ingredient, quantity: Float): void` (Adds an ingredient and its quantity to the dish)
+
+### 3. **Table**
+- **Attributes:**
+  - `id: Integer` (Unique numeric identifier for the table)
+  - `maxCapacity: Integer` (Maximum number of guests that can be seated at the table)
+
+- **Methods:**
+  - `getId(): Integer` (Returns the unique identifier of the table)
+  - `getMaxCapacity(): Integer` (Returns the maximum capacity of the table)
+  - `isAvailable(): Boolean` (Checks if the table is available for a new meal)
+
+### 4. **Meal**
+- **Attributes:**
+  - `date: Date` (Date of the meal)
+  - `startTime: Time` (Start time of the meal)
+  - `endTime: Time` (End time of the meal)
+  - `table: Table` (Table where the meal is served)
+  - `waiter: Waiter` (Waiter responsible for the meal)
+  - `dishes: List<Dish>` (List of dishes consumed during the meal)
+
+- **Methods:**
+  - `getDate(): Date` (Returns the date of the meal)
+  - `getStartTime(): Time` (Returns the start time of the meal)
+  - `getEndTime(): Time` (Returns the end time of the meal)
+  - `getTable(): Table` (Returns the table associated with the meal)
+  - `getWaiter(): Waiter` (Returns the waiter responsible for the meal)
+  - `getDishes(): List<Dish>` (Returns the list of dishes consumed during the meal)
+  - `addDish(dish: Dish): void` (Adds a dish to the meal)
+
+### 5. **Waiter**
+- **Attributes:**
+  - `id: Integer` (Unique numeric identifier for the waiter)
+  - `name: String` (Name of the waiter)
+  - `address: String` (Address of the waiter)
+  - `phoneNumber: String` (Phone number of the waiter)
+
+- **Methods:**
+  - `getId(): Integer` (Returns the unique identifier of the waiter)
+  - `getName(): String` (Returns the name of the waiter)
+  - `getAddress(): String` (Returns the address of the waiter)
+  - `getPhoneNumber(): String` (Returns the phone number of the waiter)
+
+### 6. **Client**
+- **Attributes:**
+  - `taxId: String` (Tax identification number of the client)
+  - `name: String` (Name of the client)
+  - `address: String` (Address of the client)
+
+- **Methods:**
+  - `getTaxId(): String` (Returns the tax identification number of the client)
+  - `getName(): String` (Returns the name of the client)
+  - `getAddress(): String` (Returns the address of the client)
+
+This structure provides a clear representation of the entities involved in the restaurant's information system, along with their properties and behaviors.
+
+
+==================== Step 3: Relationships ====================
+Based on the provided description and the identified classes, here are the relationships between the classes, their types, and cardinalities:
+
+1. **Ingredient** -- **Composition** -- **Dish** : 1..*  
+   - Justification: A dish is composed of multiple ingredients, and each ingredient can belong to multiple dishes. This is a composition relationship because the lifecycle of the ingredient is tied to the dish.
+
+2. **Dish** -- **Association** -- **Meal** : 0..*  
+   - Justification: A meal can consist of multiple dishes, and the same dish can be consumed in different meals. This is an association relationship because the meal does not own the dish.
+
+3. **Table** -- **Association** -- **Meal** : 1..*  
+   - Justification: Each meal is served at one table, but a table can be associated with multiple meals over time. This is an association relationship.
+
+4. **Waiter** -- **Association** -- **Meal** : 1..*  
+   - Justification: Each meal has one waiter responsible for it, but a waiter can serve multiple meals. This is an association relationship.
+
+5. **Client** -- **Association** -- **Meal** : 0..*  
+   - Justification: A meal can have zero or more clients associated with it, and a client can consume multiple meals. This is an association relationship.
+
+### Summary of Relationships:
+- **Ingredient** -- **Composition** -- **Dish** : 1..*
+- **Dish** -- **Association** -- **Meal** : 0..*
+- **Table** -- **Association** -- **Meal** : 1..*
+- **Waiter** -- **Association** -- **Meal** : 1..*
+- **Client** -- **Association** -- **Meal** : 0..*
+
+
+==================== Step 4: Textual UML ====================
+```
+CLASS: Ingredient
+Description: Represents the individual components used to prepare dishes. Each ingredient has attributes such as name, measuring unit, and quantity in stock.
+ATTRIBUTES:
+- name: String
+- measuringUnit: String
+- quantityInStock: Float
+METHODS:
+- getName(): String
+- getMeasuringUnit(): String
+- getQuantityInStock(): Float
+- updateQuantity(amount: Float): void
+
+RELATIONSHIPS:
+- Ingredient Composition Dish 1..*
+
+CLASS: Dish
+Description: Represents a specific meal item that is composed of multiple ingredients. Each dish has a unique name and a numeric identifier.
+ATTRIBUTES:
+- name: String
+- id: Integer
+- ingredients: List<Ingredient>
+METHODS:
+- getName(): String
+- getId(): Integer
+- getIngredients(): List<Ingredient>
+- addIngredient(ingredient: Ingredient, quantity: Float): void
+
+RELATIONSHIPS:
+- Dish Association Meal 0..*
+
+CLASS: Table
+Description: Represents the physical seating arrangements in the restaurant. Each table has a unique numeric identifier and a maximum capacity for guests.
+ATTRIBUTES:
+- id: Integer
+- maxCapacity: Integer
+METHODS:
+- getId(): Integer
+- getMaxCapacity(): Integer
+- isAvailable(): Boolean
+
+RELATIONSHIPS:
+- Table Association Meal 1..*
+
+CLASS: Meal
+Description: Represents an event where dishes are consumed at a table. Each meal has a specific date, start and end times, and is associated with a waiter.
+ATTRIBUTES:
+- date: Date
+- startTime: Time
+- endTime: Time
+- table: Table
+- waiter: Waiter
+- dishes: List<Dish>
+METHODS:
+- getDate(): Date
+- getStartTime(): Time
+- getEndTime(): Time
+- getTable(): Table
+- getWaiter(): Waiter
+- getDishes(): List<Dish>
+- addDish(dish: Dish): void
+
+RELATIONSHIPS:
+- Meal Association Client 0..*
+- Meal Association Waiter 1..*
+- Meal Association Table 1..*
+
+CLASS: Waiter
+Description: Represents the staff member responsible for serving meals. Each waiter has a unique identifier, name, address, and phone number.
+ATTRIBUTES:
+- id: Integer
+- name: String
+- address: String
+- phoneNumber: String
+METHODS:
+- getId(): Integer
+- getName(): String
+- getAddress(): String
+- getPhoneNumber(): String
+
+RELATIONSHIPS:
+- Waiter Association Meal 1..*
+
+CLASS: Client
+Description: Represents the customers who consume meals at the restaurant. Each client has a tax identification number, name, and address.
+ATTRIBUTES:
+- taxId: String
+- name: String
+- address: String
+METHODS:
+- getTaxId(): String
+- getName(): String
+- getAddress(): String
+
+RELATIONSHIPS:
+- Client Association Meal 0..*
+```
+
+
+==================== Step 5: PlantUML Code ====================
+@startuml
+
+class Ingredient {
+    - name: String
+    - measuringUnit: String
+    - quantityInStock: Float
+    + getName(): String
+    + getMeasuringUnit(): String
+    + getQuantityInStock(): Float
+    + updateQuantity(amount: Float): void
+}
+
+class Dish {
+    - name: String
+    - id: Integer
+    - ingredients: List<Ingredient>
+    + getName(): String
+    + getId(): Integer
+    + getIngredients(): List<Ingredient>
+    + addIngredient(ingredient: Ingredient, quantity: Float): void
+}
+
+class Table {
+    - id: Integer
+    - maxCapacity: Integer
+    + getId(): Integer
+    + getMaxCapacity(): Integer
+    + isAvailable(): Boolean
+}
+
+class Meal {
+    - date: Date
+    - startTime: Time
+    - endTime: Time
+    - table: Table
+    - waiter: Waiter
+    - dishes: List<Dish>
+    + getDate(): Date
+    + getStartTime(): Time
+    + getEndTime(): Time
+    + getTable(): Table
+    + getWaiter(): Waiter
+    + getDishes(): List<Dish>
+    + addDish(dish: Dish): void
+}
+
+class Waiter {
+    - id: Integer
+    - name: String
+    - address: String
+    - phoneNumber: String
+    + getId(): Integer
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+}
+
+class Client {
+    - taxId: String
+    - name: String
+    - address: String
+    + getTaxId(): String
+    + getName(): String
+    + getAddress(): String
+}
+
+Ingredient *-- Dish : Composition
+Meal o-- Table : Association
+Meal o-- Waiter : Association
+Meal o-- Client : Association
+Dish o-- Ingredient : Composition
+
+@enduml
+

@@ -1,0 +1,116 @@
+```plaintext
+CLASS: Movie
+Description: Represents the films available in the shop. It is a central entity as users browse and order movies.
+ATTRIBUTES:
+- title: String
+- genre: String
+- releaseYear: int
+- duration: int
+- price: double
+- availabilityStatus: Availability
+METHODS:
+- getDetails(): String
+- isAvailable(): boolean
+- updateAvailability(status: Availability): void
+
+RELATIONSHIPS:
+- Movie association Availability 1
+
+CLASS: User
+Description: Represents individuals who can browse the catalogue and make purchases. This class encompasses both subscribers and non-subscribers.
+ATTRIBUTES:
+- userId: String
+- name: String
+- email: String
+- isSubscriber: boolean
+METHODS:
+- browseCatalogue(catalogue: Catalogue): List<Movie>
+- purchaseMovie(movie: Movie): Order
+- getUserInfo(): String
+
+RELATIONSHIPS:
+- User association Order 1..*
+
+CLASS: Subscriber
+Description: A specialized type of User who has a subscription and can rent movies using a rechargeable card. This class is crucial for managing subscription-specific functionalities.
+ATTRIBUTES:
+- subscriptionType: String
+- card: Card
+METHODS:
+- rentMovie(movie: Movie, duration: int): Rental
+- rechargeCard(amount: double): void
+- getSubscriptionDetails(): String
+
+RELATIONSHIPS:
+- Subscriber inherits User 1
+- Subscriber composition Card 1
+
+CLASS: Order
+Description: Represents the transaction details when a user or subscriber buys or rents a movie. It captures the relationship between users and the movies they interact with.
+ATTRIBUTES:
+- orderId: String
+- user: User
+- movie: Movie
+- orderDate: Date
+- orderType: String
+METHODS:
+- getOrderDetails(): String
+- updateOrderStatus(status: String): void
+
+RELATIONSHIPS:
+- Order association Movie 1
+- Order association User 1
+
+CLASS: Card
+Description: Represents the rechargeable card used by subscribers to rent movies. It tracks the credit balance and is essential for managing rental operations.
+ATTRIBUTES:
+- cardId: String
+- balance: double
+METHODS:
+- deductAmount(amount: double): boolean
+- addFunds(amount: double): void
+- getBalance(): double
+
+RELATIONSHIPS:
+- Card composition Subscriber 1
+
+CLASS: Catalogue
+Description: Represents the collection of movies available for browsing. It serves as an interface for users to explore the available titles.
+ATTRIBUTES:
+- movies: List<Movie>
+METHODS:
+- addMovie(movie: Movie): void
+- removeMovie(movie: Movie): void
+- searchMovie(title: String): Movie
+
+RELATIONSHIPS:
+- Catalogue aggregation Movie 0..*
+
+CLASS: Rental
+Description: Represents the action of renting a movie, including the details of the transaction, such as the movie rented, the subscriber involved, and the duration of the rental.
+ATTRIBUTES:
+- rentalId: String
+- subscriber: Subscriber
+- movie: Movie
+- rentalDate: Date
+- duration: int
+METHODS:
+- getRentalDetails(): String
+- calculateDueDate(): Date
+
+RELATIONSHIPS:
+- Rental association Subscriber 1
+- Rental association Movie 1
+- Rental association Order 0..1
+
+CLASS: Availability
+Description: Represents the status of a movie in terms of its availability for rent. This class helps manage the inventory and the process of ordering movies that are currently unavailable.
+ATTRIBUTES:
+- status: String
+METHODS:
+- isAvailable(): boolean
+- setStatus(status: String): void
+
+RELATIONSHIPS:
+- Availability association Movie 1
+```

@@ -1,0 +1,35 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The owner of a small delivery company plans to have an information system.
+[OK] The information system allows the owner to save data about customers.
+[OK] The information system allows the owner to save data about deliveries.
+[OK] Each customer has a VAT number.
+[OK] Each customer has a name.
+[OK] Each customer has a phone number.
+[OK] Each customer has an address.
+[OK] A customer can send a package to another customer by logging into the company website.
+[OK] A customer selects the recipient customer when sending a package.
+[OK] A customer enters the package's weight when sending a package.
+[OK] A customer specifies if the delivery is normal or urgent.
+[OK] The system provides a unique identifier code for the package.
+[OK] A delivery center has a unique name.
+[OK] A delivery center has an address.
+[OK] Each client has an associated delivery center.
+[OK] The package is delivered by hand from the delivery center to the recipient by a courier.
+[OK] Couriers have a single VAT number.
+[OK] Couriers have a name.
+[OK] Couriers have a phone number.
+[OK] Each courier works in a single delivery center.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] There are no two clients with the same VAT number.
+[MISSING] The customer writes the unique identifier code on the package.
+[MISSING] The package is delivered by the customer at the delivery center of their choosing.
+[MISSING] The delivery center is chosen by the company.
+[MISSING] The delivery center is normally the one closest to the customer's house.
+[MISSING] The package is routed through an internal system until it reaches the recipient's delivery center.
+[MISSING] A courier is assigned to a package as soon as the package is introduced in the system.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+No major contradictions found.

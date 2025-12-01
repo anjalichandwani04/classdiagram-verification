@@ -1,0 +1,53 @@
+@startuml
+class Patient {
+    +patientId
+    +name
+    +dateOfBirth
+    +contactInfo
+    +updateContactInfo()
+    +viewMedicalHistory()
+}
+
+class Family {
+    +familyId
+    +headOfFamily
+    +primaryCarePhysician
+    +addMember()
+    +removeMember()
+}
+
+class Doctor {
+    +doctorId
+    +name
+    +specialization
+    +viewPatientHistory()
+    +enterTreatmentInfo()
+    +prescribeMedication()
+}
+
+class Visit {
+    +visitId
+    +visitDate
+    +diagnosis
+    +treatment
+    +addDiagnosis()
+    +addTreatment()
+    +addMedication()
+}
+
+class Medication {
+    +medicationId
+    +name
+    +dosage
+    +frequency
+    +updateDosage()
+}
+
+Family "1" -- "0..*" Patient : has >
+Doctor "1" -- "0..*" Visit : sees >
+Patient "1" -- "0..*" Visit : has >
+Visit "1" -- "1" Doctor : conducted by >
+Visit "1" -- "0..*" Medication : prescribes >
+Medication "1" -- "1" Visit : prescribed during >
+Family "1" -- "1" Doctor : has >
+@enduml

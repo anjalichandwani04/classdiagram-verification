@@ -1,0 +1,42 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The auto repair shop sells and mounts parts and accessories for all kinds of vehicles.
+[OK] The auto repair shop wants a new information system to manage their clients, parts, accessories, and assembly services.
+[OK] There are several employees in the shop.
+[OK] Each employee has a unique identifying number.
+[OK] Each employee has a name.
+[OK] Each employee has an address.
+[OK] Assembly services are executed in the shop.
+[OK] Data must be stored for each assembly service.
+[OK] The data for each assembly service includes the car in which the service was executed.
+[OK] The data for each assembly service includes the number of kilometers the car had at the time.
+[OK] The data for each assembly service includes the responsible employee.
+[OK] The data for each assembly service includes the parts and accessories that were fitted.
+[OK] The data for each assembly service includes the number of work hours it took.
+[OK] The data for each assembly service includes the admission date.
+[OK] The data for each assembly service includes the finish date.
+[OK] Parts and accessories are only sold together with an assembly service.
+[OK] Each part/accessory only fits in some car models.
+[OK] Information about which car models each part/accessory fits must be stored.
+[OK] Each part/accessory has a category.
+[OK] Each part/accessory has a serial number.
+[OK] Each part/accessory has a price.
+[OK] Each car has a license plate.
+[OK] Each car has a make.
+[OK] Each car has a model.
+[OK] Each car has a color.
+[OK] Each car has an owner.
+[OK] Each owner has a name.
+[OK] Each owner has an identifying number.
+[OK] Each owner has an address.
+[OK] Each owner has a phone.
+[OK] One person can own more than one car.
+[OK] One car only has one owner.
+
+--- 2. MISSING REQUIREMENTS ---
+None detected.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The Client class uses 'clientID' instead of 'identifying number' as specified in the requirements, which may lead to confusion.
+[ISSUE] Holistic Issue: The design does not include any validation or constraints regarding the ownership of cars, specifically that one car can only have one owner.

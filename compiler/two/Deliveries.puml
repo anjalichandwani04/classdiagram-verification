@@ -1,0 +1,33 @@
+@startuml
+class Customer {
+    +vatNumber: String
+    +name: String
+    +phoneNumber: String
+    +address: String
+}
+
+class DeliveryCenter {
+    +name: String
+    +address: String
+}
+
+class Package {
+    +packageId: String
+    +weight: Double
+    +deliveryType: String
+    +status: String
+}
+
+class Courier {
+    +vatNumber: String
+    +name: String
+    +phoneNumber: String
+}
+
+Customer "1" -- "0..*" DeliveryCenter : assigned to >
+DeliveryCenter "0..*" -- "0..*" Package : routes through >
+Customer "1" -- "0..*" Package : sends >
+DeliveryCenter "1" -- "0..*" Courier : employs >
+Courier "1" -- "0..*" Package : delivers >
+Courier "1" -- "0..*" DeliveryCenter : works at >
+@enduml

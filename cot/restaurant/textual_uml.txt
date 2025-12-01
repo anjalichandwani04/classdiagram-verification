@@ -1,0 +1,97 @@
+```
+CLASS: Ingredient
+Description: Represents the individual components used to prepare dishes. Each ingredient has attributes such as name, measuring unit, and quantity in stock.
+ATTRIBUTES:
+- name: String
+- measuringUnit: String
+- quantityInStock: Float
+METHODS:
+- getName(): String
+- getMeasuringUnit(): String
+- getQuantityInStock(): Float
+- updateQuantity(amount: Float): void
+
+RELATIONSHIPS:
+- Ingredient Composition Dish 1..*
+
+CLASS: Dish
+Description: Represents a specific meal item that is composed of multiple ingredients. Each dish has a unique name and a numeric identifier.
+ATTRIBUTES:
+- name: String
+- id: Integer
+- ingredients: List<Ingredient>
+METHODS:
+- getName(): String
+- getId(): Integer
+- getIngredients(): List<Ingredient>
+- addIngredient(ingredient: Ingredient, quantity: Float): void
+
+RELATIONSHIPS:
+- Dish Association Meal 0..*
+
+CLASS: Table
+Description: Represents the physical seating arrangements in the restaurant. Each table has a unique numeric identifier and a maximum capacity for guests.
+ATTRIBUTES:
+- id: Integer
+- maxCapacity: Integer
+METHODS:
+- getId(): Integer
+- getMaxCapacity(): Integer
+- isAvailable(): Boolean
+
+RELATIONSHIPS:
+- Table Association Meal 1..*
+
+CLASS: Meal
+Description: Represents an event where dishes are consumed at a table. Each meal has a specific date, start and end times, and is associated with a waiter.
+ATTRIBUTES:
+- date: Date
+- startTime: Time
+- endTime: Time
+- table: Table
+- waiter: Waiter
+- dishes: List<Dish>
+METHODS:
+- getDate(): Date
+- getStartTime(): Time
+- getEndTime(): Time
+- getTable(): Table
+- getWaiter(): Waiter
+- getDishes(): List<Dish>
+- addDish(dish: Dish): void
+
+RELATIONSHIPS:
+- Meal Association Client 0..*
+- Meal Association Waiter 1..*
+- Meal Association Table 1..*
+
+CLASS: Waiter
+Description: Represents the staff member responsible for serving meals. Each waiter has a unique identifier, name, address, and phone number.
+ATTRIBUTES:
+- id: Integer
+- name: String
+- address: String
+- phoneNumber: String
+METHODS:
+- getId(): Integer
+- getName(): String
+- getAddress(): String
+- getPhoneNumber(): String
+
+RELATIONSHIPS:
+- Waiter Association Meal 1..*
+
+CLASS: Client
+Description: Represents the customers who consume meals at the restaurant. Each client has a tax identification number, name, and address.
+ATTRIBUTES:
+- taxId: String
+- name: String
+- address: String
+METHODS:
+- getTaxId(): String
+- getName(): String
+- getAddress(): String
+
+RELATIONSHIPS:
+- Client Association Meal 0..*
+```

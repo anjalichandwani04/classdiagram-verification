@@ -1,0 +1,25 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The system is used by receptionists, nurses, and doctors.
+[OK] Receptionists enter new patient information for first-time patients.
+[OK] Receptionists schedule all appointments.
+[OK] Nurses track the results of each visit.
+[OK] Nurses record diagnosis and medications for each visit.
+[OK] Free form text fields capture information on diagnosis and treatment for each visit.
+[OK] Multiple medications may be prescribed during each visit.
+[OK] Nurses can print out a history of patient visits.
+[OK] Doctors primarily view patient history using the system.
+[OK] Nurses frequently enter patient treatment information.
+[OK] Each patient is assigned to a family.
+[OK] The head of the family is responsible for the person with primary medical coverage.
+[OK] Information about doctors is maintained in the system.
+[OK] Each family has a primary care physician.
+[OK] Different doctors may see the patient during the visit.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] Doctors may enter patient treatment information occasionally.
+[MISSING] Doctors may enter prescriptions occasionally.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+No major contradictions found.

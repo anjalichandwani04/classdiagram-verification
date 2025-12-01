@@ -1,0 +1,135 @@
+```plaintext
+CLASS: Factory
+Description: Represents the overall entity that encompasses machines, workers, products, and clients. It serves as the central point of operations.
+ATTRIBUTES:
+- factoryId: int
+- name: String
+- location: String
+- machines: List<Machine>
+- workers: List<Worker>
+- products: List<Product>
+- clients: List<Client>
+METHODS:
+- addMachine(machine: Machine): void
+- removeMachine(machineId: int): void
+- addWorker(worker: Worker): void
+- removeWorker(workerId: int): void
+- addProduct(product: Product): void
+- addClient(client: Client): void
+- createPurchaseOrder(order: PurchaseOrder): void
+
+RELATIONSHIPS:
+- Factory Aggregation Machine 1 -- *
+- Factory Aggregation Worker 1 -- *
+- Factory Aggregation Product 1 -- *
+- Factory Aggregation Client 1 -- *
+
+CLASS: Machine
+Description: Represents the physical machines in the factory that produce products. Each machine has specific attributes like serial number, make, model, and purchase date.
+ATTRIBUTES:
+- serialNumber: String
+- make: String
+- model: String
+- purchaseDate: Date
+- products: List<Product>
+- workers: List<Worker>
+METHODS:
+- addProduct(product: Product): void
+- removeProduct(productId: int): void
+- assignWorker(worker: Worker): void
+- removeWorker(workerId: int): void
+
+RELATIONSHIPS:
+- Machine Composition Product 1 -- *
+- Machine Association Worker * -- *
+
+CLASS: Worker
+Description: Represents the individuals who operate the machines. Workers have attributes such as name, birth date, address, and a list of skills, indicating their qualifications and personal information.
+ATTRIBUTES:
+- workerId: int
+- firstName: String
+- lastName: String
+- birthDate: Date
+- address: String
+- skills: List<Skill>
+- machines: List<Machine>
+METHODS:
+- addSkill(skill: Skill): void
+- removeSkill(skillId: int): void
+- assignMachine(machine: Machine): void
+- removeMachine(machineId: int): void
+
+RELATIONSHIPS:
+- Worker Association Skill * -- *
+
+CLASS: Product
+Description: Represents the items produced in the factory. Each product type is associated with a specific material and weight, and can be produced by multiple machines.
+ATTRIBUTES:
+- productId: int
+- name: String
+- weight: double
+- material: Material
+- machine: Machine
+METHODS:
+- getProductDetails(): String
+- updateWeight(newWeight: double): void
+
+RELATIONSHIPS:
+- Product Association Material 1 -- 1
+
+CLASS: Material
+Description: Represents the raw materials used to produce products. Each product type is produced from a single material, which may need to be tracked for inventory and production purposes.
+ATTRIBUTES:
+- materialId: int
+- name: String
+- quantityAvailable: double
+METHODS:
+- updateQuantity(amount: double): void
+- getMaterialDetails(): String
+
+RELATIONSHIPS:
+- None
+
+CLASS: Client
+Description: Represents the customers who place purchase orders. Clients have attributes such as name, address, phone number, and contact person, which are essential for managing orders and communications.
+ATTRIBUTES:
+- clientId: int
+- name: String
+- address: String
+- phoneNumber: String
+- contactPerson: String
+METHODS:
+- getClientDetails(): String
+- updateContactPerson(newContact: String): void
+
+RELATIONSHIPS:
+- Client Aggregation PurchaseOrder 1 -- *
+
+CLASS: PurchaseOrder
+Description: Represents the orders placed by clients for products. Each order contains details like order number, order date, expected delivery date, actual delivery date, and a list of products with their quantities.
+ATTRIBUTES:
+- orderNumber: int
+- orderDate: Date
+- expectedDeliveryDate: Date
+- actualDeliveryDate: Date
+- products: List<ProductQuantity>
+METHODS:
+- addProduct(product: Product, quantity: int): void
+- removeProduct(productId: int): void
+- getOrderSummary(): String
+
+RELATIONSHIPS:
+- PurchaseOrder Association Product * -- *
+
+CLASS: Skill
+Description: Represents the various skills that workers may possess. This class can be used to categorize and manage the capabilities of workers in relation to the machines they operate.
+ATTRIBUTES:
+- skillId: int
+- name: String
+- description: String
+METHODS:
+- getSkillDetails(): String
+
+RELATIONSHIPS:
+- None
+```

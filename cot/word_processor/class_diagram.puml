@@ -1,0 +1,150 @@
+@startuml
+
+class User {
+    - username: String
+    - email: String
+    - password: String
+    - documents: List<Document>
+    + openDocument(docId: String): Document
+    + saveDocument(doc: Document): void
+    + printDocument(doc: Document): void
+    + createDocument(): Document
+}
+
+class Document {
+    - title: String
+    - pages: List<Page>
+    - createdDate: Date
+    - modifiedDate: Date
+    + addPage(page: Page): void
+    + removePage(pageIndex: int): void
+    + getPage(pageIndex: int): Page
+    + save(): void
+    + print(): void
+}
+
+class Page {
+    - header: Header
+    - body: Body
+    - footer: Footer
+    - pageNumber: int
+    + setHeader(header: Header): void
+    + setFooter(footer: Footer): void
+    + getContent(): String
+}
+
+class Header {
+    - date: Date
+    - time: Time
+    - pageNumber: int
+    + setDate(date: Date): void
+    + setTime(time: Time): void
+    + setPageNumber(pageNumber: int): void
+    + getHeaderInfo(): String
+}
+
+class Body {
+    - sentences: List<Sentence>
+    - pictures: List<Picture>
+    - tables: List<Table>
+    + addSentence(sentence: Sentence): void
+    + addPicture(picture: Picture): void
+    + addTable(table: Table): void
+    + getContent(): String
+}
+
+class Footer {
+    - date: Date
+    - time: Time
+    - pageNumber: int
+    + setDate(date: Date): void
+    + setTime(time: Time): void
+    + setPageNumber(pageNumber: int): void
+    + getFooterInfo(): String
+}
+
+class Sentence {
+    - words: List<Word>
+    - punctuation: List<PunctuationCharacter>
+    + addWord(word: Word): void
+    + addPunctuation(punctuation: PunctuationCharacter): void
+    + getSentence(): String
+}
+
+class Word {
+    - characters: List<Character>
+    + addCharacter(character: Character): void
+    + getWord(): String
+}
+
+class PunctuationCharacter {
+    - symbol: String
+    + getSymbol(): String
+}
+
+class Picture {
+    - imagePath: String
+    - altText: String
+    + getImagePath(): String
+    + getAltText(): String
+}
+
+class Table {
+    - rows: List<Row>
+    - columns: List<Column>
+    + addRow(row: Row): void
+    + addColumn(column: Column): void
+    + getTableData(): List<List<Cell>>
+}
+
+class Row {
+    - cells: List<Cell>
+    + addCell(cell: Cell): void
+    + getRowData(): List<Cell>
+}
+
+class Column {
+    - cells: List<Cell>
+    + addCell(cell: Cell): void
+    + getColumnData(): List<Cell>
+}
+
+class Cell {
+    - content: String
+    - picture: Picture
+    + setContent(content: String): void
+    + setPicture(picture: Picture): void
+    + getContent(): String
+}
+
+class Character {
+    - value: char
+    + getValue(): char
+}
+
+class Action {
+    - actionType: String
+    - timestamp: Date
+    + execute(): void
+    + getActionDetails(): String
+}
+
+User "1" o-- "*" Document
+User "0..*" o-- "*" Action
+Document "1" *-- "*" Page
+Page "1" *-- "1" Header
+Page "1" *-- "1" Body
+Page "1" *-- "1" Footer
+Body "0..*" *-- "1" Sentence
+Body "0..*" *-- "1" Picture
+Body "0..*" *-- "1" Table
+Table "1" *-- "*" Row
+Table "1" *-- "*" Column
+Row "1" *-- "*" Cell
+Column "1" *-- "*" Cell
+Sentence "0..*" *-- "*" Word
+Sentence "0..*" *-- "*" PunctuationCharacter
+Cell "0..1" o-- "1" Picture
+Cell "0..*" o-- "1" Character
+
+@enduml

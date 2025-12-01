@@ -1,0 +1,49 @@
+@startuml
+class Hospital {
+    +hospitalId
+    +name
+    +address
+}
+
+class Office {
+    +officeId
+    +location
+}
+
+class Doctor {
+    +doctorId
+    +name
+    +specialization
+    +createSchedule(office: Office, date: Date, startTime: Time, endTime: Time): void
+}
+
+class Schedule {
+    +scheduleId
+    +date
+    +startTime
+    +endTime
+}
+
+class Patient {
+    +patientId
+    +name
+    +contactInfo
+    +bookAppointment(doctor: Doctor, schedule: Schedule, appointmentType: String): Appointment
+}
+
+class Appointment {
+    +appointmentId
+    +appointmentType
+    +startTime
+    +duration
+    +status
+    +sendConfirmationEmail(): void
+}
+
+Hospital "1" -- "0..*" Office : has >
+Office "1" -- "0..*" Schedule : has >
+Office "0..*" -- "0..*" Doctor : practices in >
+Doctor "0..*" -- "0..*" Appointment : has >
+Schedule "0..*" -- "0..*" Appointment : has >
+Patient "0..*" -- "0..*" Appointment : has >
+@enduml

@@ -1,0 +1,124 @@
+@startuml
+
+class Employee {
+    - employeeID: int
+    - name: String
+    - address: String
+    + getEmployeeID(): int
+    + getName(): String
+    + getAddress(): String
+    + setName(name: String): void
+    + setAddress(address: String): void
+}
+
+class Client {
+    - clientID: int
+    - name: String
+    - address: String
+    - phoneNumber: String
+    + getClientID(): int
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+    + setName(name: String): void
+    + setAddress(address: String): void
+    + setPhoneNumber(phoneNumber: String): void
+}
+
+class Car {
+    - licensePlate: String
+    - make: String
+    - model: String
+    - color: String
+    - owner: Client
+    + getLicensePlate(): String
+    + getMake(): String
+    + getModel(): String
+    + getColor(): String
+    + getOwner(): Client
+    + setMake(make: String): void
+    + setModel(model: String): void
+    + setColor(color: String): void
+}
+
+class Service {
+    - car: Car
+    - kilometersAtService: int
+    - responsibleEmployee: Employee
+    - fittedParts: List<Part>
+    - fittedAccessories: List<Accessory>
+    - workHours: float
+    - admissionDate: Date
+    - finishDate: Date
+    + getCar(): Car
+    + getKilometersAtService(): int
+    + getResponsibleEmployee(): Employee
+    + getFittedParts(): List<Part>
+    + getFittedAccessories(): List<Accessory>
+    + getWorkHours(): float
+    + getAdmissionDate(): Date
+    + getFinishDate(): Date
+    + addPart(part: Part): void
+    + addAccessory(accessory: Accessory): void
+}
+
+class Part {
+    - category: Category
+    - serialNumber: String
+    - price: float
+    - compatibleModels: List<Model>
+    + getCategory(): Category
+    + getSerialNumber(): String
+    + getPrice(): float
+    + getCompatibleModels(): List<Model>
+    + setPrice(price: float): void
+}
+
+class Accessory {
+    - category: Category
+    - serialNumber: String
+    - price: float
+    - compatibleModels: List<Model>
+    + getCategory(): Category
+    + getSerialNumber(): String
+    + getPrice(): float
+    + getCompatibleModels(): List<Model>
+    + setPrice(price: float): void
+}
+
+class Category {
+    - categoryID: int
+    - name: String
+    + getCategoryID(): int
+    + getName(): String
+    + setName(name: String): void
+}
+
+class Model {
+    - modelID: int
+    - name: String
+    - make: String
+    + getModelID(): int
+    + getName(): String
+    + getMake(): String
+    + setName(name: String): void
+    + setMake(make: String): void
+}
+
+Employee --> "1..*" Service : Association
+Client --> "1..*" Car : Association
+Car --> "1..*" Service : Association
+Service *-- "0..*" Part : Composition
+Service *-- "0..*" Accessory : Composition
+Part --> "1" Category : Association
+Part --> "0..*" Model : Association
+Accessory --> "1" Category : Association
+Accessory --> "0..*" Model : Association
+Category --> "0..*" Part : Association
+Category --> "0..*" Accessory : Association
+Category --> "0..*" Model : Association
+Model --> "0..*" Part : Association
+Model --> "0..*" Accessory : Association
+Model --> "0..*" Category : Association
+
+@enduml

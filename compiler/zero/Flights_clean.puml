@@ -1,0 +1,49 @@
+@startuml
+class Airline {
+    id: String
+    +addAircraft(aircraft: Aircraft): void
+    +removeAircraft(aircraft: Aircraft): void
+    +addPilot(pilot: Pilot): void
+    +removePilot(pilot: Pilot): void
+}
+
+class Flight {
+    id: String
+    departureAirport: String
+    arrivalAirport: String
+    departureTime: DateTime
+    arrivalTime: DateTime
+    +assignPilot(pilot: Pilot): void
+    +assignCoPilot(coPilot: Pilot): void
+}
+
+class Aircraft {
+    id: String
+    type: String
+    state: String
+    status: String
+    +setState(state: String): void
+    +setStatus(status: String): void
+}
+
+class Pilot {
+    id: String
+    experienceLevel: Integer
+    +updateExperienceLevel(level: Integer): void
+}
+
+class PilotRole {
+    role: String
+    requiredExperienceLevel: Integer
+    +isRoleValid(pilot: Pilot): Boolean
+}
+
+Airline "1" -- "0..*" Aircraft : owns >
+Airline "1" -- "0..*" Pilot : employs >
+Flight "1" -- "1" Pilot : has >
+Flight "1" -- "1" Pilot : has >
+Flight "1" -- "1" Aircraft : uses >
+Aircraft "1" -- "0..*" Flight : used in >
+Pilot "1" -- "0..*" Flight : assigned to >
+PilotRole "1" -- "0..*" Aircraft : requires >
+@enduml

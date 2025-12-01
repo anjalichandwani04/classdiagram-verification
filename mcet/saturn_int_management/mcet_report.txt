@@ -1,0 +1,36 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] Saturn Int. wants to prevent non-employees from using their car park.
+[OK] Saturn Int. has decided to issue identity cards to all employees.
+[OK] Each employee identity card records the name of the employee.
+[OK] Each employee identity card records the department of the employee.
+[OK] Each employee identity card records the number of the employee.
+[OK] Employee identity cards give access to the company car park.
+[OK] There is a barrier at the entrance to the car park.
+[OK] There is a card reader placed at the entrance to the car park.
+[OK] The card reader verifies the card number to see if it is known to the system.
+[OK] If the card number is recognized, the card reader sends a signal to trigger the barrier to rise.
+[OK] The driver can drive their car into the car park if the barrier rises.
+[OK] There is another barrier at the exit of the car park.
+[OK] A sign at the entrance displays 'Full' when there are no spaces in the car park.
+[OK] The 'Full' sign is switched off when a car leaves the car park.
+[OK] There is a type of card for guests that permits access to the car park.
+[OK] Guest cards record a number and the current date.
+[OK] Guest cards may be sent out in advance or collected from reception.
+[OK] All guest cards must be returned to reception when the visitor leaves Saturn Int.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] Saturn Int. management wants to improve their security measures for their building and on site.
+[MISSING] Employees are asked to wear their identity cards while on site.
+[MISSING] Drivers must insert their identity card into the card reader when entering the car park.
+[MISSING] The exit barrier is automatically raised when a car wishes to leave the car park.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The design does not specify how the identity card verification process is integrated with the CarPark and Barrier classes.
+[ISSUE] Holistic Issue: The design lacks a method to handle the scenario when a guest card is used, particularly regarding its validity period and return process.
+[ISSUE] Holistic Issue: The design does not mention the requirement for employees to wear their identity cards while on site.
+[ISSUE] Holistic Issue: There is no mention of how the system handles the situation when the car park is full, specifically in terms of signaling to drivers.
+[ISSUE] Holistic Issue: The design does not include a method for the Sign class to automatically update its message based on car park occupancy.
+[ISSUE] Holistic Issue: The design does not address the process for issuing identity cards to employees, including how they are created and managed.
+[ISSUE] Holistic Issue: The design lacks details on how the card reader communicates with the CarPark and Barrier classes after verifying a card.

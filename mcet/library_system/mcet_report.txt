@@ -1,0 +1,16 @@
+=== MCeT ANALYSIS REPORT ===
+
+--- 1. CONFIRMED IMPLEMENTED REQUIREMENTS ---
+[OK] The system must support two types of users: under-aged and adults.
+[OK] Under-aged users must be identified by their full name and student card.
+[OK] Adult users must be identified by their full name and ID card.
+[OK] The library must contain books.
+[OK] Every book must have basic information including title and author.
+[OK] The system must maintain a history of previously borrowed books for every user, including all the dates.
+
+--- 2. MISSING REQUIREMENTS ---
+[MISSING] A user can borrow at most 4 books at the same time.
+
+--- 3. DETECTED DESIGN ISSUES (Filtered) ---
+[ISSUE] Holistic Issue: The User class does not include a mechanism to limit the number of borrowed books to 4, as specified in the requirements.
+[ISSUE] Holistic Issue: The design does not specify how the system will handle the identification of users (under-aged vs adult) based on their respective cards.

@@ -1,0 +1,40 @@
+@startuml
+class Airline {
+    +airlineId
+}
+
+class Flight {
+    +flightId
+    +departureAirport
+    +arrivalAirport
+    +departureTime
+    +arrivalTime
+}
+
+class Pilot {
+    +pilotId
+    +experienceLevel
+}
+
+class Aircraft {
+    +aircraftId
+    +type
+    +state
+    +status
+}
+
+class Airport {
+    +airportId
+    +name
+    +location
+}
+
+Airline "1" -- "0..*" Flight : operates >
+Airline "1" -- "0..*" Aircraft : owns >
+Flight "1" -- "1" Pilot : has pilot >
+Flight "1" -- "1" Pilot : has co-pilot >
+Flight "1" -- "1" Aircraft : uses >
+Pilot "0..*" -- "1" Airline : works for >
+Aircraft "0..*" -- "1" Airline : belongs to >
+Airport "1" -- "0..*" Flight : departure/arrival >
+@enduml

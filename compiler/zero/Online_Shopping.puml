@@ -1,0 +1,70 @@
+```plantuml
+@startuml
+class Customer {
+    +customerId: String
+    +name: String
+    +email: String
+    +register()
+    +updateProfile()
+}
+
+class Account {
+    +accountId: String
+    +createOrder()
+    +getOrders()
+}
+
+class WebUser {
+    +loginName: String
+    +state: String
+    +login()
+    +logout()
+}
+
+class ShoppingCart {
+    +cartId: String
+    +addItem(product: Product, quantity: int)
+    +removeItem(product: Product)
+    +checkout()
+}
+
+class Order {
+    +orderId: String
+    +orderStatus: String
+    +addPayment(payment: Payment)
+    +getOrderDetails()
+}
+
+class Payment {
+    +paymentId: String
+    +amount: Decimal
+    +paymentDate: Date
+    +processPayment()
+}
+
+class LineItem {
+    +lineItemId: String
+    +quantity: int
+    +getTotalPrice()
+}
+
+class Product {
+    +productId: String
+    +name: String
+    +price: Decimal
+    +getProductDetails()
+}
+
+Customer "1" -- "1" Account
+Customer "0..1" -- "1" WebUser
+Account "1" -- "1" ShoppingCart
+Account "1" -- "0..*" Order
+Account "1" -- "0..*" Payment
+WebUser "1" -- "1" ShoppingCart
+ShoppingCart "1" -- "0..*" LineItem
+Order "1" -- "0..*" Payment
+Order "1" -- "0..*" LineItem
+LineItem "1" -- "1" Product
+Product "0..*" -- "1" LineItem
+@enduml
+```

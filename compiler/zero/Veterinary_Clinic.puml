@@ -1,0 +1,76 @@
+```plantuml
+@startuml
+class Animal {
+    - animalId: Integer
+    - name: String
+    - breed: Breed
+    + getAnimalId(): Integer
+    + getName(): String
+    + getBreed(): Breed
+    + setName(name: String): void
+    + setBreed(breed: Breed): void
+}
+
+class Owner {
+    - ownerId: Integer
+    - name: String
+    - address: String
+    - phoneNumber: String
+    + getOwnerId(): Integer
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+    + setName(name: String): void
+    + setAddress(address: String): void
+    + setPhoneNumber(phoneNumber: String): void
+}
+
+class Breed {
+    - breedId: Integer
+    - name: String
+    + getBreedId(): Integer
+    + getName(): String
+    + setName(name: String): void
+}
+
+class Physician {
+    - physicianId: Integer
+    - name: String
+    - address: String
+    - phoneNumber: String
+    + getPhysicianId(): Integer
+    + getName(): String
+    + getAddress(): String
+    + getPhoneNumber(): String
+    + setName(name: String): void
+    + setAddress(address: String): void
+    + setPhoneNumber(phoneNumber: String): void
+}
+
+class Appointment {
+    - appointmentId: Integer
+    - dateTime: DateTime
+    + getAppointmentId(): Integer
+    + getDateTime(): DateTime
+    + setDateTime(dateTime: DateTime): void
+}
+
+class MedicalCondition {
+    - conditionId: Integer
+    - commonName: String
+    - scientificName: String
+    + getConditionId(): Integer
+    + getCommonName(): String
+    + getScientificName(): String
+    + setCommonName(commonName: String): void
+    + setScientificName(scientificName: String): void
+}
+
+Animal "0..1" -- "1" Owner
+Animal "1" -- "1" Appointment
+Owner "1" -- "1" Appointment
+Physician "1" -- "1" Appointment
+Appointment "0..*" -- "1" MedicalCondition
+Breed "0..*" -- "1" MedicalCondition
+@enduml
+```

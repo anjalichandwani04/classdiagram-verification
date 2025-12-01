@@ -1,0 +1,39 @@
+@startuml
+class FurnitureLine {
+    +lineId
+    +name
+}
+
+class FurniturePiece {
+    +reference
+    +type
+    +sellingPrice
+}
+
+class Component {
+    +componentCode
+    +manufacturingPrice
+    +type
+}
+
+class Store {
+    +storeId
+    +address
+    +faxNumber
+}
+
+class Order {
+    +orderNumber
+    +date
+}
+
+class OrderItem {
+    +quantity
+}
+
+FurnitureLine "1" -- "*" FurniturePiece : consists of >
+FurniturePiece "*" -- "*" Component : composed of >
+Store "1" -- "*" Order : places >
+Order "1" -- "*" OrderItem : contains >
+OrderItem "*" -- "1" FurniturePiece : corresponds to >
+@enduml
